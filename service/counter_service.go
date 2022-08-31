@@ -28,6 +28,7 @@ func IndexHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	fmt.Fprint(w, data)
+	getAction(r)
 }
 
 // CarUpsert 计数器接口
@@ -122,7 +123,7 @@ func CarList(w http.ResponseWriter, r *http.Request) {
 // CounterHandler 计数器接口
 func CounterHandler(w http.ResponseWriter, r *http.Request) {
 	res := &JsonResult{}
-
+	getAction(r)
 	if r.Method == http.MethodGet {
 		counter, err := getCurrentCounter()
 		if err != nil {
@@ -181,6 +182,7 @@ func modifyCounter(r *http.Request) (int32, error) {
 
 // upsertCounter 更新或修改计数器
 func upsertCounter(r *http.Request) (int32, error) {
+	getAction(r)
 	currentCounter, err := getCurrentCounter()
 	var count int32
 	createdAt := time.Now()
