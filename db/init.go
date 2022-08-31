@@ -15,9 +15,11 @@ var dbInstance *gorm.DB
 // Init 初始化数据库
 func Init() error {
 
-	source := "%s:%s@tcp(%s)/%s?readTimeout=1500ms&writeTimeout=1500ms&charset=utf8&loc=Asia/Shanghai&&parseTime=true"
+	source := "%s:%s@tcp(%s)/%s?readTimeout=1500ms&writeTimeout=1500ms&charset=utf8&loc=Local&parseTime=true"
 	user := os.Getenv("MYSQL_USERNAME")
 	pwd := os.Getenv("MYSQL_PASSWORD")
+
+	fmt.Println("================================", pwd)
 	addr := os.Getenv("MYSQL_ADDRESS")
 	dataBase := os.Getenv("MYSQL_DATABASE")
 	if dataBase == "" {
@@ -25,6 +27,7 @@ func Init() error {
 	}
 	source = fmt.Sprintf(source, user, pwd, addr, dataBase)
 	fmt.Println("start init mysql with ", source)
+
 	db, err := gorm.Open(mysql.Open(source), &gorm.Config{
 		NamingStrategy: schema.NamingStrategy{
 			SingularTable: true, // use singular table name, table for `User` would be `user` with this option enabled
