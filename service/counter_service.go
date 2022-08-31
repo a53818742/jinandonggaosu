@@ -123,7 +123,9 @@ func CarList(w http.ResponseWriter, r *http.Request) {
 // CounterHandler 计数器接口
 func CounterHandler(w http.ResponseWriter, r *http.Request) {
 	res := &JsonResult{}
+	fmt.Println("...............................")
 	getAction(r)
+	fmt.Println("##########################################")
 	if r.Method == http.MethodGet {
 		counter, err := getCurrentCounter()
 		if err != nil {
