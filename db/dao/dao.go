@@ -36,8 +36,20 @@ func (imp *CounterInterfaceImp) GetCounter(id int32) (*model.CounterModel, error
 	return counter, err
 }
 
-// UpsertCar 更新/写入counter
-func (imp *CounterInterfaceImp) UpsertCar(counter *model.WeihuapinCar) error {
+// InsertCar 更新/写入counter
+func (imp *CounterInterfaceImp) InsertCar(counter *model.WeihuapinCarInsert) error {
+	cli := db.Get()
+	return cli.Table(tableName2).Save(counter).Error
+}
+
+// UpdateCar 更新/写入counter
+func (imp *CounterInterfaceImp) UpdateCar(counter *model.WeihuapinCarUpdate) error {
+	cli := db.Get()
+	return cli.Table(tableName2).Save(counter).Error
+}
+
+// OverCar 更新/写入counter
+func (imp *CounterInterfaceImp) OverCar(counter *model.WeihuapinCarOver) error {
 	cli := db.Get()
 	return cli.Table(tableName2).Save(counter).Error
 }

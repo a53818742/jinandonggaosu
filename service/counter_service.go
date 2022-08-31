@@ -20,6 +20,16 @@ type JsonResult struct {
 	Data     interface{} `json:"data"`
 }
 
+func ReturnBack(w http.ResponseWriter, r *http.Request, res JsonResult) {
+	msg, err := json.Marshal(res)
+	if err != nil {
+		fmt.Fprint(w, "内部错误")
+		return
+	}
+	w.Header().Set("content-type", "application/json")
+	w.Write(msg)
+}
+
 // IndexHandler 计数器接口
 func IndexHandler(w http.ResponseWriter, r *http.Request) {
 	data, err := getIndex()
@@ -40,20 +50,51 @@ func Index2Handler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, data)
 }
 
-// CarUpsert 计数器接口
-func CarUpsert(w http.ResponseWriter, r *http.Request) {
+// CarOver 计数器接口
+func CarOver(w http.ResponseWriter, r *http.Request) {
 	res := &JsonResult{}
 
 	if r.Method == http.MethodPost {
 		BodyBytes, _ := ioutil.ReadAll(r.Body)
-		counter := &model.WeihuapinCar{}
+		counter := &model.WeihuapinCarOver{}
 		err := json.Unmarshal(BodyBytes, &counter)
 		if err != nil {
 			res.Code = -2
 			res.ErrorMsg = "消息结构体错误"
+			ReturnBack(w, r, *res)
+			return
 		}
+		counter.Outtime = time.Now()
+		counter.Status = 1
+		counter.Outtype = 0
+		err = dao.Imp.OverCar(counter)
 
-		err = dao.Imp.UpsertCar(counter)
+	} else {
+		res.Code = -1
+		res.ErrorMsg = fmt.Sprintf("请求方法 %s 不支持", r.Method)
+	}
+
+	ReturnBack(w, r, *res)
+	return
+}
+func CarInsert(w http.ResponseWriter, r *http.Request) {
+	res := &JsonResult{}
+
+	if r.Method == http.MethodPost {
+		BodyBytes, _ := ioutil.ReadAll(r.Body)
+		counter := &model.WeihuapinCarInsert{}
+		err := json.Unmarshal(BodyBytes, &counter)
+		if err != nil {
+			res.Code = -2
+			res.ErrorMsg = "消息结构体错误"
+			ReturnBack(w, r, *res)
+			return
+		}
+		counter.Intime = time.Now()
+		counter.Recordtime = time.Now()
+		counter.Outtype = 0
+		counter.Status = 0
+		err = dao.Imp.InsertCar(counter)
 
 	} else {
 		res.Code = -1
@@ -67,6 +108,37 @@ func CarUpsert(w http.ResponseWriter, r *http.Request) {
 	}
 	w.Header().Set("content-type", "application/json")
 	w.Write(msg)
+}
+
+// CarUpdate 计数器接口
+func CarUpdate(w http.ResponseWriter, r *http.Request) {
+	res := &JsonResult{}
+
+	if r.Method == http.MethodPost {
+		BodyBytes, _ := ioutil.ReadAll(r.Body)
+		counter := &model.WeihuapinCarUpdate{}
+		err := json.Unmarshal(BodyBytes, &counter)
+		if err != nil {
+			res.Code = -2
+			res.ErrorMsg = "消息结构体错误"
+			ReturnBack(w, r, *res)
+			return
+		}
+		if counter.Id <= 0 {
+			res.Code = -21
+			res.ErrorMsg = "id错误"
+			ReturnBack(w, r, *res)
+			return
+		}
+		err = dao.Imp.UpdateCar(counter)
+
+	} else {
+		res.Code = -1
+		res.ErrorMsg = fmt.Sprintf("请求方法 %s 不支持", r.Method)
+	}
+
+	ReturnBack(w, r, *res)
+	return
 }
 
 // CarGet 计数器接口
