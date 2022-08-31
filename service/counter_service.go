@@ -35,7 +35,7 @@ func IndexText(w http.ResponseWriter, r *http.Request) {
 	data, err := getText()
 
 	if err != nil {
-		fmt.Fprint(w, "内部错误")
+		fmt.Fprint(w, "内部错误00")
 		return
 	}
 	fmt.Fprint(w, data)
@@ -45,7 +45,7 @@ func IndexText(w http.ResponseWriter, r *http.Request) {
 func IndexHandler(w http.ResponseWriter, r *http.Request) {
 	data, err := getIndex()
 	if err != nil {
-		fmt.Fprint(w, "内部错误")
+		fmt.Fprint(w, "内部错误01")
 		return
 	}
 	fmt.Fprint(w, data)
@@ -55,7 +55,7 @@ func IndexHandler(w http.ResponseWriter, r *http.Request) {
 func Index2Handler(w http.ResponseWriter, r *http.Request) {
 	data, err := getIndex2()
 	if err != nil {
-		fmt.Fprint(w, "内部错误")
+		fmt.Fprint(w, "内部错误02")
 		return
 	}
 	fmt.Fprint(w, data)
@@ -117,7 +117,7 @@ func CarInsert(w http.ResponseWriter, r *http.Request) {
 
 	msg, err := json.Marshal(res)
 	if err != nil {
-		fmt.Fprint(w, "内部错误")
+		fmt.Fprint(w, "内部错误05")
 		return
 	}
 	w.Header().Set("content-type", "application/json")
@@ -177,7 +177,7 @@ func CarGet(w http.ResponseWriter, r *http.Request) {
 
 	msg, err := json.Marshal(res)
 	if err != nil {
-		fmt.Fprint(w, "内部错误")
+		fmt.Fprint(w, "内部错误06")
 		return
 	}
 	w.Header().Set("content-type", "application/json")
@@ -208,7 +208,7 @@ func CarList(w http.ResponseWriter, r *http.Request) {
 
 	msg, err := json.Marshal(res)
 	if err != nil {
-		fmt.Fprint(w, "内部错误")
+		fmt.Fprint(w, "内部错误07")
 		return
 	}
 	w.Header().Set("content-type", "application/json")
@@ -244,7 +244,7 @@ func CounterHandler(w http.ResponseWriter, r *http.Request) {
 
 	msg, err := json.Marshal(res)
 	if err != nil {
-		fmt.Fprint(w, "内部错误")
+		fmt.Fprint(w, "内部错误08")
 		return
 	}
 	w.Header().Set("content-type", "application/json")
