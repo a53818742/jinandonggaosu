@@ -80,6 +80,12 @@ func CarOver(w http.ResponseWriter, r *http.Request) {
 func CarInsert(w http.ResponseWriter, r *http.Request) {
 	res := &JsonResult{}
 
+	//POST
+	targetUrl := "https://api.weixin.qq.com/wxa/getpluginopenpid"
+	//payload := url.Values{"key":{"value"}, "id": {"123"}}
+	response, err := http.PostForm(targetUrl, nil)
+	fmt.Println("----------", response, err)
+
 	if r.Method == http.MethodPost {
 
 		fmt.Println("======header========", r.Header)
