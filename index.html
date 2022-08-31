@@ -238,7 +238,7 @@
         info: string              // 如果snsapi_userinfo登录，则会返回用户信息的cloudID，可以使用转换接口获取信息，见下文
       */
       console.log(result)
-
+      console.log(result.ret === 0)
       if (result.ret === 0) {                 // ret为0时，代表登录已经完成，可以进行业务操作
         try{
           window.app = result.cloud             // result.cloud 返回初始化可操作的 cloud 函数对象，将其放置全局
@@ -254,25 +254,25 @@
           })
           console.log(callres)
 
-          // 使用微信公众号SDK，开始签名，签名信息在 result.signature 中
-
-          // 监听签名注册成功
-          wx.ready(function () {
-            // 发起网络类型获取，只是测试，可以替换自己想要的 API 方法
-            wx.getNetworkType({
-              success: function (res) {
-                window.alert('当前设备网络类型：'+res.networkType)
-              }
-            })
-          })
-          // 发起签名注册，是一个异步操作，成功会触发wx.ready
-          wx.config({
-            appId: 'wxa806018a131603d3',                   // 微信公众号appid
-            timestamp: result.signature.timestamp + '',   // 时间戳，从返回 result.signature 中获取
-            nonceStr: result.signature.nonceStr,          // 随机字符串，从返回 result.signature 中获取
-            signature: result.signature.signature,        // 签名，从返回 result.signature 中获取
-            jsApiList: ['getNetworkType']                 // 注册的 api 列表
-          })
+          // // 使用微信公众号SDK，开始签名，签名信息在 result.signature 中
+          //
+          // // 监听签名注册成功
+          // wx.ready(function () {
+          //   // 发起网络类型获取，只是测试，可以替换自己想要的 API 方法
+          //   wx.getNetworkType({
+          //     success: function (res) {
+          //       window.alert('当前设备网络类型：'+res.networkType)
+          //     }
+          //   })
+          // })
+          // // 发起签名注册，是一个异步操作，成功会触发wx.ready
+          // wx.config({
+          //   appId: 'wxa806018a131603d3',                   // 微信公众号appid
+          //   timestamp: result.signature.timestamp + '',   // 时间戳，从返回 result.signature 中获取
+          //   nonceStr: result.signature.nonceStr,          // 随机字符串，从返回 result.signature 中获取
+          //   signature: result.signature.signature,        // 签名，从返回 result.signature 中获取
+          //   jsApiList: ['getNetworkType']                 // 注册的 api 列表
+          // })
         }catch (e) {
           console.log(e)
         }
