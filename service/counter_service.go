@@ -23,7 +23,7 @@ type JsonResult struct {
 func ReturnBack(w http.ResponseWriter, r *http.Request, res JsonResult) {
 	msg, err := json.Marshal(res)
 	if err != nil {
-		fmt.Fprint(w, "内部错误")
+		fmt.Fprint(w, "内部错误010")
 		return
 	}
 	w.Header().Set("content-type", "application/json")
