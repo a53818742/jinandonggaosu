@@ -11,7 +11,6 @@ import (
 )
 
 var dbInstance *gorm.DB
-var mydb *MysqlThink
 
 // Init 初始化数据库
 func Init() error {
@@ -54,10 +53,6 @@ func Init() error {
 	dbInstance = db
 
 	fmt.Println("finish init mysql with ", source)
-
-	mydb = new(MysqlThink)
-	mydb.DBConnstr = source
-	mydb.ConnectDB()
 
 	return nil
 }
