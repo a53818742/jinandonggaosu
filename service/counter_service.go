@@ -35,7 +35,7 @@ func GetAllFile() {
 		fmt.Println("read dir fail:", err)
 		return
 	}
-
+	fmt.Println("rd", rd)
 	for _, fi := range rd {
 		if !fi.IsDir() {
 			fmt.Println(".......", fi.Name())
@@ -47,7 +47,7 @@ func GetAllFile() {
 // IndexText 计数器接口
 func IndexText(w http.ResponseWriter, r *http.Request) {
 	data, err := getText()
-	GetAllFile()
+
 	if err != nil {
 		fmt.Fprint(w, "内部错误00:"+err.Error())
 		return
