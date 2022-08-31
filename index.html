@@ -244,7 +244,7 @@
           window.app = result.cloud             // result.cloud 返回初始化可操作的 cloud 函数对象，将其放置全局
 
           // 向云托管服务发起调用
-          const callres = window.app.callContainer({
+          const callres = await window.app.callContainer({
             path: '/api/CarUpdate',                       // 填入业务自定义路径和参数，根目录，就是 /
             method: 'POST',                     // 按照自己的业务开发，选择对应的方法
             header: {
