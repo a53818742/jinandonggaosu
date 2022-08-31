@@ -28,7 +28,16 @@ func IndexHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	fmt.Fprint(w, data)
-	getAction(r)
+}
+
+// Index2Handler 计数器接口
+func Index2Handler(w http.ResponseWriter, r *http.Request) {
+	data, err := getIndex2()
+	if err != nil {
+		fmt.Fprint(w, "内部错误")
+		return
+	}
+	fmt.Fprint(w, data)
 }
 
 // CarUpsert 计数器接口
@@ -246,6 +255,15 @@ func getAction(r *http.Request) (string, error) {
 // getIndex 获取主页
 func getIndex() (string, error) {
 	b, err := ioutil.ReadFile("./index.html")
+	if err != nil {
+		return "", err
+	}
+	return string(b), nil
+}
+
+// getIndex2 获取主页
+func getIndex2() (string, error) {
+	b, err := ioutil.ReadFile("./index2.html")
 	if err != nil {
 		return "", err
 	}

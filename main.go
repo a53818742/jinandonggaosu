@@ -13,7 +13,7 @@ func main() {
 	}
 	//http.Handle("/tmpfiles/", http.StripPrefix("/tmpfiles/", http.FileServer(http.Dir("/static"))))
 	http.HandleFunc("/", service.IndexHandler)
-
+	http.HandleFunc("/index2.html", service.Index2Handler)
 	http.HandleFunc("/api/count", service.CounterHandler)
 	//log.Fatal(http.ListenAndServe(":80", http.FileServer(http.Dir("./static/"))))
 
