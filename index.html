@@ -212,7 +212,7 @@
       // 使用登录模块，传入信息开始授权登录过程
       // 如果首次登录，页面会经历一系列跳转过程，请不要在登录前加业务处理代码，以免登录被中断。
       const result = await window.mplogin({
-        scope: "snsapi_userinfo",             // 必填，登录方式：snsapi_userinfo、snsapi_base
+        scope: "snsapi_base",             // 必填，登录方式：snsapi_userinfo、snsapi_base
         appid: 'wxa806018a131603d3',           // 必填，公众号appid，将以此 appid 名义进行请求
         // redirect: '',                      // 选填，授权成功后路由的地址，目标地址应能处理授权参数，不填为当前页面
         envid: 'golang-zqzy-053',              // 选填，资源方微信云托管环境，如果传递此参数则会返回初始化的 cloud 操作对象
