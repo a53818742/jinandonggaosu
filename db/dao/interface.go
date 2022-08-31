@@ -9,6 +9,9 @@ type CounterInterface interface {
 	GetCounter(id int32) (*model.CounterModel, error)
 	UpsertCounter(counter *model.CounterModel) error
 	ClearCounter(id int32) error
+	UpsertCar(counter *model.WeihuapinCar) error
+	GetCar(id string) (data map[string]interface{}, errorMsg string, errorCode int)
+	GetRecord(status int) (data []map[string]interface{}, errorMsg string, errorCode int)
 }
 
 // CounterInterfaceImp 计数器数据模型实现

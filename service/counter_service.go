@@ -30,6 +30,95 @@ func IndexHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, data)
 }
 
+// CarUpsert 计数器接口
+func CarUpsert(w http.ResponseWriter, r *http.Request) {
+	res := &JsonResult{}
+
+	if r.Method == http.MethodPost {
+		BodyBytes, _ := ioutil.ReadAll(r.Body)
+		counter := &model.WeihuapinCar{}
+		err := json.Unmarshal(BodyBytes, &counter)
+		if err != nil {
+			res.Code = -2
+			res.ErrorMsg = "消息结构体错误"
+		}
+
+		err = dao.Imp.UpsertCar(counter)
+
+	} else {
+		res.Code = -1
+		res.ErrorMsg = fmt.Sprintf("请求方法 %s 不支持", r.Method)
+	}
+
+	msg, err := json.Marshal(res)
+	if err != nil {
+		fmt.Fprint(w, "内部错误")
+		return
+	}
+	w.Header().Set("content-type", "application/json")
+	w.Write(msg)
+}
+
+// CarGet 计数器接口
+func CarGet(w http.ResponseWriter, r *http.Request) {
+	res := &JsonResult{}
+
+	if r.Method == http.MethodPost {
+		BodyBytes, _ := ioutil.ReadAll(r.Body)
+		counter := &model.WeihuapinGetOne{}
+		err := json.Unmarshal(BodyBytes, &counter)
+		if err != nil || counter.WechatID == "" {
+			res.Code = -3
+			res.ErrorMsg = "消息结构体错误"
+		}
+
+		res.Data, res.ErrorMsg, res.Code = dao.Imp.GetCar(counter.WechatID)
+
+	} else {
+		res.Code = -1
+		res.ErrorMsg = fmt.Sprintf("请求方法 %s 不支持", r.Method)
+	}
+
+	msg, err := json.Marshal(res)
+	if err != nil {
+		fmt.Fprint(w, "内部错误")
+		return
+	}
+	w.Header().Set("content-type", "application/json")
+	w.Write(msg)
+}
+
+// CarList 计数器接口
+func CarList(w http.ResponseWriter, r *http.Request) {
+	res := &JsonResult{}
+
+	if r.Method == http.MethodPost {
+		BodyBytes, _ := ioutil.ReadAll(r.Body)
+		counter := &model.WeihuapinGetList{}
+		err := json.Unmarshal(BodyBytes, &counter)
+		if err != nil {
+			res.Code = -4
+			res.ErrorMsg = "消息结构体错误"
+		}
+		if counter.Status != 0 && counter.Status != 1 {
+			counter.Status = 100
+		}
+		res.Data, res.ErrorMsg, res.Code = dao.Imp.GetRecord(counter.Status)
+
+	} else {
+		res.Code = -1
+		res.ErrorMsg = fmt.Sprintf("请求方法 %s 不支持", r.Method)
+	}
+
+	msg, err := json.Marshal(res)
+	if err != nil {
+		fmt.Fprint(w, "内部错误")
+		return
+	}
+	w.Header().Set("content-type", "application/json")
+	w.Write(msg)
+}
+
 // CounterHandler 计数器接口
 func CounterHandler(w http.ResponseWriter, r *http.Request) {
 	res := &JsonResult{}
@@ -146,6 +235,7 @@ func getAction(r *http.Request) (string, error) {
 		return "", fmt.Errorf("缺少 action 参数")
 	}
 
+	fmt.Println("getaction", action.(string))
 	return action.(string), nil
 }
 
