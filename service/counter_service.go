@@ -81,6 +81,8 @@ func CarInsert(w http.ResponseWriter, r *http.Request) {
 	res := &JsonResult{}
 
 	if r.Method == http.MethodPost {
+
+		fmt.Println("======header========", r.Header)
 		BodyBytes, _ := ioutil.ReadAll(r.Body)
 		counter := &model.WeihuapinCarInsert{}
 		err := json.Unmarshal(BodyBytes, &counter)

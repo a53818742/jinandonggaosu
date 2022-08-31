@@ -208,6 +208,7 @@
     <img class="title-logo"
          src="https://static-index-4gtuqm3bfa95c963-1304825656.tcloudbaseapp.com/official-website/favicon.svg" />
     <div style="display: inline; margin-bottom: 48px" class="title-text">hello,world!这里是page1</div>
+    <button onclick="set()">添加记录</button>
   </div>
 
 </div>
@@ -215,5 +216,24 @@
 <script src="https://mat1.gtimg.com/www/asset/lib/jquery/jquery/jquery-1.11.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<script>
 
+  function set() {
+    $.ajax("/api/CarInsert", {
+      method: "POST",
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      data: JSON.stringify({
+        "CarNo":"ffff",
+        "Dunwei":10.0,
+        "Weihuapin":"硫酸;",
+        "Name":"张云雷",
+        "Moble":"15555555555",
+        "Zhuangkuang":"良好"
+      }),
+    }).done(function (res) {
+      alert(JSON.stringify(res))
+    });
+  }
+</script>
 </html>
