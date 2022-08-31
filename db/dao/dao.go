@@ -83,7 +83,7 @@ func (imp *CounterInterfaceImp) GetCar(id string) (data map[string]interface{}, 
 	return ret, "", 0
 }
 
-// GetToday 查询某一天的记录
+// GetRecord 查询某一天的记录
 func (imp *CounterInterfaceImp) GetRecord(status int) (data []map[string]interface{}, errorMsg string, errorCode int) {
 
 	cli := db.Get()

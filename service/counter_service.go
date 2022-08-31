@@ -124,7 +124,7 @@ func CarList(w http.ResponseWriter, r *http.Request) {
 func CounterHandler(w http.ResponseWriter, r *http.Request) {
 	res := &JsonResult{}
 	fmt.Println("...............................")
-	getAction(r)
+	action, _ := getAction(r)
 	fmt.Println("##########################################")
 	if r.Method == http.MethodGet {
 		counter, err := getCurrentCounter()
@@ -138,7 +138,7 @@ func CounterHandler(w http.ResponseWriter, r *http.Request) {
 		count, err := modifyCounter(r)
 		if err != nil {
 			res.Code = -1
-			res.ErrorMsg = err.Error()
+			res.ErrorMsg = action
 		} else {
 			res.Data = count
 		}
