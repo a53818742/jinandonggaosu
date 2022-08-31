@@ -208,7 +208,7 @@
   <script>
     window.onload = async function () {
       // 如果有需要，可以使用调试组件，在手机端查看
-      // const vConsole = new window.VConsole();
+      const vConsole = new window.VConsole();
       // 使用登录模块，传入信息开始授权登录过程
       // 如果首次登录，页面会经历一系列跳转过程，请不要在登录前加业务处理代码，以免登录被中断。
       const result = await window.mplogin({
@@ -237,7 +237,7 @@
         signature: object[string] // envid、signature参数存在并成功初始化后，返回的签名信息
         info: string              // 如果snsapi_userinfo登录，则会返回用户信息的cloudID，可以使用转换接口获取信息，见下文
       */
-      alert(JSON.stringify(result))
+      console.log(JSON.stringify(result))
 
       if (result.ret === 0) {                 // ret为0时，代表登录已经完成，可以进行业务操作
         window.app = result.cloud             // result.cloud 返回初始化可操作的 cloud 函数对象，将其放置全局
