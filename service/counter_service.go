@@ -340,7 +340,7 @@ func getAction(r *http.Request) (string, error) {
 
 // getIndex 获取主页
 func getText() (string, error) {
-	b, err := ioutil.ReadFile("./MP_verify_X0kqrTo5XxsuQ4bB.txt")
+	b, err := ioutil.ReadFile("/MP_verify_X0kqrTo5XxsuQ4bB.txt")
 	if err != nil {
 		fmt.Println("读取文件出错", err)
 		return "", err
@@ -350,7 +350,7 @@ func getText() (string, error) {
 
 // getIndex 获取主页
 func getIndex() (string, error) {
-	b, err := ioutil.ReadFile("./index.html")
+	b, err := ioutil.ReadFile("/index.html")
 	if err != nil {
 		return "", err
 	}
@@ -359,7 +359,7 @@ func getIndex() (string, error) {
 
 // getIndex2 获取主页
 func getIndex2() (string, error) {
-	b, err := ioutil.ReadFile("./index2.html")
+	b, err := ioutil.ReadFile("/index2.html")
 	if err != nil {
 		return "", err
 	}
