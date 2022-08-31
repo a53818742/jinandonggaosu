@@ -127,7 +127,7 @@ func CarInsert(w http.ResponseWriter, r *http.Request) {
 // CarUpdate 计数器接口
 func CarUpdate(w http.ResponseWriter, r *http.Request) {
 	res := &JsonResult{}
-
+	fmt.Println("======header002========", r.Header)
 	if r.Method == http.MethodPost {
 		BodyBytes, _ := ioutil.ReadAll(r.Body)
 		counter := &model.WeihuapinCarUpdate{}
