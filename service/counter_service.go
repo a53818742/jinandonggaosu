@@ -35,7 +35,7 @@ func IndexText(w http.ResponseWriter, r *http.Request) {
 	data, err := getText()
 
 	if err != nil {
-		fmt.Fprint(w, "内部错误00")
+		fmt.Fprint(w, "内部错误00:"+err.Error())
 		return
 	}
 	fmt.Fprint(w, data)
