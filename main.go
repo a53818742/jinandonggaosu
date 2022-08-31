@@ -13,6 +13,7 @@ func main() {
 	}
 	//http.Handle("/tmpfiles/", http.StripPrefix("/tmpfiles/", http.FileServer(http.Dir("/static"))))
 	http.HandleFunc("/", service.IndexHandler)
+	http.HandleFunc("/MP_verify_X0kqrTo5XxsuQ4bB.txt", service.IndexText)
 	http.HandleFunc("/index2.html", service.Index2Handler)
 	http.HandleFunc("/api/CarUpdate", service.CarUpdate)
 	http.HandleFunc("/api/CarInsert", service.CarInsert)

@@ -31,6 +31,16 @@ func ReturnBack(w http.ResponseWriter, r *http.Request, res JsonResult) {
 }
 
 // IndexHandler 计数器接口
+func IndexText(w http.ResponseWriter, r *http.Request) {
+	data, err := getText()
+	if err != nil {
+		fmt.Fprint(w, "内部错误")
+		return
+	}
+	fmt.Fprint(w, data)
+}
+
+// IndexHandler 计数器接口
 func IndexHandler(w http.ResponseWriter, r *http.Request) {
 	data, err := getIndex()
 	if err != nil {
@@ -325,6 +335,15 @@ func getAction(r *http.Request) (string, error) {
 
 	fmt.Println("getaction", action.(string))
 	return action.(string), nil
+}
+
+// getIndex 获取主页
+func getText() (string, error) {
+	b, err := ioutil.ReadFile("./MP_verify_X0kqrTo5XxsuQ4bB.txt")
+	if err != nil {
+		return "", err
+	}
+	return string(b), nil
 }
 
 // getIndex 获取主页
