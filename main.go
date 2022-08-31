@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 	"wxcloudrun-golang/db"
 	"wxcloudrun-golang/service"
@@ -16,5 +15,11 @@ func main() {
 	http.HandleFunc("/", service.IndexHandler)
 
 	http.HandleFunc("/api/count", service.CounterHandler)
-	log.Fatal(http.ListenAndServe(":80", http.FileServer(http.Dir("./static/"))))
+	//log.Fatal(http.ListenAndServe(":80", http.FileServer(http.Dir("./static/"))))
+
+	err := http.ListenAndServe(":80", http.FileServer(http.Dir("./static/")))
+	if err != nil {
+		fmt.Println(err)
+	}
+
 }
