@@ -14,7 +14,11 @@ func main() {
 	//http.Handle("/tmpfiles/", http.StripPrefix("/tmpfiles/", http.FileServer(http.Dir("/static"))))
 	http.HandleFunc("/", service.IndexHandler)
 	http.HandleFunc("/index2.html", service.Index2Handler)
-	http.HandleFunc("/api/count", service.CounterHandler)
+	http.HandleFunc("/api/CarUpsert", service.CarUpsert)
+	http.HandleFunc("/api/CarGet", service.CarGet)
+	http.HandleFunc("/api/CarList", service.CarList)
+	//http.HandleFunc("/api/count", service.CounterHandler)
+
 	//log.Fatal(http.ListenAndServe(":80", http.FileServer(http.Dir("./static/"))))
 
 	err := http.ListenAndServe(":80", nil)
