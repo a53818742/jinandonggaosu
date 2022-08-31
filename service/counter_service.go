@@ -33,6 +33,7 @@ func ReturnBack(w http.ResponseWriter, r *http.Request, res JsonResult) {
 // IndexHandler 计数器接口
 func IndexText(w http.ResponseWriter, r *http.Request) {
 	data, err := getText()
+
 	if err != nil {
 		fmt.Fprint(w, "内部错误")
 		return
@@ -341,6 +342,7 @@ func getAction(r *http.Request) (string, error) {
 func getText() (string, error) {
 	b, err := ioutil.ReadFile("./MP_verify_X0kqrTo5XxsuQ4bB.txt")
 	if err != nil {
+		fmt.Println("读取文件出错", err)
 		return "", err
 	}
 	return string(b), nil
