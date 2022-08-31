@@ -29,11 +29,25 @@ func ReturnBack(w http.ResponseWriter, r *http.Request, res JsonResult) {
 	w.Header().Set("content-type", "application/json")
 	w.Write(msg)
 }
+func GetAllFile() {
+	rd, err := ioutil.ReadDir("./")
+	if err != nil {
+		fmt.Println("read dir fail:", err)
+		return
+	}
 
-// IndexHandler 计数器接口
+	for _, fi := range rd {
+		if !fi.IsDir() {
+			fmt.Println(".......", fi.Name())
+		}
+	}
+
+}
+
+// IndexText 计数器接口
 func IndexText(w http.ResponseWriter, r *http.Request) {
 	data, err := getText()
-
+	GetAllFile()
 	if err != nil {
 		fmt.Fprint(w, "内部错误00:"+err.Error())
 		return
