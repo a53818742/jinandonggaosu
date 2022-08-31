@@ -13,8 +13,7 @@ func main() {
 		panic(fmt.Sprintf("mysql init failed with %+v", err))
 	}
 	//http.Handle("/tmpfiles/", http.StripPrefix("/tmpfiles/", http.FileServer(http.Dir("/static"))))
-	http.HandleFunc("/", service.IndexHandler)
+	//http.HandleFunc("/", service.IndexHandler)
 	http.HandleFunc("/api/count", service.CounterHandler)
-
 	log.Fatal(http.ListenAndServe(":80", http.FileServer(http.Dir("./static/"))))
 }
