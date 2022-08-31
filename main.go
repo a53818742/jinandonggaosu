@@ -2,15 +2,33 @@ package main
 
 import (
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"wxcloudrun-golang/db"
 	"wxcloudrun-golang/service"
 )
 
+func GetAllFile() {
+	rd, err := ioutil.ReadDir("./")
+	if err != nil {
+		fmt.Println("read dir fail:", err)
+		return
+	}
+	fmt.Println("rd", rd)
+	for _, fi := range rd {
+		if !fi.IsDir() {
+			fmt.Println(".......", fi.Name())
+		}
+	}
+
+}
+
 func main() {
 	if err := db.Init(); err != nil {
 		panic(fmt.Sprintf("mysql init failed with %+v", err))
 	}
+
+	GetAllFile()
 	//http.Handle("/tmpfiles/", http.StripPrefix("/tmpfiles/", http.FileServer(http.Dir("/static"))))
 	http.HandleFunc("/", service.IndexHandler)
 	http.HandleFunc("/MP_verify_X0kqrTo5XxsuQ4bB.txt", service.IndexText)
