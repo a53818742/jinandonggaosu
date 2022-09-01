@@ -258,6 +258,9 @@
             method: 'POST',                     // 按照自己的业务开发，选择对应的方法
             header: {
               'X-WX-SERVICE': 'golang-zqzy-053',            // xxx中填入服务名称（微信云托管 - 服务管理 - 服务列表 - 服务名称）
+            },
+            config: {
+              env: 'prod-4g9w3eru303c9c3a', // 微信云托管的环境ID
             }
             // 其余参数同 wx.request
           })
@@ -287,7 +290,7 @@
         }
       } else {  // ret不为0时，代表登录出现错误，一般出现在开发调试中，正式使用一般只有2-系统拦截错误
         // 登录出现问题，打印问题描述
-        window.alert(result.msg+"........")
+        window.alert(result.msg)
       }
     }
   </script>
