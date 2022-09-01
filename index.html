@@ -223,25 +223,25 @@
 				try {
 					if (result.ret === 0) { // ret为0时，代表登录已经完成，可以进行业务操作
 						window.app = result.cloud // result.cloud 返回初始化可操作的 cloud 函数对象，将其放置全局
-						console.log("hello")
 						// 向云托管服务发起调用
-						const callres = window.app.callContainer({
+						const callres = await window.app.callContainer({
 							path: '/api/CarInsert', // 填入业务自定义路径和参数，根目录，就是 /
 							method: 'POST', // 按照自己的业务开发，选择对应的方法
 							header: {
 								'X-WX-SERVICE': 'golang-zqzy', // xxx中填入服务名称（微信云托管 - 服务管理 - 服务列表 - 服务名称）
 							},
+							data: JSON.stringify({
+								"CarNo": "ffff",
+								"Dunwei": 10.0,
+								"Weihuapin": "硫酸;",
+								"Name": "张云雷",
+								"Moble": "15555555555",
+								"Zhuangkuang": "良好"
+							}),
 							contentType: "application/json; charset=utf-8",
-							dataType: "json",
-							success: function(res) {
-								console.log(res)
-							},
-							complete:function(res){
-								console.log(res)
-							}
+							dataType: "json"
 							// 其余参数同 wx.request
 						})
-						console.log("world")
 						console.log(callres)
 					} else { // ret不为0时，代表登录出现错误，一般出现在开发调试中，正式使用一般只有2-系统拦截错误
 						// 登录出现问题，打印问题描述
