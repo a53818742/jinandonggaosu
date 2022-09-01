@@ -251,11 +251,11 @@
 							})
 						})
 						console.log(callres["data"]["data_list"][0]["json"])
-						CurUserInfo=eval(callres["data"]["data_list"][0]["json"])["data"]
+						CurUserInfo=JSON.parse(callres["data"]["data_list"][0]["json"])["data"]
 						console.log(CurUserInfo)
 					} else { // ret不为0时，代表登录出现错误，一般出现在开发调试中，正式使用一般只有2-系统拦截错误
 						// 登录出现问题，打印问题描述
-						window.alert(result.msg)
+						//window.alert(result.msg)
 					}
 				} catch (e) {
 					console.log(e)
