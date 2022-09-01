@@ -61,6 +61,21 @@ func Index2Handler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, data)
 }
 
+func GetUserInfo(w http.ResponseWriter, r *http.Request) {
+	BodyBytes, _ := ioutil.ReadAll(r.Body)
+	url := "https://api.weixin.qq.com/wxa/getopendata?openid=" + string(BodyBytes)
+	//payload := strings.NewReader("a=111")
+	res := &JsonResult{}
+	response, _ := http.Post(url, "application/x-www-form-urlencoded", nil)
+	fmt.Println(response)
+	res.Code = 0
+	res.ErrorMsg = ""
+
+	BodyBytes0, _ := ioutil.ReadAll(response.Body)
+	res.Data = string(BodyBytes0)
+	ReturnBack(w, r, *res)
+}
+
 // CarOver 计数器接口
 func CarOver(w http.ResponseWriter, r *http.Request) {
 	res := &JsonResult{}

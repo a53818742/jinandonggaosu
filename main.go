@@ -38,6 +38,7 @@ func main() {
 	http.HandleFunc("/api/CarOver", service.CarOver)
 	http.HandleFunc("/api/CarGet", service.CarGet)
 	http.HandleFunc("/api/CarList", service.CarList)
+	http.HandleFunc("/api/GetUserInfo", service.GetUserInfo)
 	//http.HandleFunc("/api/count", service.CounterHandler)
 	//log.Fatal(http.ListenAndServe(":80", http.FileServer(http.Dir("./static/"))))
 	err := http.ListenAndServe(":80", nil)
