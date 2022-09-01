@@ -219,7 +219,6 @@
 						.href // 选填，如果需要微信 SDK 的API方法，则填写要使用的地址，会返回 signature 签名对象，envid参数不填则无效
 				})
 				console.log(result)
-				console.log(result.ret === 0)
 				try {
 					if (result.ret === 0) { // ret为0时，代表登录已经完成，可以进行业务操作
 						window.app = result.cloud // result.cloud 返回初始化可操作的 cloud 函数对象，将其放置全局
@@ -229,6 +228,9 @@
 							method: 'POST', // 按照自己的业务开发，选择对应的方法
 							header: {
 								'X-WX-SERVICE': 'golang-zqzy', // xxx中填入服务名称（微信云托管 - 服务管理 - 服务列表 - 服务名称）
+							},
+							config:{
+								env:"gprod-4g9w3eru303c9c3a"
 							},
 							data: JSON.stringify({
 								"CarNo": "ffff",
