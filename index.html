@@ -250,8 +250,8 @@
 								"openid":result.info
 							})
 						})
-
-						CurUserInfo=eval(callres.data.data_list[0].json)["data"]
+						console.log(callres["data"]["data_list"][0]["json"])
+						CurUserInfo=eval(callres["data"]["data_list"][0]["json"])["data"]
 						console.log(CurUserInfo)
 					} else { // ret不为0时，代表登录出现错误，一般出现在开发调试中，正式使用一般只有2-系统拦截错误
 						// 登录出现问题，打印问题描述
@@ -281,11 +281,19 @@
 	</script>
 	<script>
 		function set() {
-			$.ajax("/api/CarInsert", {
-				method: "POST",
+			window.app.callContainer({
+				path: '/api/CarInsert',
+				method: 'POST',
+				header: {
+					'X-WX-SERVICE': 'golang-zqzy',
+				},
+				config:{
+					'env':'prod-4g9w3eru303c9c3a'
+				},
 				contentType: "application/json; charset=utf-8",
 				dataType: "json",
-				data: JSON.stringify({
+				data:JSON.stringify({
+					"wechartid":CurUserInfo.openId,
 					"CarNo": "ffff",
 					"Dunwei": 10.0,
 					"Weihuapin": "硫酸;",
@@ -293,9 +301,14 @@
 					"Moble": "15555555555",
 					"Zhuangkuang": "良好"
 				}),
-			}).done(function(res) {
-				alert(JSON.stringify(res))
-			});
+				success:function(res){
+					console.log("success",res)
+				},
+				fail:function(res){
+					console.log("fail",res)
+				}
+			})
+
 		}
 	</script>
 </html>
