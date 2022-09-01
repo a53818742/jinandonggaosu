@@ -102,7 +102,6 @@ func (imp *CounterInterfaceImp) GetRecord(status int) (data []map[string]interfa
 	t := time.Now()
 	addTime := time.Date(t.Year(), t.Month(), t.Day(), 0, 0, 0, 0, t.Location())
 	now := addTime.Unix()
-
 	strr := ""
 	switch status {
 	case 0:
