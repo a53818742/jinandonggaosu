@@ -236,7 +236,9 @@
 							},
 							contentType: "application/json; charset=utf-8",
 							dataType: "json",
-							data:result.info,
+							data:JSON.stringify({
+								"openid":result.info
+							}),
 							success:function(res){
 								console.log(res)
 							},
