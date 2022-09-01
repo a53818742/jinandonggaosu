@@ -62,8 +62,10 @@ func Index2Handler(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetUserInfo(w http.ResponseWriter, r *http.Request) {
-	BodyBytes, _ := ioutil.ReadAll(r.Body)
-	url := "https://api.weixin.qq.com/wxa/getopendata?openid=" + string(BodyBytes)
+
+	Openid := r.Header.Get("X-Wx-Openid")
+	at := r.Header.Get("X-Wx-Cloudbase-Access-Token")
+	url := "https://api.weixin.qq.com/wxa/getopendata?openid=" + Openid + "&access_token=" + at
 	//payload := strings.NewReader("a=111")
 	res := &JsonResult{}
 	response, _ := http.Post(url, "application/x-www-form-urlencoded", nil)
