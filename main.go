@@ -39,6 +39,15 @@ func main() {
 	http.HandleFunc("/api/CarGet", service.CarGet)
 	http.HandleFunc("/api/CarList", service.CarList)
 	http.HandleFunc("/api/GetUserInfo", service.GetUserInfo)
+
+	http.HandleFunc("/api/AdminAdd", service.AdminAdd)
+	http.HandleFunc("/api/AdminUpdate", service.AdminUpdate)
+	http.HandleFunc("/api/AdminOver", service.AdminOver)
+	http.HandleFunc("/api/AdminList", service.AdminList)
+
+	http.HandleFunc("/api/CheckAdmin", service.CheckAdmin)
+	http.HandleFunc("/api/UserLogin", service.UserLogin)
+
 	//http.HandleFunc("/api/count", service.CounterHandler)
 	//log.Fatal(http.ListenAndServe(":80", http.FileServer(http.Dir("./static/"))))
 	err := http.ListenAndServe(":80", nil)

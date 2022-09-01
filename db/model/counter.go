@@ -27,8 +27,8 @@ type WeihuapinCar struct {
 	Status      int8      `gorm:"column:status" json:"status"`
 }
 type WeihuapinCarInsert struct {
-	Id          int32     `gorm:"column:id" json:"id"`
-	CarNo       string    `gorm:"column:CarNo" json:"carNo"`
+	Id          int32     `gorm:"column:ID" json:"ID"`
+	CarNo       string    `gorm:"column:carNo" json:"carNo"`
 	Dunwei      float32   `gorm:"column:dunwei" json:"dunwei"`
 	Weihuapin   string    `gorm:"column:weihuapin" json:"weihuapin"`
 	Name        string    `gorm:"column:name" json:"name"`
@@ -43,8 +43,8 @@ type WeihuapinCarInsert struct {
 	WechartId   string    `gorm:"column:wechartid" json:"wechartid"`
 }
 type WeihuapinCarUpdate struct {
-	Id          int32   `gorm:"column:id" json:"id"`
-	CarNo       string  `gorm:"column:CarNo" json:"carNo"`
+	Id          int32   `gorm:"column:ID" json:"ID"`
+	CarNo       string  `gorm:"column:carNo" json:"carNo"`
 	Dunwei      float32 `gorm:"column:dunwei" json:"dunwei"`
 	Weihuapin   string  `gorm:"column:weihuapin" json:"weihuapin"`
 	Name        string  `gorm:"column:name" json:"name"`
@@ -54,7 +54,7 @@ type WeihuapinCarUpdate struct {
 	Photo       string  `gorm:"column:photo" json:"photo"`
 }
 type WeihuapinCarOver struct {
-	Id      int32     `gorm:"column:id" json:"id"`
+	Id      int32     `gorm:"column:ID" json:"ID"`
 	Outtime time.Time `gorm:"column:outtime" json:"outtime"`
 	Outtype int8      `gorm:"column:outtype" json:"outtype"`
 	Status  int8      `gorm:"column:status" json:"status"`
@@ -66,4 +66,28 @@ type WeihuapinGetOne struct {
 
 type WeihuapinGetList struct {
 	Status int `json:"status"`
+}
+
+type AdminInsert struct {
+	Wechartid  string    `gorm:"column:wechartid" json:"wechartid"`
+	Level      int       `gorm:"column:level" json:"level"`
+	Name       int       `gorm:"column:name" json:"name"`
+	Mobile     int       `gorm:"column:mobile" json:"mobile"`
+	CreateTime time.Time `gorm:"column:create_time" json:"create_time"`
+}
+
+type AdminUpdate struct {
+	ID     int `gorm:"column:ID" json:"ID"`
+	Name   int `gorm:"column:name" json:"name"`
+	Mobile int `gorm:"column:mobile" json:"mobile"`
+}
+
+type AdminOver struct {
+	ID    int `gorm:"column:ID" json:"ID"`
+	Level int `gorm:"column:level" json:"level"`
+}
+
+type UserLoginStruct struct {
+	Username string `gorm:"column:username" json:"username"`
+	Pwd      string `gorm:"column:pwd" json:"pwd"`
 }
