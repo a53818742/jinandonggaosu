@@ -76,8 +76,7 @@ func (imp *CounterInterfaceImp) GetCar(id string) (data map[string]interface{}, 
 	}
 	ret := map[string]interface{}{} //创建返回值：不定长的map类型切片
 	for rows.Next() {
-		err0 := rows.Scan(values...)  //开始读行，Scan函数只接受指针变量
-		m := map[string]interface{}{} //用于存放1列的 [键/值] 对
+		err0 := rows.Scan(values...) //开始读行，Scan函数只接受指针变量
 		if err0 != nil {
 			panic(err)
 		}
@@ -85,10 +84,10 @@ func (imp *CounterInterfaceImp) GetCar(id string) (data map[string]interface{}, 
 			var raw_value = *(values[i].(*interface{})) //读出raw数据，类型为byte
 			if reflect.TypeOf(raw_value) == reflect.TypeOf([]byte{0}) {
 				b, _ := raw_value.([]byte)
-				v := string(b) //将raw数据转换成字符串
-				m[colName] = v //colName是键，v是值
+				v := string(b)   //将raw数据转换成字符串
+				ret[colName] = v //colName是键，v是值
 			} else {
-				m[colName] = raw_value
+				ret[colName] = raw_value
 			}
 		}
 		break
