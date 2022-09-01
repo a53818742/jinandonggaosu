@@ -84,7 +84,7 @@ func GetUserInfo(w http.ResponseWriter, r *http.Request) {
 
 	Openid := r.Header.Get("X-Wx-Openid")
 	at := r.Header.Get("X-Wx-Cloudbase-Access-Token")
-	url := "https://api.weixin.qq.com/wxa/getopendata?openid=" + Openid + "&cloudbase_access_token=" + at
+	url := "https://api.weixin.qq.com/wxa/getopendata?openid=" + Openid + "&cloudbase_access_token=" + at + "&cloudid_list=" + j.Openid
 
 	data := "{\"cloudid_list\": [\"" + j.Openid + "\"]}"
 	fmt.Println(data)
