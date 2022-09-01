@@ -68,7 +68,6 @@ func (imp *CounterInterfaceImp) GetCar(id string) (data map[string]interface{}, 
 	columns, _ := rows.Columns() //获取列的信息
 	count := len(columns)        //列的数量
 
-	fmt.Println(id, columns, count)
 	var values = make([]interface{}, count) //创建一个与列的数量相当的空接口
 	for i, _ := range values {
 		var ii interface{} //为空接口分配内存
