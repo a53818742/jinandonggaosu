@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
-	"strings"
 	"time"
 
 	"wxcloudrun-golang/db/dao"
@@ -67,9 +66,9 @@ func GetUserInfo(w http.ResponseWriter, r *http.Request) {
 	Openid := r.Header.Get("X-Wx-Openid")
 	at := r.Header.Get("X-Wx-Cloudbase-Access-Token")
 	url := "https://api.weixin.qq.com/wxa/getopendata?openid=" + Openid + "&cloudbase_access_token=" + at
-	payload := strings.NewReader("a=111")
+	//payload := strings.NewReader("{\"cloudid_list\": [\""++"\"]}")
 	res := &JsonResult{}
-	response, _ := http.Post(url, "application/x-www-form-urlencoded", payload)
+	response, _ := http.Post(url, "application/x-www-form-urlencoded", nil)
 
 	res.Code = 0
 	res.ErrorMsg = ""
