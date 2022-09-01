@@ -106,13 +106,13 @@ func (imp *CounterInterfaceImp) GetRecord(status int) (data []map[string]interfa
 	strr := ""
 	switch status {
 	case 0:
-		strr = " status=0 or intime>" + strconv.FormatInt(now, 10)
+		strr = " status=0"
 		break
 	case 1:
-		strr = " status=1 or intime>" + strconv.FormatInt(now, 10)
+		strr = " status=1 and intime>" + strconv.FormatInt(now, 10)
 		break
 	default:
-		strr = " status=0 or status=1 or intime>" + strconv.FormatInt(now, 10)
+		strr = " status=0 or (status=1 and intime>" + strconv.FormatInt(now, 10) + ") "
 
 	}
 
