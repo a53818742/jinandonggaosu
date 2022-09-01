@@ -67,12 +67,9 @@ func Index2Handler(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetUserInfo(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("======GetUserInfo========", r.Header)
 	res := &JsonResult{}
 	BodyBytes, _ := ioutil.ReadAll(r.Body)
-
 	j := GetUserInfoStruct{}
-
 	err := json.Unmarshal(BodyBytes, &j)
 	if err != nil {
 		res.Code = -1
@@ -80,12 +77,9 @@ func GetUserInfo(w http.ResponseWriter, r *http.Request) {
 		ReturnBack(w, r, *res)
 		return
 	}
-	fmt.Println("======GetUserInfo BodyStr", j.Openid)
-
 	Openid := r.Header.Get("X-Wx-Openid")
 	at := r.Header.Get("X-Wx-Cloudbase-Access-Token")
 	url := "https://api.weixin.qq.com/wxa/getopendata?openid=" + Openid + "&cloudbase_access_token=" + at + "&cloudid_list=" + j.Openid
-
 	data := "{\"cloudid_list\": [\"" + j.Openid + "\"]}"
 	payload := strings.NewReader(data)
 	response, _ := http.Post(url, "application/json", payload)
