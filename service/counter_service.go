@@ -62,10 +62,10 @@ func Index2Handler(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetUserInfo(w http.ResponseWriter, r *http.Request) {
-
+	fmt.Println("======GetUserInfo========", r.Header)
 	Openid := r.Header.Get("X-Wx-Openid")
-	//at := r.Header.Get("X-Wx-Cloudbase-Access-Token")  + "&access_token=" + at
-	url := "https://api.weixin.qq.com/wxa/getopendata?openid=" + Openid
+	at := r.Header.Get("X-Wx-Cloudbase-Access-Token")
+	url := "https://api.weixin.qq.com/wxa/getopendata?openid=" + Openid + "&cloudbase_access_token=" + at
 	//payload := strings.NewReader("a=111")
 	res := &JsonResult{}
 	response, _ := http.Post(url, "application/x-www-form-urlencoded", nil)
@@ -113,7 +113,6 @@ func CarInsert(w http.ResponseWriter, r *http.Request) {
 	//POST
 	if r.Method == http.MethodPost {
 
-		fmt.Println("======header========", r.Header)
 		BodyBytes, _ := ioutil.ReadAll(r.Body)
 		counter := &model.WeihuapinCarInsert{}
 		err := json.Unmarshal(BodyBytes, &counter)
