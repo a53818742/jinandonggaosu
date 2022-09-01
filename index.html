@@ -216,7 +216,7 @@
         appid: 'wxa806018a131603d3',           // 必填，公众号appid，将以此 appid 名义进行请求
         // redirect: '',                      // 选填，授权成功后路由的地址，目标地址应能处理授权参数，不填为当前页面
         envid: 'gprod-4g9w3eru303c9c3a',              // 选填，资源方微信云托管环境，如果传递此参数则会返回初始化的 cloud 操作对象
-        resourceAppid: 'wxa806018a131603d3',   // 选填，如果是资源复用模式，需要填资源方微信账号
+        //resourceAppid: 'wxa806018a131603d3',   // 选填，如果是资源复用模式，需要填资源方微信账号
         signature: window.location.href       // 选填，如果需要微信 SDK 的API方法，则填写要使用的地址，会返回 signature 签名对象，envid参数不填则无效
         // region: ''                         // 选填，环境的地域，可选ap-guangzhou、ap-beijing，不填默认为ap-shanghai
         // traceUser:false                    // 选填，默认true，是否在将用户访问记录到用户管理中，非上海地域请设置成false
@@ -238,7 +238,6 @@
         info: string              // 如果snsapi_userinfo登录，则会返回用户信息的cloudID，可以使用转换接口获取信息，见下文
       */
       console.log(result)
-      console.log(result.ret === 0)
 
       $.ajax("/api/GetUserInfo", {
         method: "POST",
@@ -249,7 +248,7 @@
         console.log(JSON.stringify(res))
       });
 
-      if (result.ret === 100) {                 // ret为0时，代表登录已经完成，可以进行业务操作
+      if (result.ret === 0) {                 // ret为0时，代表登录已经完成，可以进行业务操作
         try{
           window.app = result.cloud             // result.cloud 返回初始化可操作的 cloud 函数对象，将其放置全局
 
@@ -259,9 +258,6 @@
             method: 'POST',                     // 按照自己的业务开发，选择对应的方法
             header: {
               'X-WX-SERVICE': 'golang-zqzy-053',            // xxx中填入服务名称（微信云托管 - 服务管理 - 服务列表 - 服务名称）
-            },
-            config: {
-              env: 'prod-4g9w3eru303c9c3a', // 微信云托管的环境ID
             }
             // 其余参数同 wx.request
           })
