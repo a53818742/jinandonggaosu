@@ -61,9 +61,9 @@ type WeihuapinCarOver struct {
 }
 
 type WeihuapinGetOne struct {
-	WechatID string
+	WechartID string `json:"wechartid"`
 }
 
 type WeihuapinGetList struct {
-	Status int
+	Status int `json:"status"`
 }

@@ -187,12 +187,14 @@ func CarGet(w http.ResponseWriter, r *http.Request) {
 		BodyBytes, _ := ioutil.ReadAll(r.Body)
 		counter := &model.WeihuapinGetOne{}
 		err := json.Unmarshal(BodyBytes, &counter)
-		if err != nil || counter.WechatID == "" {
+		if err != nil || counter.WechartID == "" {
 			res.Code = -3
 			res.ErrorMsg = "消息结构体错误"
+			ReturnBack(w, r, *res)
+			return
 		}
 
-		res.Data, res.ErrorMsg, res.Code = dao.Imp.GetCar(counter.WechatID)
+		res.Data, res.ErrorMsg, res.Code = dao.Imp.GetCar(counter.WechartID)
 
 	} else {
 		res.Code = -1

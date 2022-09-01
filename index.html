@@ -219,6 +219,7 @@
 			let CurUserInfo={
 
 			}
+			let CurRecordID=0;//用户当前的车辆记录ID
 			window.onload = async function() {
 				let myappid="wxa806018a131603d3";
 				const vConsole = new window.VConsole();
@@ -270,7 +271,10 @@
 				<img class="title-logo"
 					src="https://static-index-4gtuqm3bfa95c963-1304825656.tcloudbaseapp.com/official-website/favicon.svg" />
 				<div style="display: inline; margin-bottom: 48px" class="title-text">hello,world!这里是page1</div>
-				<button onclick="set()">添加记录</button>
+				<button onclick="set()">入场</button>
+				<button onclick="out()">出场</button>
+				<button onclick="getOne()">获取本人记录</button>
+				<button onclick="get()">获取管理数据</button>
 			</div>
 
 		</div>
@@ -280,8 +284,8 @@
 		integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
 	</script>
 	<script>
-		function set() {
-			window.app.callContainer({
+		async function set() {
+			await window.app.callContainer({
 				path: '/api/CarInsert',
 				method: 'POST',
 				header: {
@@ -308,6 +312,87 @@
 					alert(JSON.stringify(res))
 				}
 			})
+
+		}
+		async function out() {
+			if(CurRecordID<=0){
+				alert("请先获取ID,或者入场")
+			}else{
+				await window.app.callContainer({
+					path: '/api/CarOver',
+					method: 'POST',
+					header: {
+						'X-WX-SERVICE': 'golang-zqzy',
+					},
+					config:{
+						'env':'prod-4g9w3eru303c9c3a'
+					},
+					contentType: "application/json; charset=utf-8",
+					dataType: "json",
+					data:JSON.stringify({
+						"id":CurRecordID
+					}),
+					success:function(res){
+						alert("hello,world")
+						CurRecordID=0
+					},
+					fail:function(res){
+						alert(JSON.stringify(res))
+					}
+				})
+			}
+
+
+		}
+		async function getOne() {
+			await window.app.callContainer({
+				path: '/api/CarGet',
+				method: 'POST',
+				header: {
+					'X-WX-SERVICE': 'golang-zqzy',
+				},
+				config:{
+					'env':'prod-4g9w3eru303c9c3a'
+				},
+				contentType: "application/json; charset=utf-8",
+				dataType: "json",
+				data:JSON.stringify({
+					"wechartid":CurUserInfo["openId"],
+				}),
+				success:function(res){
+					alert(JSON.stringify(res))
+				},
+				fail:function(res){
+					alert(JSON.stringify(res))
+				}
+			})
+
+		}
+		async function get() {
+			if(CurUserInfo["nickName"]==="唐文光"){
+				await window.app.callContainer({
+					path: '/api/CarList',
+					method: 'POST',
+					header: {
+						'X-WX-SERVICE': 'golang-zqzy',
+					},
+					config:{
+						'env':'prod-4g9w3eru303c9c3a'
+					},
+					contentType: "application/json; charset=utf-8",
+					dataType: "json",
+					data:JSON.stringify({
+						"status":2,
+					}),
+					success:function(res){
+						alert(JSON.stringify(res))
+					},
+					fail:function(res){
+						alert(JSON.stringify(res))
+					}
+				})
+			}
+
 
 		}
 	</script>
