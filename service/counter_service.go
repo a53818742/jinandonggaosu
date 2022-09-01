@@ -69,11 +69,13 @@ func GetUserInfo(w http.ResponseWriter, r *http.Request) {
 	//payload := strings.NewReader("a=111")
 	res := &JsonResult{}
 	response, _ := http.Post(url, "application/x-www-form-urlencoded", nil)
-	fmt.Println(response)
+
 	res.Code = 0
 	res.ErrorMsg = ""
 
 	BodyBytes0, _ := ioutil.ReadAll(response.Body)
+
+	fmt.Println("GetUserInfo;", string(BodyBytes0))
 	res.Data = string(BodyBytes0)
 	ReturnBack(w, r, *res)
 }
