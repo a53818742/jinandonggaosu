@@ -28,7 +28,7 @@ type WeihuapinCar struct {
 }
 type WeihuapinCarInsert struct {
 	Id          int32     `gorm:"column:id" json:"id"`
-	CarNo       string    `gorm:"column:CarNo" json:"CarNo"`
+	CarNo       string    `gorm:"column:CarNo" json:"carNo"`
 	Dunwei      float32   `gorm:"column:dunwei" json:"dunwei"`
 	Weihuapin   string    `gorm:"column:weihuapin" json:"weihuapin"`
 	Name        string    `gorm:"column:name" json:"name"`
@@ -40,10 +40,11 @@ type WeihuapinCarInsert struct {
 	Photo       string    `gorm:"column:photo" json:"photo"`
 	Outtype     int8      `gorm:"column:outtype" json:"outtype"`
 	Status      int8      `gorm:"column:status" json:"status"`
+	WechartId   string    `gorm:"column:wechartid" json:"wechartid"`
 }
 type WeihuapinCarUpdate struct {
 	Id          int32   `gorm:"column:id" json:"id"`
-	CarNo       string  `gorm:"column:CarNo" json:"CarNo"`
+	CarNo       string  `gorm:"column:CarNo" json:"carNo"`
 	Dunwei      float32 `gorm:"column:dunwei" json:"dunwei"`
 	Weihuapin   string  `gorm:"column:weihuapin" json:"weihuapin"`
 	Name        string  `gorm:"column:name" json:"name"`
