@@ -82,10 +82,13 @@ func GetUserInfo(w http.ResponseWriter, r *http.Request) {
 	}
 	fmt.Println("======GetUserInfo BodyStr", j.Openid)
 
-	//Openid := r.Header.Get("X-Wx-Openid")
+	Openid := r.Header.Get("X-Wx-Openid")
 	at := r.Header.Get("X-Wx-Cloudbase-Access-Token")
-	url := "https://api.weixin.qq.com/wxa/getopendata?openid=" + j.Openid + "&cloudbase_access_token=" + at
-	payload := strings.NewReader("{\"cloudid_list\": [\"" + j.Openid + "\"],\"cloudidList\": [\"" + j.Openid + "\"]}")
+	url := "https://api.weixin.qq.com/wxa/getopendata?openid=" + Openid + "&cloudbase_access_token=" + at
+
+	data := "{\"cloudid_list\": [\"" + j.Openid + "\"]}"
+	fmt.Println(data)
+	payload := strings.NewReader(data)
 	fmt.Println(url)
 
 	response, _ := http.Post(url, "application/json", payload)
