@@ -120,9 +120,7 @@ func CarOver(w http.ResponseWriter, r *http.Request) {
 func CarInsert(w http.ResponseWriter, r *http.Request) {
 	res := &JsonResult{}
 
-	//POST
 	if r.Method == http.MethodPost {
-
 		BodyBytes, _ := ioutil.ReadAll(r.Body)
 		counter := &model.WeihuapinCarInsert{}
 		err := json.Unmarshal(BodyBytes, &counter)
@@ -155,7 +153,6 @@ func CarInsert(w http.ResponseWriter, r *http.Request) {
 // CarUpdate 计数器接口
 func CarUpdate(w http.ResponseWriter, r *http.Request) {
 	res := &JsonResult{}
-	fmt.Println("======header002========", r.Header)
 	if r.Method == http.MethodPost {
 		BodyBytes, _ := ioutil.ReadAll(r.Body)
 		counter := &model.WeihuapinCarUpdate{}
@@ -173,7 +170,6 @@ func CarUpdate(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		err = dao.Imp.UpdateCar(counter)
-
 	} else {
 		res.Code = -1
 		res.ErrorMsg = fmt.Sprintf("请求方法 %s 不支持", r.Method)
@@ -307,7 +303,6 @@ func modifyCounter(r *http.Request) (int32, error) {
 
 // upsertCounter 更新或修改计数器
 func upsertCounter(r *http.Request) (int32, error) {
-	getAction(r)
 	currentCounter, err := getCurrentCounter()
 	var count int32
 	createdAt := time.Now()
