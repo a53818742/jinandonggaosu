@@ -293,7 +293,7 @@
 				contentType: "application/json; charset=utf-8",
 				dataType: "json",
 				data:JSON.stringify({
-					"wechartid":CurUserInfo.openId,
+					"wechartid":CurUserInfo["openId"],
 					"CarNo": "ffff",
 					"Dunwei": 10.0,
 					"Weihuapin": "硫酸;",
@@ -302,10 +302,10 @@
 					"Zhuangkuang": "良好"
 				}),
 				success:function(res){
-					console.log("success",res)
+					alert(JSON.stringify(res))
 				},
 				fail:function(res){
-					console.log("fail",res)
+					alert(JSON.stringify(res))
 				}
 			})
 
