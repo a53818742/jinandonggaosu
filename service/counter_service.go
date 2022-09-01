@@ -252,7 +252,7 @@ func CarList(w http.ResponseWriter, r *http.Request) {
 		if counter.Status != 0 && counter.Status != 1 {
 			counter.Status = 100
 		}
-		res.Data, res.ErrorMsg, res.Code = dao.Imp.GetRecord(counter.Status)
+		res.Data, res.ErrorMsg, res.Code = dao.Imp.GetRecord(counter.Status, counter.Offset, counter.Limit)
 
 	} else {
 		res.Code = -1

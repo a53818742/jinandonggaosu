@@ -66,6 +66,8 @@ type WeihuapinGetOne struct {
 
 type WeihuapinGetList struct {
 	Status int `json:"status"`
+	Offset int `json:"offset"`
+	Limit  int `json:"limit"`
 }
 
 type AdminInsert struct {

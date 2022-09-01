@@ -157,7 +157,7 @@ func (imp *CounterInterfaceImp) GetCar(id string) (data map[string]interface{}, 
 }
 
 // GetRecord 查询某一天的记录
-func (imp *CounterInterfaceImp) GetRecord(status int) (data []map[string]interface{}, errorMsg string, errorCode int) {
+func (imp *CounterInterfaceImp) GetRecord(status int, offset int, limit int) (data []map[string]interface{}, errorMsg string, errorCode int) {
 
 	cli := db.Get()
 	t := time.Now()
@@ -176,7 +176,7 @@ func (imp *CounterInterfaceImp) GetRecord(status int) (data []map[string]interfa
 
 	}
 
-	rows, err := cli.Table(tableName2).Where(strr).Order(" ID desc").Rows()
+	rows, err := cli.Table(tableName2).Where(strr).Order(" ID desc").Offset(offset).Limit(limit).Rows()
 	if err != nil {
 		fmt.Println("Query ", err.Error())
 

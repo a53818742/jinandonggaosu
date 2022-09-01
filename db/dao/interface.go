@@ -13,7 +13,7 @@ type CounterInterface interface {
 	UpdateCar(counter *model.WeihuapinCarUpdate) error
 	OverCar(counter *model.WeihuapinCarOver) error
 	GetCar(id string) (data map[string]interface{}, errorMsg string, errorCode int)
-	GetRecord(status int) (data []map[string]interface{}, errorMsg string, errorCode int)
+	GetRecord(status int, offset int, limit int) (data []map[string]interface{}, errorMsg string, errorCode int)
 
 	InsertAdmin(counter *model.AdminInsert) error
 	UpdateAdmin(counter *model.AdminUpdate) error
