@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"strings"
 	"time"
 
 	"wxcloudrun-golang/db/dao"
@@ -12,6 +13,10 @@ import (
 
 	"gorm.io/gorm"
 )
+
+type GetUserInfoStruct struct {
+	Openid string `json:"openid"`
+}
 
 // JsonResult 返回结构
 type JsonResult struct {
@@ -63,17 +68,27 @@ func Index2Handler(w http.ResponseWriter, r *http.Request) {
 
 func GetUserInfo(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("======GetUserInfo========", r.Header)
-
+	res := &JsonResult{}
 	BodyBytes, _ := ioutil.ReadAll(r.Body)
 
-	fmt.Println("======GetUserInfo BodyStr", string(BodyBytes))
+	j := GetUserInfoStruct{}
+
+	err := json.Unmarshal(BodyBytes, &j)
+	if err != nil {
+		res.Code = -1
+		res.ErrorMsg = "消息错误"
+		ReturnBack(w, r, *res)
+		return
+	}
+	fmt.Println("======GetUserInfo BodyStr", j.Openid)
 
 	Openid := r.Header.Get("X-Wx-Openid")
 	at := r.Header.Get("X-Wx-Cloudbase-Access-Token")
 	url := "https://api.weixin.qq.com/wxa/getopendata?openid=" + Openid + "&cloudbase_access_token=" + at
-	//payload := strings.NewReader("{\"cloudid_list\": [\""++"\"]}")
-	res := &JsonResult{}
-	response, _ := http.Post(url, "application/x-www-form-urlencoded", nil)
+	payload := strings.NewReader("{\"cloudid_list\": [\"" + j.Openid + "\"]}")
+	fmt.Println(url)
+
+	response, _ := http.Post(url, "application/raw", payload)
 
 	res.Code = 0
 	res.ErrorMsg = ""
