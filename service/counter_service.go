@@ -87,20 +87,13 @@ func GetUserInfo(w http.ResponseWriter, r *http.Request) {
 	url := "https://api.weixin.qq.com/wxa/getopendata?openid=" + Openid + "&cloudbase_access_token=" + at + "&cloudid_list=" + j.Openid
 
 	data := "{\"cloudid_list\": [\"" + j.Openid + "\"]}"
-	fmt.Println(data)
 	payload := strings.NewReader(data)
-	fmt.Println(url)
-
 	response, _ := http.Post(url, "application/json", payload)
-
 	res.Code = 0
 	res.ErrorMsg = ""
-
 	BodyBytes0, _ := ioutil.ReadAll(response.Body)
-
-	fmt.Println("GetUserInfo;", string(BodyBytes0))
-	res.Data = string(BodyBytes0)
-	ReturnBack(w, r, *res)
+	w.Header().Set("content-type", "application/json")
+	w.Write(BodyBytes0)
 }
 
 // CarOver 计数器接口
