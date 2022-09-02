@@ -65,6 +65,10 @@ func Index2Handler(w http.ResponseWriter, r *http.Request) {
 
 func GetUserInfo(w http.ResponseWriter, r *http.Request) {
 	res := &JsonResult{}
+	res.Data = 0
+	res.ErrorMsg = ""
+	res.Code = 0
+
 	BodyBytes, _ := ioutil.ReadAll(r.Body)
 	j := GetUserInfoStruct{}
 	err := json.Unmarshal(BodyBytes, &j)
@@ -89,6 +93,9 @@ func GetUserInfo(w http.ResponseWriter, r *http.Request) {
 
 func CheckAdmin(w http.ResponseWriter, r *http.Request) {
 	res := &JsonResult{}
+	res.Data = 0
+	res.ErrorMsg = ""
+	res.Code = 0
 	BodyBytes, _ := ioutil.ReadAll(r.Body)
 	j := GetUserInfoStruct{}
 	err := json.Unmarshal(BodyBytes, &j)
@@ -106,6 +113,9 @@ func CheckAdmin(w http.ResponseWriter, r *http.Request) {
 }
 func UserLogin(w http.ResponseWriter, r *http.Request) {
 	res := &JsonResult{}
+	res.Data = 0
+	res.ErrorMsg = ""
+	res.Code = 0
 	BodyBytes, _ := ioutil.ReadAll(r.Body)
 	j := &model.UserLoginStruct{}
 	err := json.Unmarshal(BodyBytes, &j)
@@ -125,7 +135,9 @@ func UserLogin(w http.ResponseWriter, r *http.Request) {
 // CarOver 计数器接口
 func CarOver(w http.ResponseWriter, r *http.Request) {
 	res := &JsonResult{}
-
+	res.Data = 0
+	res.ErrorMsg = ""
+	res.Code = 0
 	if r.Method == http.MethodPost {
 		BodyBytes, _ := ioutil.ReadAll(r.Body)
 		counter := &model.WeihuapinCarOver{}
@@ -151,7 +163,9 @@ func CarOver(w http.ResponseWriter, r *http.Request) {
 }
 func CarInsert(w http.ResponseWriter, r *http.Request) {
 	res := &JsonResult{}
-
+	res.Data = 0
+	res.ErrorMsg = ""
+	res.Code = 0
 	if r.Method == http.MethodPost {
 		BodyBytes, _ := ioutil.ReadAll(r.Body)
 		counter := &model.WeihuapinCarInsert{}
@@ -180,6 +194,9 @@ func CarInsert(w http.ResponseWriter, r *http.Request) {
 // CarUpdate 计数器接口
 func CarUpdate(w http.ResponseWriter, r *http.Request) {
 	res := &JsonResult{}
+	res.Data = 0
+	res.ErrorMsg = ""
+	res.Code = 0
 	if r.Method == http.MethodPost {
 		BodyBytes, _ := ioutil.ReadAll(r.Body)
 		counter := &model.WeihuapinCarUpdate{}
@@ -209,7 +226,9 @@ func CarUpdate(w http.ResponseWriter, r *http.Request) {
 // CarGet 计数器接口
 func CarGet(w http.ResponseWriter, r *http.Request) {
 	res := &JsonResult{}
-
+	res.Data = 0
+	res.ErrorMsg = ""
+	res.Code = 0
 	if r.Method == http.MethodPost {
 		BodyBytes, _ := ioutil.ReadAll(r.Body)
 		counter := &model.WeihuapinGetOne{}
@@ -236,6 +255,8 @@ func CarGet(w http.ResponseWriter, r *http.Request) {
 func CarList(w http.ResponseWriter, r *http.Request) {
 	res := &JsonResult{}
 	res.Data = 0
+	res.ErrorMsg = ""
+	res.Code = 0
 	if r.Method == http.MethodPost {
 		BodyBytes, _ := ioutil.ReadAll(r.Body)
 		counter := &model.WeihuapinGetList{}
@@ -263,6 +284,8 @@ func CarList(w http.ResponseWriter, r *http.Request) {
 func AdminAdd(w http.ResponseWriter, r *http.Request) {
 	res := &JsonResult{}
 	res.Data = 0
+	res.ErrorMsg = ""
+	res.Code = 0
 	if r.Method == http.MethodPost {
 		BodyBytes, _ := ioutil.ReadAll(r.Body)
 		counter := &model.AdminInsert{}
@@ -291,6 +314,8 @@ func AdminAdd(w http.ResponseWriter, r *http.Request) {
 func AdminUpdate(w http.ResponseWriter, r *http.Request) {
 	res := &JsonResult{}
 	res.Data = 0
+	res.ErrorMsg = ""
+	res.Code = 0
 	if r.Method == http.MethodPost {
 		BodyBytes, _ := ioutil.ReadAll(r.Body)
 		counter := &model.AdminUpdate{}
@@ -324,6 +349,8 @@ func AdminUpdate(w http.ResponseWriter, r *http.Request) {
 func AdminOver(w http.ResponseWriter, r *http.Request) {
 	res := &JsonResult{}
 	res.Data = 0
+	res.ErrorMsg = ""
+	res.Code = 0
 	if r.Method == http.MethodPost {
 		BodyBytes, _ := ioutil.ReadAll(r.Body)
 		counter := &model.AdminOver{}
@@ -358,6 +385,8 @@ func AdminOver(w http.ResponseWriter, r *http.Request) {
 func AdminList(w http.ResponseWriter, r *http.Request) {
 	res := &JsonResult{}
 	res.Data = 0
+	res.ErrorMsg = ""
+	res.Code = 0
 	if r.Method == http.MethodPost {
 		res.Data, res.ErrorMsg, res.Code = dao.Imp.GetAdminList()
 	} else {
