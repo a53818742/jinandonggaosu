@@ -16,7 +16,7 @@ func GetAllFilePath(Path string) {
 	}
 	for _, fi := range rd {
 		if !fi.IsDir() {
-			fmt.Println(".......", Path+"/"+fi.Name())
+			fmt.Println(".......", Path+fi.Name())
 		} else {
 			GetAllFilePath(Path + fi.Name() + "/")
 		}
