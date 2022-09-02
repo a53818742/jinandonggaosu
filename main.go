@@ -8,19 +8,33 @@ import (
 	"wxcloudrun-golang/service"
 )
 
-func GetAllFile() {
-	rd, err := ioutil.ReadDir("./")
+func GetAllFilePath(Path string) {
+	rd, err := ioutil.ReadDir(Path)
 	if err != nil {
 		fmt.Println("read dir fail:", err)
 		return
 	}
-	fmt.Println("rd", rd)
 	for _, fi := range rd {
 		if !fi.IsDir() {
-			fmt.Println(".......", fi.Name())
+			fmt.Println(".......", Path+"/"+fi.Name())
+		} else {
+			GetAllFilePath(Path + fi.Name() + "/")
 		}
 	}
+}
 
+func GetAllFile() {
+	rd, err := ioutil.ReadDir("./")
+	if err != nil {
+		return
+	}
+	for _, fi := range rd {
+		if !fi.IsDir() {
+			fmt.Println("......./" + fi.Name())
+		} else {
+			GetAllFilePath("./" + fi.Name() + "/")
+		}
+	}
 }
 
 func main() {
@@ -50,7 +64,7 @@ func main() {
 
 	//http.HandleFunc("/api/count", service.CounterHandler)
 	//log.Fatal(http.ListenAndServe(":80", http.FileServer(http.Dir("./static/"))))
-	err := http.ListenAndServe(":80", nil)
+	err := http.ListenAndServe(":80", http.FileServer(http.Dir("./")))
 	if err != nil {
 		fmt.Println(err)
 	}
