@@ -252,30 +252,39 @@
 		<div class="form">
 			<div class="fItem">
 				<span>车牌号</span>
-				<input type="text">
+				<input type="text" v-model="formInfo.carNo">
 			</div>
 			<div class="fItem">
 				<span>车辆吨位</span>
-				<input type="text">
+				<input type="text" v-model="formInfo.dunwei">
 			</div>
 			<div class="fItem">
 				<span>危化品品名/种类</span>
-				<input type="text">
+				<input type="text" v-model="formInfo.weihuapin">
 			</div>
 			<div class="fItem">
 				<span>联系人</span>
-				<input type="text">
+				<input type="text" v-model="formInfo.name">
 			</div>
 			<div class="fItem">
 				<span>联系方式</span>
-				<input type="text">
+				<input type="text" oninput="value=value.replace(/[^0-9.]/g,'')" v-model="formInfo.moble">
 			</div>
 			<div class="fItem">
 				<span>车辆状况</span>
-				<input type="text">
+				<input type="text" v-model="formInfo.zhuangkuang">
 			</div>
 		</div>
-		<div class="handleSubmit">提交</div>
+		<div class="handleSubmit" @click="handleSubmit">提交</div>
+
+		<div class="dialog" v-if="dialogVis">
+			<div class="white">
+				<p class="infoTxt">{{tipText}}</p>
+				<div class="dialogBtn">
+					<span @click="dialogVis=false">确认</span>
+				</div>
+			</div>
+		</div>
 	</div>
 </body>
 <script src="https://mat1.gtimg.com/www/asset/lib/jquery/jquery/jquery-1.11.1.min.js"></script>
@@ -287,13 +296,65 @@
 		el: "#index",
 		data() {
 			return {
-				listLoading: 1,
+				tipText: '请填写完整数据',
+				dialogVis: false,
+				phoneReg: /^1[3|4|5|7|8][0-9]\d{8}$/,
+				formInfo: {
+					carNo: '',
+					dunwei: '',
+					weihuapin: '',
+					name: '',
+					moble: '',
+					zhuangkuang: '',
+				},
 			};
 		},
 		created() {
-			console.log(this.listLoading);
 		},
 		methods: {
+			async handleSubmit() {
+				for (let i in this.formInfo) {
+					if (!this.formInfo[i]) {
+						this.tipText = '请填写完整数据';
+						this.dialogVis = true;//错误提示
+						return false
+					}
+				}
+				if (!this.phoneReg.test(this.formInfo.moble)) {
+					this.tipText = '请输入正确的手机号';
+					this.dialogVis = true;//错误提示
+					return false
+				}
+				await window.app.callContainer({
+					path: '/api/CarInsert',
+					method: 'POST',
+					header: {
+						'X-WX-SERVICE': 'golang-zqzy',
+					},
+					config: {
+						'env': 'prod-4g9w3eru303c9c3a'
+					},
+					contentType: "application/json; charset=utf-8",
+					dataType: "json",
+					data: JSON.stringify({
+						"wechartid": CurUserInfo["openId"],
+						"carNo": this.formInfo.carNo,
+						"dunwei": this.formInfo.dunwei,
+						"weihuapin": this.formInfo.weihuapin,
+						"name": this.formInfo.name,
+						"moble": this.formInfo.moble,
+						"zhuangkuang": this.formInfo.zhuangkuang,
+					}),
+					success: function (res) {
+						alert(JSON.stringify(res))
+						this.tipText = "提交成功";
+						this.dialogVis = true;//提示
+					},
+					fail: function (res) {
+						alert(JSON.stringify(res))
+					}
+				})
+			},
 		}
 	})
 </script>
