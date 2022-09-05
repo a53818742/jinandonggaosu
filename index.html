@@ -27,12 +27,92 @@
 			display: flex;
 			flex-direction: column;
 			align-items: center;
+			font-size: 14px;
+		}
+		.container .form {
+			width: 97%;
+			margin: 10px auto;
+			box-shadow: 0px 1px 10px 2px #eaeaea;
+			border-radius: 5px;
 		}
 
-		.container {
+		.container .form .fItem {
 			display: flex;
-			flex-direction: column;
+			justify-content: space-between;
 			align-items: center;
+			padding: 4% 3%;
+			border-bottom: 1px solid #eaeaea;
+		}
+
+		.container .form .fItem:nth-last-child(1) {
+			border-bottom: none;
+		}
+
+		.container .form .fItem input {
+			border: none;
+			text-align: right;
+		}
+
+		.container .handleSubmit {
+			position: fixed;
+			bottom: 0;
+			width: 100%;
+			background-color: #4694ff;
+			color: #fff;
+			text-align: center;
+			padding: 3% 0;
+		}
+
+		.container .dialog {
+			position: fixed;
+			background: rgba(0, 0, 0, .5);
+			width: 100%;
+			height: 100%;
+			top: 0;
+		}
+
+		.container .dialog .white {
+			position: absolute;
+			top: 50%;
+			background: #fff;
+			transform: translateY(-50%);
+			width: 70%;
+			left: 15%;
+			border-radius: 10px;
+			padding: 10% 0;
+			text-align: center;
+		}
+
+		.container .dialog .dialogBtn {
+			position: absolute;
+			width: 100%;
+			bottom: 0;
+			padding: 10px 0;
+			border-top: 1px solid #eaeaea;
+		}
+
+		.container .dialog .dialogBtn2 {
+			position: absolute;
+			width: 100%;
+			bottom: 0;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			border-top: 1px solid #eaeaea;
+		}
+
+		.container .dialog .dialogBtn2 span {
+			display: inline-block;
+			width: 50%;
+			padding: 10px 0;
+		}
+
+		.container .dialog .dialogBtn2 span:nth-child(1) {
+			border-right: 1px solid #eaeaea;
+		}
+
+		.container .dialog .infoTxt {
+			margin-bottom: 40px;
 		}
 
 		.count-button {
