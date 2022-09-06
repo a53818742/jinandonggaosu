@@ -457,9 +457,10 @@
 					}),
 					success: function (res) {
 						console.log(res);
-						if (res.data.data) {
+						if (res.data.data.CarNo) {
 							this.formInfo = res.data.data;
 						}
+						console.log(this.formInfo);
 					},
 					fail: function (res) {
 						alert(JSON.stringify(res))
