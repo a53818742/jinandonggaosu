@@ -7,7 +7,6 @@
 		href="https://static-index-4gtuqm3bfa95c963-1304825656.tcloudbaseapp.com/official-website/favicon.svg"
 		mce_href="https://static-index-4gtuqm3bfa95c963-1304825656.tcloudbaseapp.com/official-website/favicon.svg"
 		type="image/x-icon" />
-	<link rel="stylesheet" href="index.css">
 	<meta name="viewport"
 		content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -29,10 +28,98 @@
 			align-items: center;
 		}
 
-		.container {
+		.container .form {
+			width: 97%;
+			margin: 20px auto 0;
+			box-shadow: 0px 1px 10px 2px #eaeaea;
+			border-radius: 5px;
+		}
+
+		.container .form .fItem {
 			display: flex;
-			flex-direction: column;
+			justify-content: space-between;
 			align-items: center;
+			padding: 4% 3%;
+			color: #555;
+			border-bottom: 1px solid #eaeaea;
+		}
+
+		.container .form .fItem:nth-last-child(1) {
+			border-bottom: none;
+		}
+
+		.container .form .fItem input {
+			border: none;
+			outline: none;
+			text-align: right;
+		}
+
+		.container .handleSubmit {
+			position: fixed;
+			bottom: 0;
+			width: 100%;
+			background-color: #4694ff;
+			color: #fff;
+			text-align: center;
+			padding: 6% 0;
+		}
+
+		.container .dialog {
+			position: fixed;
+			background: rgba(0, 0, 0, .5);
+			width: 100%;
+			height: 100%;
+			top: 0;
+		}
+
+		.container .dialog .white {
+			position: absolute;
+			top: 40%;
+			background: #fff;
+			transform: translateY(-50%);
+			width: 70%;
+			left: 15%;
+			border-radius: 10px;
+			padding: 12% 0;
+			text-align: center;
+		}
+
+		.container .dialog .dialogBtn {
+			position: absolute;
+			width: 100%;
+			bottom: 0;
+			border-top: 1px solid #eaeaea;
+		}
+
+		.container .dialog .dialogBtn span {
+			display: block;
+			height: 60px;
+			line-height: 60px;
+		}
+
+		.container .dialog .dialogBtn2 {
+			position: absolute;
+			width: 100%;
+			bottom: 0;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			border-top: 1px solid #eaeaea;
+		}
+
+		.container .dialog .dialogBtn2 span {
+			display: inline-block;
+			width: 50%;
+			height: 60px;
+			line-height: 60px;
+		}
+
+		.container .dialog .dialogBtn2 span:nth-child(1) {
+			border-right: 1px solid #eaeaea;
+		}
+
+		.container .dialog .infoTxt {
+			margin-bottom: 40px;
 		}
 
 		.count-button {
@@ -252,30 +339,40 @@
 		<div class="form">
 			<div class="fItem">
 				<span>车牌号</span>
-				<input type="text">
+				<input type="text" placeholder="请输入车牌号" v-model="formInfo.carNo">
 			</div>
 			<div class="fItem">
 				<span>车辆吨位</span>
-				<input type="text">
+				<input type="text" placeholder="请输入车辆吨位" v-model="formInfo.dunwei">
 			</div>
 			<div class="fItem">
 				<span>危化品品名/种类</span>
-				<input type="text">
+				<input type="text" placeholder="请输入危化品品名/种类" v-model="formInfo.weihuapin">
 			</div>
 			<div class="fItem">
 				<span>联系人</span>
-				<input type="text">
+				<input type="text" placeholder="请输入联系人" v-model="formInfo.name">
 			</div>
 			<div class="fItem">
 				<span>联系方式</span>
-				<input type="text">
+				<input type="text" placeholder="请输入联系方式" oninput="value=value.replace(/[^0-9.]/g,'')"
+					v-model="formInfo.moble">
 			</div>
 			<div class="fItem">
 				<span>车辆状况</span>
-				<input type="text">
+				<input type="text" placeholder="请输入车辆状况" v-model="formInfo.zhuangkuang">
 			</div>
 		</div>
-		<div class="handleSubmit">提交</div>
+		<div class="handleSubmit" @click="handleSubmit">提交</div>
+
+		<div class="dialog" v-if="dialogVis">
+			<div class="white">
+				<p class="infoTxt">{{tipText}}</p>
+				<div class="dialogBtn">
+					<span @click="dialogVis=false">确认</span>
+				</div>
+			</div>
+		</div>
 	</div>
 </body>
 <script src="https://mat1.gtimg.com/www/asset/lib/jquery/jquery/jquery-1.11.1.min.js"></script>
@@ -287,17 +384,68 @@
 		el: "#index",
 		data() {
 			return {
-				listLoading: 1,
+				tipText: '请填写完整数据',
+				dialogVis: false,
+				phoneReg: /^1[3|4|5|7|8][0-9]\d{8}$/,
+				formInfo: {
+					carNo: '',
+					dunwei: '',
+					weihuapin: '',
+					name: '',
+					moble: '',
+					zhuangkuang: '',
+				},
 			};
 		},
-		created() {
-			console.log(this.listLoading);
-		},
 		methods: {
+			async handleSubmit() {
+				for (let i in this.formInfo) {
+					if (!this.formInfo[i]) {
+						this.tipText = '请填写完整数据';
+						this.dialogVis = true;//错误提示
+						return false
+					}
+				}
+				if (!this.phoneReg.test(this.formInfo.moble)) {
+					this.tipText = '请输入正确的手机号';
+					this.dialogVis = true;//错误提示
+					return false
+				}
+				await window.app.callContainer({
+					path: '/api/CarInsert',
+					method: 'POST',
+					header: {
+						'X-WX-SERVICE': 'golang-zqzy',
+					},
+					config: {
+						'env': 'prod-4g9w3eru303c9c3a'
+					},
+					contentType: "application/json; charset=utf-8",
+					dataType: "json",
+					data: JSON.stringify({
+						"wechartid": CurUserInfo["openId"],
+						"carNo": this.formInfo.carNo,
+						"dunwei": this.formInfo.dunwei,
+						"weihuapin": this.formInfo.weihuapin,
+						"name": this.formInfo.name,
+						"moble": this.formInfo.moble,
+						"zhuangkuang": this.formInfo.zhuangkuang,
+					}),
+					success: function (res) {
+						alert(JSON.stringify(res))
+						this.tipText = "提交成功";
+						this.dialogVis = true;//提示
+					},
+					fail: function (res) {
+						alert(JSON.stringify(res))
+					}
+				})
+			},
 		}
 	})
 </script>
 <script>
+	getOne();
 	async function set() {
 		await window.app.callContainer({
 			path: '/api/CarInsert',
@@ -373,6 +521,7 @@
 				"wechartid": CurUserInfo["openId"],
 			}),
 			success: function (res) {
+				console.log("getOne");
 				alert(JSON.stringify(res))
 			},
 			fail: function (res) {
