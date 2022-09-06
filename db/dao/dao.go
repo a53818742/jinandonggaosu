@@ -145,17 +145,15 @@ func (imp *CounterInterfaceImp) GetRecordNum(status int, offset int, limit int) 
 				v := string(b)   //将raw数据转换成字符串
 				ret[colName] = v //colName是键，v是值
 
-				fmt.Println("vvvvvvv", v)
 			} else {
-				fmt.Println("vvvv2222", raw_value)
 				ret[colName] = raw_value
 			}
 		}
 		break
 	}
 
-	fmt.Println(ret)
-	return 0, "", 0
+	data, _ = strconv.Atoi(ret["count(*)"].(string))
+	return data, "", 0
 }
 
 // GetWeihuapin 查询某一天的记录
