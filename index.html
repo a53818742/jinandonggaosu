@@ -443,7 +443,6 @@
 				})
 			},
 			async getOne() {
-				var that=this;
 				await window.app.callContainer({
 					path: '/api/CarGet',
 					method: 'POST',
@@ -472,6 +471,8 @@
 							};
 							this.needUpdate = new Date().getTime(); //更新
 						}
+						console.log(this.carNo);
+						console.log(this.needUpdate);
 						console.log(this.formInfo);
 					},
 					fail: function (res) {
