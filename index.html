@@ -330,6 +330,8 @@
 			} catch (e) {
 				console.log(e)
 			}
+			//获取该用户的最近的停车记录
+			getOne();
 		}
 	</script>
 </head>
@@ -411,6 +413,15 @@
 					this.dialogVis = true;//错误提示
 					return false
 				}
+				console.log(JSON.stringify({
+					"wechartid": CurUserInfo["openId"],
+					"carNo": this.formInfo.carNo,
+					"dunwei": this.formInfo.dunwei,
+					"weihuapin": this.formInfo.weihuapin,
+					"name": this.formInfo.name,
+					"moble": this.formInfo.moble,
+					"zhuangkuang": this.formInfo.zhuangkuang,
+				}));
 				await window.app.callContainer({
 					path: '/api/CarInsert',
 					method: 'POST',
@@ -445,7 +456,6 @@
 	})
 </script>
 <script>
-	getOne();
 	async function set() {
 		await window.app.callContainer({
 			path: '/api/CarInsert',
