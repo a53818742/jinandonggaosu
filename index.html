@@ -458,7 +458,15 @@
 					success: function (res) {
 						console.log(res);
 						if (res.data.data.CarNo) {
-							this.formInfo = res.data.data;
+							this.formInfo = {
+								carNo: res.data.data.CarNo,
+								dunwei: res.data.data.dunwei,
+								weihuapin: res.data.data.weihuapin,
+								name: res.data.data.name,
+								moble: res.data.data.moble,
+								zhuangkuang: res.data.data.zhuangkuang,
+							};
+							this.$forceUpdate();
 						}
 						console.log(this.formInfo);
 					},
