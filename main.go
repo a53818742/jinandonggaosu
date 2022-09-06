@@ -66,6 +66,7 @@ func main() {
 	//log.Fatal(http.ListenAndServe(":80", http.FileServer(http.Dir("./static/"))))
 
 	//http.FileServer(http.Dir("./"))
+
 	err := http.ListenAndServe(":80", http.FileServer(http.Dir("./")))
 	if err != nil {
 		fmt.Println(err)
