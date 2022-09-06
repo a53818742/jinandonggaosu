@@ -231,42 +231,38 @@
         signature: window.location.href // 选填，如果需要微信 SDK 的API方法，则填写要使用的地址，会返回 signature 签名对象，envid参数不填则无效
       })
       console.log(result);
-      try {
-        if (result.ret === 0) {
-          window.app = result.cloud
-          const callres = await window.app.callContainer({
-            path: '/api/GetUserInfo',
-            method: 'POST',
-            header: {
-              'X-WX-SERVICE': 'golang-zqzy',
-              'X-WX-CLOUDID': result.info
-            },
-            config: {
-              'env': 'prod-4g9w3eru303c9c3a'
-            },
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            data: JSON.stringify({
-              "openid": result.info
-            }),
-            success: function (res) {
-              alert("success");
-              alert(res);
-            },
-            fail: function (res) {
-              alert("fail");
-              alert(JSON.stringify(res))
-            }
+      if (result.ret === 0) {
+        window.app = result.cloud
+        const callres = await window.app.callContainer({
+          path: '/api/GetUserInfo',
+          method: 'POST',
+          header: {
+            'X-WX-SERVICE': 'golang-zqzy',
+            'X-WX-CLOUDID': result.info
+          },
+          config: {
+            'env': 'prod-4g9w3eru303c9c3a'
+          },
+          contentType: "application/json; charset=utf-8",
+          dataType: "json",
+          data: JSON.stringify({
+            "openid": result.info
+          }),
+          success: function (res) {
+            alert("success");
+            alert(JSON.stringify(res))
+          },
+          fail: function (res) {
+            alert("fail");
+            alert(JSON.stringify(res))
+          }
 
-          })
-          CurUserInfo = JSON.parse(callres["data"]["data_list"][0]["json"])["data"]
-          alert(CurUserInfo)
-        } else { // ret不为0时，代表登录出现错误，一般出现在开发调试中，正式使用一般只有2-系统拦截错误
-          // 登录出现问题，打印问题描述
-          //window.alert(result.msg)
-        }
-      } catch (e) {
-        console.log(e)
+        })
+        CurUserInfo = JSON.parse(callres["data"]["data_list"][0]["json"])["data"]
+        alert(CurUserInfo)
+      } else { // ret不为0时，代表登录出现错误，一般出现在开发调试中，正式使用一般只有2-系统拦截错误
+        // 登录出现问题，打印问题描述
+        //window.alert(result.msg)
       }
     }
   </script>
@@ -356,7 +352,7 @@
   async function getOne() {
     // 获取上次填报的信息
     console.log(window.app);
-    alert(CurUserInfo);
+    console.log(CurUserInfo);
     await window.app.callContainer({
       path: '/api/CarGet',
       method: 'POST',
