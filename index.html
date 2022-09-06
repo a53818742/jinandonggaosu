@@ -441,6 +441,7 @@
 				})
 			},
 			async getOne() {
+				var that=this;
 				await window.app.callContainer({
 					path: '/api/CarGet',
 					method: 'POST',
@@ -466,8 +467,8 @@
 								moble: res.data.data.moble,
 								zhuangkuang: res.data.data.zhuangkuang,
 							};
-							this.$nextTick(() => {
-								this.$forceUpdate();
+							that.$nextTick(() => {
+								that.$forceUpdate();
 							});
 						}
 						console.log(this.formInfo);
