@@ -160,7 +160,7 @@ func (imp *CounterInterfaceImp) GetRecordNum(status int, offset int, limit int) 
 func (imp *CounterInterfaceImp) GetWeihuapin(weihuapin string) (data []map[string]interface{}, errorMsg string, errorCode int) {
 
 	cli := db.Get()
-	rows, err := cli.Table("chemicalandyingjichuzhifangan").Where("ChemicalInfo like '%?%'", weihuapin).Rows()
+	rows, err := cli.Table("chemicalandyingjichuzhifangan").Where("ChemicalInfo like '%" + weihuapin + "%'").Rows()
 	if err != nil {
 		fmt.Println("Query ", err.Error())
 
@@ -423,7 +423,7 @@ func (imp *CounterInterfaceImp) UserLogin(username string, pwd string) bool {
 			return false
 		}
 
-		break
+		return true
 	}
-	return true
+	return false
 }
