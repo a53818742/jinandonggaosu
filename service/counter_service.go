@@ -7,10 +7,12 @@ import (
 	"net/http"
 	"strings"
 	"time"
-
 	"wxcloudrun-golang/db/dao"
 	"wxcloudrun-golang/db/model"
 )
+
+var GetTokenTime int64 = 0
+var Token string
 
 type GetUserInfoStruct struct {
 	Openid string `json:"openid"`
@@ -281,6 +283,36 @@ func CarList(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
+// CarListNum 计数器接口
+func CarListNum(w http.ResponseWriter, r *http.Request) {
+	res := &JsonResult{}
+	res.Data = 0
+	res.ErrorMsg = ""
+	res.Code = 0
+	if r.Method == http.MethodPost {
+		BodyBytes, _ := ioutil.ReadAll(r.Body)
+		counter := &model.WeihuapinGetList{}
+		err := json.Unmarshal(BodyBytes, &counter)
+		if err != nil {
+			res.Code = -4
+			res.ErrorMsg = "消息结构体错误"
+			ReturnBack(w, r, *res)
+			return
+		}
+		if counter.Status != 0 && counter.Status != 1 {
+			counter.Status = 100
+		}
+		res.Data, res.ErrorMsg, res.Code = dao.Imp.GetRecordNum(counter.Status, counter.Offset, counter.Limit)
+
+	} else {
+		res.Code = -1
+		res.ErrorMsg = fmt.Sprintf("请求方法 %s 不支持", r.Method)
+	}
+
+	ReturnBack(w, r, *res)
+	return
+}
+
 func AdminAdd(w http.ResponseWriter, r *http.Request) {
 	res := &JsonResult{}
 	res.Data = 0
@@ -406,4 +438,49 @@ func getFile(FileName string) (string, error) {
 		return "", err
 	}
 	return string(b), nil
+}
+
+func GetToken() {
+	tnow := time.Now().Unix()
+	if tnow-GetTokenTime < 7200 {
+		return
+	}
+	GetTokenTime = tnow
+	url := "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wxa806018a131603d3&secret=APPSECRET"
+	response, _ := http.Post(url, "application/json", nil)
+	BodyBytes0, _ := ioutil.ReadAll(response.Body)
+	fmt.Println(string(BodyBytes0))
+
+	//url := "https://api.weixin.qq.com/cgi-bin/message/wxopen/template/uniform_send？cloudbase_access_token=ff"
+	//data := "{\"touser\":\"oCZvY55E1d6jDmo5wnGhvbZ4ROoo\",\"template_id\":\"o2yh8P7T9K3rR9f4H_DxGpwYQntM4b3ZCv3EUnfwTQs\",\"url\":\"\",\"topcolor\":\"#FF0000\",\"data\":{\"first\":{\"value\":\"尊敬的 京A00001 车主，您已停车两个小时：\",\"color\":\"#173177\"},\"keyword1\":{\"value\":\"济南东高速服务区危化品车辆停车场\",\"color\":\"#173177\"},\"keyword2\":{\"value\":\"2022-09-06 08:49:00\",\"color\":\"#173177\"},\"keyword3\":{\"value\":\"--\",\"color\":\"#173177\"},\"keyword4\":{\"value\":\"--\",\"color\":\"#173177\"},\"keyword5\":{\"value\":\"--\",\"color\":\"#173177\"},\"remark\":{\"value\":\"祝您出行愉快！\",\"color\":\"#173177\"}}}"
+	//payload := strings.NewReader(data)
+	//response, _ := http.Post(url, "application/json", payload)
+	//
+	//BodyBytes0, _ := ioutil.ReadAll(response.Body)
+	//
+	//fmt.Println(string(BodyBytes0))
+}
+func SendMsg(msg map[string]interface{}) {
+	templateid := "o2yh8P7T9K3rR9f4H_DxGpwYQntM4b3ZCv3EUnfwTQs"
+	url := "https://api.weixin.qq.com/cgi-bin/message/wxopen/template/uniform_send？cloudbase_access_token=" + Token
+	data := "{\"touser\":\"" + msg["wechartid"].(string) + "\",\"mp_template_msg\":{\"appid\":\"wxa806018a131603d3\",\"template_id\":\"" + templateid + "\",\"url\":\"\",\"topcolor\":\"#FF0000\",\"miniprogram\":{\"appid\":\"wx032125bd60fe9474\",\"pagepath\":\"\"},\"data\":{\"first\":{\"value\":\"尊敬的 " + msg["CarNo"].(string) + " 车主，您已停车两个小时：\",\"color\":\"#173177\"},\"keyword1\":{\"value\":\"济南东高速服务区危化品车辆停车场\",\"color\":\"#173177\"},\"keyword2\":{\"value\":\"" + msg["intime"].(string) + "\",\"color\":\"#173177\"},\"keyword3\":{\"value\":\"--\",\"color\":\"#173177\"},\"keyword4\":{\"value\":\"--\",\"color\":\"#173177\"},\"keyword5\":{\"value\":\"--\",\"color\":\"#173177\"},\"remark\":{\"value\":\"祝您出行愉快！\",\"color\":\"#173177\"}}}}"
+	payload := strings.NewReader(data)
+	response, _ := http.Post(url, "application/json", payload)
+	//
+	BodyBytes0, _ := ioutil.ReadAll(response.Body)
+	//
+	fmt.Println("发送消息结果", string(BodyBytes0))
+}
+
+func ScanData() {
+
+	for {
+		GetToken()
+		data, _, _ := dao.Imp.GetMsg(7200)
+		for _, v := range data {
+			SendMsg(v)
+		}
+		time.Sleep(60 * 1000 * 1000 * 1000)
+	}
+
 }

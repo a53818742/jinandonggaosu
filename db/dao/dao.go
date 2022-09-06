@@ -98,6 +98,67 @@ func (imp *CounterInterfaceImp) GetCar(id string) (data map[string]interface{}, 
 }
 
 // GetRecord 查询某一天的记录
+func (imp *CounterInterfaceImp) GetRecordNum(status int, offset int, limit int) (data int, errorMsg string, errorCode int) {
+
+	cli := db.Get()
+	t := time.Now()
+	addTime := time.Date(t.Year(), t.Month(), t.Day(), 0, 0, 0, 0, t.Location())
+	now := addTime.Unix()
+	strr := ""
+	switch status {
+	case 0:
+		strr = " status=0"
+		break
+	case 1:
+		strr = " status=1 and intime>" + strconv.FormatInt(now, 10)
+		break
+	default:
+		strr = " status=0 or (status=1 and intime>" + strconv.FormatInt(now, 10) + ") "
+
+	}
+
+	rows, err := cli.Table(tableName2).Select("count(*)").Where(strr).Rows()
+	if err != nil {
+		fmt.Println("Query ", err.Error())
+
+		return 0, err.Error(), -100
+	}
+	defer rows.Close()
+	columns, _ := rows.Columns()            //获取列的信息
+	count := len(columns)                   //列的数量
+	var values = make([]interface{}, count) //创建一个与列的数量相当的空接口
+	for i, _ := range values {
+		var ii interface{} //为空接口分配内存
+		values[i] = &ii    //取得这些内存的指针，因后继的Scan函数只接受指针
+	}
+	ret := map[string]interface{}{} //创建返回值：不定长的map类型切片
+	for rows.Next() {
+		err0 := rows.Scan(values...) //开始读行，Scan函数只接受指针变量
+		if err0 != nil {
+			panic(err)
+		}
+		for i, colName := range columns {
+			var raw_value = *(values[i].(*interface{})) //读出raw数据，类型为byte
+			if reflect.TypeOf(raw_value) == reflect.TypeOf([]byte{0}) {
+				b, _ := raw_value.([]byte)
+
+				v := string(b)   //将raw数据转换成字符串
+				ret[colName] = v //colName是键，v是值
+
+				fmt.Println("vvvvvvv", v)
+			} else {
+				fmt.Println("vvvv2222", raw_value)
+				ret[colName] = raw_value
+			}
+		}
+		break
+	}
+
+	fmt.Println(ret)
+	return 0, "", 0
+}
+
+// GetRecord 查询某一天的记录
 func (imp *CounterInterfaceImp) GetRecord(status int, offset int, limit int) (data []map[string]interface{}, errorMsg string, errorCode int) {
 
 	cli := db.Get()
@@ -118,6 +179,50 @@ func (imp *CounterInterfaceImp) GetRecord(status int, offset int, limit int) (da
 	}
 
 	rows, err := cli.Table(tableName2).Where(strr).Order(" ID desc").Offset(offset).Limit(limit).Rows()
+	if err != nil {
+		fmt.Println("Query ", err.Error())
+
+		return nil, err.Error(), -100
+	}
+	defer rows.Close()
+	columns, _ := rows.Columns()            //获取列的信息
+	count := len(columns)                   //列的数量
+	var values = make([]interface{}, count) //创建一个与列的数量相当的空接口
+	for i, _ := range values {
+		var ii interface{} //为空接口分配内存
+		values[i] = &ii    //取得这些内存的指针，因后继的Scan函数只接受指针
+	}
+	ret := []map[string]interface{}{} //创建返回值：不定长的map类型切片
+	for rows.Next() {
+		err0 := rows.Scan(values...)  //开始读行，Scan函数只接受指针变量
+		m := map[string]interface{}{} //用于存放1列的 [键/值] 对
+		if err0 != nil {
+			panic(err)
+		}
+		for i, colName := range columns {
+			var raw_value = *(values[i].(*interface{})) //读出raw数据，类型为byte
+			if reflect.TypeOf(raw_value) == reflect.TypeOf([]byte{0}) {
+				b, _ := raw_value.([]byte)
+
+				v := string(b) //将raw数据转换成字符串
+
+				m[colName] = v //colName是键，v是值
+			} else {
+				m[colName] = raw_value
+			}
+		}
+		ret = append(ret, m) //将单行所有列的键值对附加在总的返回值上（以行为单位）
+	}
+
+	return ret, "", 0
+}
+
+// GetMsg 查询某一天的记录
+func (imp *CounterInterfaceImp) GetMsg(TimeLen int64) (data []map[string]interface{}, errorMsg string, errorCode int) {
+
+	cli := db.Get()
+
+	rows, err := cli.Table(tableName2).Where("status=0 and msgnum=0 and and inttime>" + strconv.FormatInt(time.Now().Unix()-TimeLen, 10)).Order(" ID esc").Rows()
 	if err != nil {
 		fmt.Println("Query ", err.Error())
 
