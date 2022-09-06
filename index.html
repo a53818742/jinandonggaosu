@@ -336,12 +336,12 @@
 				phoneReg: /^1[3|4|5|7|8][0-9]\d{8}$/,
 				needUpdate: 1,
 				formInfo: {
-					carNo: '',
-					dunwei: '',
-					weihuapin: '',
-					name: '',
-					moble: '',
-					zhuangkuang: '',
+					carNo: '1',
+					dunwei: '2',
+					weihuapin: '3',
+					name: '4',
+					moble: '5',
+					zhuangkuang: '6',
 				},
 			};
 		},
@@ -460,7 +460,7 @@
 					success: function (res) {
 						console.log(res);
 						if (res.data.data.CarNo) {
-							this.formInfo = {
+							that.formInfo = {
 								carNo: res.data.data.CarNo,
 								dunwei: res.data.data.dunwei,
 								weihuapin: res.data.data.weihuapin,
@@ -469,7 +469,7 @@
 								zhuangkuang: res.data.data.zhuangkuang,
 							};
 							this.needUpdate = new Date().getTime(); //更新
-							console.log(44);
+							console.log(55);
 							that.$set(this.formInfo, "dunwei", res.data.data.dunwei)
 						}
 						this.formInfo = Object.assign({}, this.formInfo)
