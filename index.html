@@ -468,13 +468,11 @@
 								moble: res.data.data.moble,
 								zhuangkuang: res.data.data.zhuangkuang,
 							};
-							this.needUpdate = new Date().getTime(); //更新
 							console.log(55);
-							that.$set(this.formInfo, "dunwei", res.data.data.dunwei)
 						}
-						this.formInfo = Object.assign({}, this.formInfo)
 						console.log(this.needUpdate);
 						console.log(this.formInfo);
+						this.needUpdate = new Date().getTime(); //更新
 					},
 					fail: function (res) {
 						alert(JSON.stringify(res))
