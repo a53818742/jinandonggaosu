@@ -443,6 +443,7 @@
 				})
 			},
 			async getOne() {
+				var that=this;
 				await window.app.callContainer({
 					path: '/api/CarGet',
 					method: 'POST',
@@ -470,8 +471,8 @@
 								zhuangkuang: res.data.data.zhuangkuang,
 							};
 							this.needUpdate = new Date().getTime(); //更新
-							console.log(11);
-							this.$set(this.formInfo, "dunwei", res.data.data.dunwei)
+							console.log(22);
+							that.$set(this.formInfo, "dunwei", res.data.data.dunwei)
 						}
 						this.formInfo = Object.assign({},this.formInfo)
 						console.log(this.carNo);
