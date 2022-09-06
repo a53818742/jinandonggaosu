@@ -335,8 +335,8 @@
 				CurRecordID: 0,//用户当前的车辆记录ID
 				CurUserInfo: {}, //当前用户信息
 				phoneReg: /^1[3|4|5|7|8][0-9]\d{8}$/,
-				needUpdate:1,
-				carNo:'',
+				needUpdate: 1,
+				carNo: '',
 				formInfo: {
 					carNo: '',
 					dunwei: '',
@@ -461,7 +461,7 @@
 					success: function (res) {
 						console.log(res);
 						if (res.data.data.CarNo) {
-							this.carNo=res.data.data.CarNo;
+							this.carNo = res.data.data.CarNo;
 							this.formInfo = {
 								carNo: res.data.data.CarNo,
 								dunwei: res.data.data.dunwei,
@@ -474,7 +474,7 @@
 							console.log(22);
 							that.$set(this.formInfo, "dunwei", res.data.data.dunwei)
 						}
-						this.formInfo = Object.assign({},this.formInfo)
+						this.formInfo = Object.assign({}, this.formInfo)
 						console.log(this.carNo);
 						console.log(this.needUpdate);
 						console.log(this.formInfo);
