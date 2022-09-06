@@ -45,8 +45,8 @@ func main() {
 	GetAllFile()
 	//http.Handle("/tmpfiles/", http.StripPrefix("/tmpfiles/", http.FileServer(http.Dir("/static"))))
 	http.HandleFunc("/", service.IndexHandler)
-	http.HandleFunc("/MP_verify_X0kqrTo5XxsuQ4bB.txt", service.IndexText)
-	http.HandleFunc("/index2.html", service.Index2Handler)
+	//http.HandleFunc("/MP_verify_X0kqrTo5XxsuQ4bB.txt", service.IndexText)
+	//http.HandleFunc("/index2.html", service.Index2Handler)
 	http.HandleFunc("/api/CarUpdate", service.CarUpdate)
 	http.HandleFunc("/api/CarInsert", service.CarInsert)
 	http.HandleFunc("/api/CarOver", service.CarOver)
@@ -66,7 +66,7 @@ func main() {
 	//log.Fatal(http.ListenAndServe(":80", http.FileServer(http.Dir("./static/"))))
 
 	//http.FileServer(http.Dir("./"))
-	err := http.ListenAndServe(":80", nil)
+	err := http.ListenAndServe(":80", http.FileServer(http.Dir("./")))
 	if err != nil {
 		fmt.Println(err)
 	}
