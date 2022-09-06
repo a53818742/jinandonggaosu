@@ -313,6 +313,34 @@ func CarListNum(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
+// GetWeihuapin 计数器接口
+func GetWeihuapin(w http.ResponseWriter, r *http.Request) {
+	res := &JsonResult{}
+	res.Data = 0
+	res.ErrorMsg = ""
+	res.Code = 0
+	if r.Method == http.MethodPost {
+		BodyBytes, _ := ioutil.ReadAll(r.Body)
+		counter := &model.WeihuapinInfo{}
+		err := json.Unmarshal(BodyBytes, &counter)
+		if err != nil {
+			res.Code = -4
+			res.ErrorMsg = "消息结构体错误"
+			ReturnBack(w, r, *res)
+			return
+		}
+
+		res.Data, res.ErrorMsg, res.Code = dao.Imp.GetWeihuapin(counter.Weihuapin)
+
+	} else {
+		res.Code = -1
+		res.ErrorMsg = fmt.Sprintf("请求方法 %s 不支持", r.Method)
+	}
+
+	ReturnBack(w, r, *res)
+	return
+}
+
 func AdminAdd(w http.ResponseWriter, r *http.Request) {
 	res := &JsonResult{}
 	res.Data = 0

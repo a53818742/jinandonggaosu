@@ -43,6 +43,7 @@ type CounterInterface interface {
 
 	GetMsg(TimeLen int64) (data []map[string]interface{}, errorMsg string, errorCode int)
 	GetRecordNum(status int, offset int, limit int) (data int, errorMsg string, errorCode int)
+	GetWeihuapin(weihuapin string) (data []map[string]interface{}, errorMsg string, errorCode int)
 }
 
 // CounterInterfaceImp 计数器数据模型实现

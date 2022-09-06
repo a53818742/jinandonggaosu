@@ -54,8 +54,9 @@ func main() {
 	http.HandleFunc("/api/CarGet", service.CarGet)
 	http.HandleFunc("/api/CarList", service.CarList)
 	http.HandleFunc("/api/CarListNum", service.CarListNum)
-	http.HandleFunc("/api/GetUserInfo", service.GetUserInfo)
 
+	http.HandleFunc("/api/GetUserInfo", service.GetUserInfo)
+	http.HandleFunc("/api/GetWeihuapin", service.GetWeihuapin)
 	http.HandleFunc("/api/AdminAdd", service.AdminAdd)
 	http.HandleFunc("/api/AdminUpdate", service.AdminUpdate)
 	http.HandleFunc("/api/AdminOver", service.AdminOver)

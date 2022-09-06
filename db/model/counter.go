@@ -54,6 +54,10 @@ type WeihuapinGetList struct {
 	Limit  int `json:"limit"`
 }
 
+type WeihuapinInfo struct {
+	Weihuapin string `json:"weihuapin"`
+}
+
 type AdminInsert struct {
 	Wechartid  string    `gorm:"column:wechartid" json:"wechartid"`
 	Level      int       `gorm:"column:level" json:"level"`
