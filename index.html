@@ -466,7 +466,9 @@
 								moble: res.data.data.moble,
 								zhuangkuang: res.data.data.zhuangkuang,
 							};
-							this.$forceUpdate();
+							this.$nextTick(() => {
+								this.$forceUpdate();
+							});
 						}
 						console.log(this.formInfo);
 					},
