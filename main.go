@@ -42,7 +42,7 @@ func main() {
 		panic(fmt.Sprintf("mysql init failed with %+v", err))
 	}
 
-	//go service.ScanData()
+	go service.ScanData()
 
 	//http.Handle("/tmpfiles/", http.StripPrefix("/tmpfiles/", http.FileServer(http.Dir("/static"))))
 	http.HandleFunc("/", service.IndexHandler)
