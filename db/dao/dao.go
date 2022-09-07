@@ -56,6 +56,12 @@ func (imp *CounterInterfaceImp) OverCar(counter *model.WeihuapinCarOver) error {
 	return cli.Table(tableName2).Save(counter).Error
 }
 
+// OverCar 更新/写入counter
+func (imp *CounterInterfaceImp) OverCar00(counter *model.WeihuapinCarOver) error {
+	cli := db.Get()
+	return cli.Table(tableName2).Save(counter).Error
+}
+
 // GetCar 查询Counter
 func (imp *CounterInterfaceImp) GetCar(id string) (data map[string]interface{}, errorMsg string, errorCode int) {
 

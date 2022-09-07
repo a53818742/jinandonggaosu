@@ -18,7 +18,9 @@ type TokenStruct struct {
 	AccessToken string `json:"access_token"`
 	ExpiresIn   string `json:"expires_in"`
 }
-
+type SendMsgCallBack struct {
+	ErrorCode string `json:"errcode"`
+}
 type GetUserInfoStruct struct {
 	Openid string `json:"openid"`
 }
@@ -515,6 +517,12 @@ func SendMsg(msg map[string]interface{}) {
 	BodyBytes0, _ := ioutil.ReadAll(response.Body)
 	//
 	fmt.Println("发送消息结果", string(BodyBytes0))
+
+	//var Cal SendMsgCallBack
+	//json.Unmarshal(BodyBytes0, &Cal)
+	//if Cal.ErrorCode == 0 {
+	//
+	//}
 }
 
 func ScanData() {
