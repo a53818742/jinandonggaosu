@@ -43,6 +43,7 @@ func main() {
 	}
 
 	service.GetToken()
+
 	GetAllFile()
 	//http.Handle("/tmpfiles/", http.StripPrefix("/tmpfiles/", http.FileServer(http.Dir("/static"))))
 	http.HandleFunc("/", service.IndexHandler)
