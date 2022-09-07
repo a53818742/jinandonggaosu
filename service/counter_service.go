@@ -502,9 +502,13 @@ func GetToken() {
 func SendMsg(msg map[string]interface{}) {
 	templateid := "o2yh8P7T9K3rR9f4H_DxGpwYQntM4b3ZCv3EUnfwTQs"
 	url := "https://api.weixin.qq.com/cgi-bin/message/wxopen/template/uniform_send?access_token=" + Token
+	url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=" + Token
 	fmt.Println(url)
 
 	data := "{\"touser\":\"" + msg["wechartid"].(string) + "\",\"mp_template_msg\":{\"appid\":\"wxa806018a131603d3\",\"template_id\":\"" + templateid + "\",\"url\":\"\",\"topcolor\":\"#FF0000\",\"miniprogram\":{\"appid\":\"wx032125bd60fe9474\",\"pagepath\":\"\"},\"data\":{\"first\":{\"value\":\"尊敬的 " + msg["CarNo"].(string) + " 车主，您已停车两个小时：\",\"color\":\"#173177\"},\"keyword1\":{\"value\":\"济南东高速服务区危化品车辆停车场\",\"color\":\"#173177\"},\"keyword2\":{\"value\":\"" + msg["intime"].(time.Time).String() + "\",\"color\":\"#173177\"},\"keyword3\":{\"value\":\"--\",\"color\":\"#173177\"},\"keyword4\":{\"value\":\"--\",\"color\":\"#173177\"},\"keyword5\":{\"value\":\"--\",\"color\":\"#173177\"},\"remark\":{\"value\":\"祝您出行愉快！\",\"color\":\"#173177\"}}}}"
+	data = "{\"touser\":\"" + msg["wechartid"].(string) + "\",\"template_id\":\"" + templateid + "\",\"data\":{\"first\":{\"value\":\"尊敬的 " + msg["CarNo"].(string) + " 车主，您已停车两个小时：\",\"color\":\"#173177\"},\"keyword1\":{\"value\":\"济南东高速服务区危化品车辆停车场\",\"color\":\"#173177\"},\"keyword2\":{\"value\":\"" + msg["intime"].(time.Time).String() + "\",\"color\":\"#173177\"},\"keyword3\":{\"value\":\"--\",\"color\":\"#173177\"},\"keyword4\":{\"value\":\"--\",\"color\":\"#173177\"},\"keyword5\":{\"value\":\"--\",\"color\":\"#173177\"},\"remark\":{\"value\":\"祝您出行愉快！\",\"color\":\"#173177\"}}}"
+
+	fmt.Println(data)
 	payload := strings.NewReader(data)
 	response, _ := http.Post(url, "application/json", payload)
 	//
