@@ -42,9 +42,8 @@ func main() {
 		panic(fmt.Sprintf("mysql init failed with %+v", err))
 	}
 
-	service.GetToken()
+	go service.ScanData()
 
-	GetAllFile()
 	//http.Handle("/tmpfiles/", http.StripPrefix("/tmpfiles/", http.FileServer(http.Dir("/static"))))
 	http.HandleFunc("/", service.IndexHandler)
 	http.HandleFunc("/MP_verify_X0kqrTo5XxsuQ4bB.txt", service.IndexText)

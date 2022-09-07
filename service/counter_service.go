@@ -14,6 +14,11 @@ import (
 var GetTokenTime int64 = 0
 var Token string
 
+type TokenStruct struct {
+	AccessToken string `json:"access_token"`
+	ExpiresIn   string `json:"expires_in"`
+}
+
 type GetUserInfoStruct struct {
 	Openid string `json:"openid"`
 }
@@ -470,7 +475,7 @@ func getFile(FileName string) (string, error) {
 
 func GetToken() {
 	tnow := time.Now().Unix()
-	if tnow-GetTokenTime < 7200 {
+	if tnow-GetTokenTime < 4000 {
 		return
 	}
 	GetTokenTime = tnow
@@ -479,6 +484,12 @@ func GetToken() {
 	BodyBytes0, _ := ioutil.ReadAll(response.Body)
 	fmt.Println("GetToken==", string(BodyBytes0))
 
+	var msgstruct TokenStruct
+
+	json.Unmarshal(BodyBytes0, &msgstruct)
+	if msgstruct.AccessToken != "" {
+		Token = msgstruct.AccessToken
+	}
 	//url := "https://api.weixin.qq.com/cgi-bin/message/wxopen/template/uniform_send？cloudbase_access_token=ff"
 	//data := "{\"touser\":\"oCZvY55E1d6jDmo5wnGhvbZ4ROoo\",\"template_id\":\"o2yh8P7T9K3rR9f4H_DxGpwYQntM4b3ZCv3EUnfwTQs\",\"url\":\"\",\"topcolor\":\"#FF0000\",\"data\":{\"first\":{\"value\":\"尊敬的 京A00001 车主，您已停车两个小时：\",\"color\":\"#173177\"},\"keyword1\":{\"value\":\"济南东高速服务区危化品车辆停车场\",\"color\":\"#173177\"},\"keyword2\":{\"value\":\"2022-09-06 08:49:00\",\"color\":\"#173177\"},\"keyword3\":{\"value\":\"--\",\"color\":\"#173177\"},\"keyword4\":{\"value\":\"--\",\"color\":\"#173177\"},\"keyword5\":{\"value\":\"--\",\"color\":\"#173177\"},\"remark\":{\"value\":\"祝您出行愉快！\",\"color\":\"#173177\"}}}"
 	//payload := strings.NewReader(data)
