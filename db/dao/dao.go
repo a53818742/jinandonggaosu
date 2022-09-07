@@ -268,6 +268,7 @@ func (imp *CounterInterfaceImp) GetMsg(TimeLen int64) (data []map[string]interfa
 
 	cli := db.Get()
 
+	fmt.Println("status=0 and msgnum=0 and  intime<" + strconv.FormatInt(time.Now().Unix()-TimeLen, 10))
 	rows, err := cli.Table(tableName2).Where("status=0 and msgnum=0 and  intime<" + strconv.FormatInt(time.Now().Unix()-TimeLen, 10)).Order(" ID ").Rows()
 	if err != nil {
 		fmt.Println("Query ", err.Error())
