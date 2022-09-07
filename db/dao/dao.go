@@ -265,9 +265,7 @@ func (imp *CounterInterfaceImp) GetRecord(status int, offset int, limit int) (da
 
 // GetMsg 查询某一天的记录
 func (imp *CounterInterfaceImp) GetMsg(TimeLen int64) (data []map[string]interface{}, errorMsg string, errorCode int) {
-
 	cli := db.Get()
-
 	rows, err := cli.Table(tableName2).Where("status=0 and msgnum=0 and  UNIX_TIMESTAMP(intime)<" + strconv.FormatInt(time.Now().Unix()-TimeLen, 10)).Order(" ID ").Rows()
 	if err != nil {
 		fmt.Println("Query ", err.Error())
