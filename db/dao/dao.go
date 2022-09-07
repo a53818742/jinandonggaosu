@@ -174,6 +174,7 @@ func (imp *CounterInterfaceImp) GetWeihuapin(weihuapin string) (data []map[strin
 		var ii interface{} //为空接口分配内存
 		values[i] = &ii    //取得这些内存的指针，因后继的Scan函数只接受指针
 	}
+
 	ret := []map[string]interface{}{} //创建返回值：不定长的map类型切片
 	for rows.Next() {
 		err0 := rows.Scan(values...) //开始读行，Scan函数只接受指针变量
