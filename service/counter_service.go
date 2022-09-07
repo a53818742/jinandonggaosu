@@ -95,12 +95,18 @@ func GetUserInfo(w http.ResponseWriter, r *http.Request) {
 	url := "https://api.weixin.qq.com/wxa/getopendata?openid=" + Openid + "&cloudbase_access_token=" + at + "&cloudid_list=" + j.Openid
 	data := "{\"cloudid_list\": [\"" + j.Openid + "\"]}"
 	payload := strings.NewReader(data)
-	response, _ := http.Post(url, "application/json", payload)
-	res.Code = 0
-	res.ErrorMsg = ""
-	BodyBytes0, _ := ioutil.ReadAll(response.Body)
-	w.Header().Set("content-type", "application/json")
-	w.Write(BodyBytes0)
+	response, e0 := http.Post(url, "application/json", payload)
+	if e0 == nil {
+		res.Code = 0
+		res.ErrorMsg = ""
+		BodyBytes0, e1 := ioutil.ReadAll(response.Body)
+		if e1 == nil {
+			w.Header().Set("content-type", "application/json")
+			w.Write(BodyBytes0)
+		}
+
+	}
+
 }
 
 func CheckAdmin(w http.ResponseWriter, r *http.Request) {
@@ -485,24 +491,17 @@ func GetToken() {
 	}
 	GetTokenTime = tnow
 	url := "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wxa806018a131603d3&secret=2e23f64187fa7aed8d528c5d0451288a"
-	response, _ := http.Post(url, "application/json", nil)
-	BodyBytes0, _ := ioutil.ReadAll(response.Body)
-	fmt.Println("GetToken==", string(BodyBytes0))
-
-	var msgstruct TokenStruct
-
-	json.Unmarshal(BodyBytes0, &msgstruct)
-	if msgstruct.AccessToken != "" {
-		Token = msgstruct.AccessToken
+	response, er0 := http.Post(url, "application/json", nil)
+	if er0 == nil {
+		BodyBytes0, e1 := ioutil.ReadAll(response.Body)
+		if e1 == nil {
+			var msgstruct TokenStruct
+			json.Unmarshal(BodyBytes0, &msgstruct)
+			if msgstruct.AccessToken != "" {
+				Token = msgstruct.AccessToken
+			}
+		}
 	}
-	//url := "https://api.weixin.qq.com/cgi-bin/message/wxopen/template/uniform_send？cloudbase_access_token=ff"
-	//data := "{\"touser\":\"oCZvY55E1d6jDmo5wnGhvbZ4ROoo\",\"template_id\":\"o2yh8P7T9K3rR9f4H_DxGpwYQntM4b3ZCv3EUnfwTQs\",\"url\":\"\",\"topcolor\":\"#FF0000\",\"data\":{\"first\":{\"value\":\"尊敬的 京A00001 车主，您已停车两个小时：\",\"color\":\"#173177\"},\"keyword1\":{\"value\":\"济南东高速服务区危化品车辆停车场\",\"color\":\"#173177\"},\"keyword2\":{\"value\":\"2022-09-06 08:49:00\",\"color\":\"#173177\"},\"keyword3\":{\"value\":\"--\",\"color\":\"#173177\"},\"keyword4\":{\"value\":\"--\",\"color\":\"#173177\"},\"keyword5\":{\"value\":\"--\",\"color\":\"#173177\"},\"remark\":{\"value\":\"祝您出行愉快！\",\"color\":\"#173177\"}}}"
-	//payload := strings.NewReader(data)
-	//response, _ := http.Post(url, "application/json", payload)
-	//
-	//BodyBytes0, _ := ioutil.ReadAll(response.Body)
-	//
-	//fmt.Println(string(BodyBytes0))
 }
 func Interface2Int(inte interface{}) int {
 	if reflect.TypeOf(inte).Kind() == reflect.String {
@@ -544,19 +543,24 @@ func SendMsg(msg map[string]interface{}) {
 	url := "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=" + Token
 	data := "{\"touser\":\"" + msg["wechartid"].(string) + "\",\"template_id\":\"" + templateid + "\",\"data\":{\"first\":{\"value\":\"尊敬的 " + msg["CarNo"].(string) + " 车主，您已停车超过两个小时：\",\"color\":\"#173177\"},\"keyword1\":{\"value\":\"济南东高速服务区危化品车辆停车场\",\"color\":\"#173177\"},\"keyword2\":{\"value\":\"" + msg["intime"].(time.Time).String()[0:19] + "\",\"color\":\"#173177\"},\"keyword3\":{\"value\":\"--\",\"color\":\"#173177\"},\"keyword4\":{\"value\":\"--\",\"color\":\"#173177\"},\"keyword5\":{\"value\":\"--\",\"color\":\"#173177\"},\"remark\":{\"value\":\"祝您出行愉快！\",\"color\":\"#173177\"}}}"
 	payload := strings.NewReader(data)
-	response, _ := http.Post(url, "application/json", payload)
-	BodyBytes0, _ := ioutil.ReadAll(response.Body)
-	fmt.Println("发送消息结果", string(BodyBytes0))
-	var Cal SendMsgCallBack
-	Cal.ErrorCode = 100
+	response, e0 := http.Post(url, "application/json", payload)
+	if e0 == nil {
+		BodyBytes0, e1 := ioutil.ReadAll(response.Body)
+		if e1 == nil {
+			fmt.Println("发送消息结果", string(BodyBytes0))
+			var Cal SendMsgCallBack
+			Cal.ErrorCode = 100
 
-	json.Unmarshal(BodyBytes0, &Cal)
-	if Cal.ErrorCode == 0 {
-		dao.Imp.OverMsg(&model.OverMsg{
-			Id:     Interface2Int(msg["ID"]),
-			MsgNum: 1,
-		})
+			json.Unmarshal(BodyBytes0, &Cal)
+			if Cal.ErrorCode == 0 {
+				dao.Imp.OverMsg(&model.OverMsg{
+					Id:     Interface2Int(msg["ID"]),
+					MsgNum: 1,
+				})
+			}
+		}
 	}
+
 }
 
 func ScanData() {
