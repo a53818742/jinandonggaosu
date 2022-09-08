@@ -242,33 +242,27 @@
 		<div class="form">
 			<div class="fItem">
 				<span>车牌号</span>
-				<input type="text" placeholder="请输入车牌号" v-bind:value="formInfo.carNo"
-					v-on:input="formInfo.carNo = $event.target.value">
+				<input type="text" placeholder="请输入车牌号" v-modele="formInfo.carNo">
 			</div>
 			<div class="fItem">
 				<span>车辆吨位</span>
-				<input type="text" placeholder="请输入车辆吨位" v-bind:value="formInfo.dunwei"
-					v-on:input="formInfo.dunwei = $event.target.value">
+				<input type="text" placeholder="请输入车辆吨位" v-modele="formInfo.dunwei">
 			</div>
 			<div class="fItem">
-				<span>危化品品名/种类</span>
-				<input type="text" placeholder="请输入危化品品名/种类" v-bind:value="formInfo.weihuapin"
-					v-on:input="formInfo.weihuapin = $event.target.value">
+				<span>危化品运输编号</span>
+				<input type="text" placeholder="请输入危化品运输编号" v-modele="formInfo.weihuapin" oninput="value=value.replace(/[^0-9.]/g,'')">
 			</div>
 			<div class="fItem">
 				<span>联系人</span>
-				<input type="text" placeholder="请输入联系人" v-bind:value="formInfo.name"
-					v-on:input="formInfo.name = $event.target.value">
+				<input type="text" placeholder="请输入联系人" v-modele="formInfo.name">
 			</div>
 			<div class="fItem">
 				<span>联系方式</span>
-				<input type="text" placeholder="请输入联系方式" v-bind:value="formInfo.moble"
-					v-on:input="formInfo.moble = $event.target.value">
+				<input type="text" placeholder="请输入联系方式" v-modele="formInfo.moble">
 			</div>
 			<div class="fItem">
 				<span>车辆状况</span>
-				<input type="text" placeholder="请输入车辆状况" v-bind:value="formInfo.zhuangkuang"
-					v-on:input="formInfo.zhuangkuang = $event.target.value">
+				<input type="text" placeholder="请输入车辆状况" v-modele="formInfo.zhuangkuang">
 			</div>
 		</div>
 		<div class="handleSubmit" @click="handleSubmit">提交</div>
@@ -303,8 +297,7 @@
 		},
 		async created() {
 			this.loadingVis = true;
-			console.log(101);
-			var that=this;
+			console.log(102);
 			let myappid = "wxa806018a131603d3";
 			const vConsole = new window.VConsole();
 			const result = await window.mplogin({
@@ -334,10 +327,8 @@
 							"openid": result.info
 						})
 					})
-					console.log(callres);
-					console.log(JSON.parse(callres));
-					that.CurUserInfo = JSON.parse(callres["data"]["data_list"][0]["json"])["data"]
-					console.log(that.CurUserInfo)
+					this.CurUserInfo = callres.data;
+					console.log(this.CurUserInfo)
 				} else { // ret不为0时，代表登录出现错误，一般出现在开发调试中，正式使用一般只有2-系统拦截错误
 					// 登录出现问题，打印问题描述
 					//window.alert(result.msg)
@@ -405,7 +396,7 @@
 					})
 				} else {
 					console.log(JSON.stringify({
-						"wechartid": that.CurUserInfo["openId"],
+						"wechartid": that.CurUserInfo["data"],
 						"carNo": that.formInfo.carNo,
 						"dunwei": that.formInfo.dunwei,
 						"weihuapin": that.formInfo.weihuapin,
@@ -426,7 +417,7 @@
 						contentType: "application/json; charset=utf-8",
 						dataType: "json",
 						data: JSON.stringify({
-							"wechartid": that.CurUserInfo["openId"],
+							"wechartid": that.CurUserInfo["data"],
 							"carNo": that.formInfo.carNo,
 							"dunwei": that.formInfo.dunwei,
 							"weihuapin": that.formInfo.weihuapin,
