@@ -75,6 +75,16 @@ func Index2Handler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, data)
 }
 
+// Index3Handler 计数器接口
+func Index3Handler(w http.ResponseWriter, r *http.Request) {
+	data, err := getFile("./index3.html")
+	if err != nil {
+		fmt.Fprint(w, "内部错误02")
+		return
+	}
+	fmt.Fprint(w, data)
+}
+
 func GetUserInfo(w http.ResponseWriter, r *http.Request) {
 	res := &JsonResult{}
 	res.Data = 0

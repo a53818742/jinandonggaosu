@@ -48,6 +48,7 @@ func main() {
 	http.HandleFunc("/", service.IndexHandler)
 	http.HandleFunc("/MP_verify_X0kqrTo5XxsuQ4bB.txt", service.IndexText)
 	http.HandleFunc("/index2.html", service.Index2Handler)
+	http.HandleFunc("/index3.html", service.Index3Handler)
 	http.HandleFunc("/api/CarUpdate", service.CarUpdate)
 	http.HandleFunc("/api/CarInsert", service.CarInsert)
 	http.HandleFunc("/api/CarOver", service.CarOver)
