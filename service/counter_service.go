@@ -113,8 +113,12 @@ func GetUserInfo(w http.ResponseWriter, r *http.Request) {
 		if e1 == nil {
 			w.Header().Set("content-type", "application/json")
 			w.Write(BodyBytes0)
+		} else {
+			fmt.Println(e1)
 		}
 
+	} else {
+		fmt.Println(e0)
 	}
 
 }
