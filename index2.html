@@ -586,11 +586,10 @@
       // 分页
       async handleMore() {
         console.log("handleMore");
-        console.log("handleMore");
         console.log(JSON.stringify({
-          "status": that.nowState,
-          "offset": that.pageIndex == 0 ? 0 : (that.pageIndex * that.limit),
-          "limit": that.limit,
+          "status": this.nowState,
+          "offset": this.pageIndex == 0 ? 0 : (this.pageIndex * this.limit),
+          "limit": this.limit,
         }));
         var that = this;
         await window.app.callContainer({
