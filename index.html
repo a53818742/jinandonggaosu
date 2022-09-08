@@ -250,7 +250,8 @@
 			</div>
 			<div class="fItem">
 				<span>危化品运输编号</span>
-				<input type="text" placeholder="请输入危化品运输编号" v-modele="formInfo.weihuapin" oninput="value=value.replace(/[^0-9.]/g,'')">
+				<input type="text" placeholder="请输入危化品运输编号" v-modele="formInfo.weihuapin"
+					oninput="value=value.replace(/[^0-9.]/g,'')">
 			</div>
 			<div class="fItem">
 				<span>联系人</span>
@@ -297,7 +298,7 @@
 		},
 		async created() {
 			this.loadingVis = true;
-			console.log(103);
+			console.log(104);
 			let myappid = "wxa806018a131603d3";
 			const vConsole = new window.VConsole();
 			const result = await window.mplogin({
@@ -329,6 +330,8 @@
 					})
 					this.CurUserInfo = callres.data;
 					console.log(this.CurUserInfo)
+					//获取该用户的最近的停车记录
+					this.getOne();
 				} else { // ret不为0时，代表登录出现错误，一般出现在开发调试中，正式使用一般只有2-系统拦截错误
 					// 登录出现问题，打印问题描述
 					//window.alert(result.msg)
@@ -336,8 +339,7 @@
 			} catch (e) {
 				console.log(e)
 			}
-			//获取该用户的最近的停车记录
-			this.getOne();
+
 		},
 		methods: {
 			async handleSubmit() {
@@ -439,6 +441,7 @@
 				}
 			},
 			async getOne() {
+				console.log('getOne');
 				var that = this;
 				await window.app.callContainer({
 					path: '/api/CarGet',
@@ -455,6 +458,7 @@
 						"wechartid": that.CurUserInfo["data"],
 					}),
 					success: function (res) {
+						console.log(res);
 						if (res.data.data.CarNo) {
 							that.isUpload = true;
 							that.formInfo = {
