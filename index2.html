@@ -489,7 +489,9 @@
           username: '',
           pwd: '',
         },
-        list: [],
+        list: [
+
+        ],
         loading: false, //分页加载
         finished: false,
         limit: 2,//每页两条
@@ -497,7 +499,7 @@
       };
     },
     async created() {
-      console.log(15);
+      console.log(16);
       let myappid = "wxa806018a131603d3";
       const vConsole = new window.VConsole();
       const result = await window.mplogin({
@@ -625,7 +627,7 @@
                 let endDate = new Date(dres[i].outtime);
                 dres[i].stoptime = (endDate - beginDate) / (1000 * 60);// stoptime //停车时长
               }
-              that.list.concat(dres);
+              that.list=that.list.concat(dres);
               console.log(that.list);
             } else {
               that.finished = true;// 数据全部加载完成
