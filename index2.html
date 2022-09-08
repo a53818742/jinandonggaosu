@@ -492,7 +492,7 @@
       };
     },
     async created() {
-      console.log(12);
+      console.log(13);
       let myappid = "wxa806018a131603d3";
       const vConsole = new window.VConsole();
       const result = await window.mplogin({
@@ -604,8 +604,8 @@
             let dres = res.data.data;
             if (res.data.data.length > 0) {
               for (let i = 0; i < dres.length; i++) {
-                dres[i].outtime = this.format(dres[i].outtime);
-                dres[i].intime = this.format(dres[i].intime);
+                dres[i].outtime = that.format(dres[i].outtime);
+                dres[i].intime = that.format(dres[i].intime);
                 let beginDate = new Date(dres[i].intime);
                 let endDate = new Date(dres[i].outtime);
                 dres[i].stoptime = (endDate - beginDate) / (1000 * 60);// stoptime //停车时长
