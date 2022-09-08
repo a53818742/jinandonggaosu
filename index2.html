@@ -11,215 +11,488 @@
     content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous" />
-  <title>欢迎使用微信云托管</title>
+  <link rel="stylesheet" href="https://unpkg.com/vant@2.12/lib/index.css" />
+  <!-- <link rel="stylesheet" href="style.css"> -->
+  <!-- 引入 Vue 和 Vant 的 JS 文件 -->
+  <script src="https://unpkg.com/vue@2.6/dist/vue.min.js"></script>
+  <script src="https://unpkg.com/vant@2.12/lib/vant.min.js"></script>
+  <title>车辆管理</title>
   <style>
+    html,
+    body,
+    .index2Main {
+      height: 100%;
+    }
+
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Droid Sans", "Helvetica Neue", "PingFang SC", "Hiragino Sans GB", "Droid Sans Fallback", "Microsoft YaHei", sans-serif;
     }
 
-    .title-logo {
-      width: 80px;
-      height: 80px;
-    }
-
-    .container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    @media screen and (min-width:1200px) {
-      body .container {
-        margin-top: 160px;
-        margin-bottom: 272px;
-      }
-    }
-
-    @media screen and (max-width:1919px) {
-      body .container {
-        margin-top: 76px;
-        margin-bottom: 128px;
-      }
-    }
-
-    .container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .count-button {
-      width: 320px;
-      height: 40px;
-      box-sizing: border-box;
-      margin: 16px 8px;
-      font-weight: 500;
-      font-size: 17px;
-      color: #FFFFFF;
-      letter-spacing: 1px;
-      text-align: center;
-      border-radius: 4px;
-    }
-
-    .count-number {
-      align-self: flex-start;
-      opacity: 0.9;
-      font-weight: 500;
-      font-size: 14px;
-      color: #000000;
-    }
-
-    .count-reset {
-      color: #576b95;
-      cursor: pointer;
-      margin-left: auto;
-    }
-
-    .count-text {
-      width: 320px;
-      height: 40px;
-      padding: 0 12px;
-      margin: 0 auto;
-      line-height: 40px;
-      text-align: left;
-      display: flex;
-      border: 1px solid rgba(0, 0, 0, 0.1);
-      border-radius: 4px;
-      opacity: 0.9;
-      box-sizing: border-box;
-      font-weight: 400;
-      font-size: 14px;
-      color: #000000;
-    }
-
-    .quote {
-      font-size: 12px;
-    }
-
-    .qrcode {
-      height: 144px;
-      width: 144px;
-      display: block;
-      margin: 0 auto;
-    }
-
-    .title {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      width: 320px;
-    }
-
-    .title-text {
-      width: 320px;
-      height: 48px;
-      text-align: center;
-      margin-top: 16px;
-      font-size: 32px;
-      opacity: 0.9;
-      font-weight: 500;
-      font-size: 32px;
-      color: #000000;
-      letter-spacing: 0;
-      line-height: 48px;
-    }
-
-    .counter-container {
-      margin-top: 48px;
-    }
-
-    .hr {
-      text-align: center;
-      position: relative;
-      z-index: 2;
-      height: 20px;
-      line-height: 20px;
-    }
-
-    .hr::after {
+    .login .loginInfo {
       position: absolute;
+      top: 8%;
+      width: 82%;
+      left: 9%;
+      color: #fff;
+    }
+
+    .login .loginInfo p {
+      margin: 0;
+      padding: 0;
+    }
+
+    .login .loginInfo .p1 {
+      font-size: 20px;
+    }
+
+    .login .loginInfo .p2 {
+      font-size: 40px;
+      font-weight: bolder;
+      margin-bottom: 26%;
+    }
+
+    .login .loginInfo .loginCon {
+      position: relative;
+      background-color: #fff;
+      border-radius: 16px;
+      padding: 40px 20px 40px;
+      box-shadow: 0px 1px 13px 0px #beccf3;
+      z-index: 9;
+    }
+
+    .login .loginInfo .loginCon .p3 {
+      position: relative;
+      color: #3780ff;
+      text-align: center;
+      padding: 10px 0;
+      font-size: 20px;
+    }
+
+    .login .loginInfo .loginCon .p3::before {
       content: '';
-      top: 10px;
-      left: 60px;
-      width: 200px;
-      border-bottom: 1px solid rgba(0, 0, 0, .1);
-      z-index: -1;
+      width: 6%;
+      height: 2px;
+      background-color: #3780ff;
+      bottom: 0;
+      position: absolute;
+      left: 47%;
     }
 
-    .hr small {
-      display: inline-block;
-      background-color: white;
+    .login .loginInfo .loginCon .i1 {
+      width: 81%;
+      position: absolute;
+      top: -18%;
+      left: -1%;
     }
 
-    .hr-text {
-      display: inline-block;
-      height: 20px;
-      font-weight: 400;
-      font-size: 14px;
-      color: rgba(0, 0, 0, 0.55);
-      letter-spacing: 0;
+    .login .loginInfo .loginCon input {
+      border: none;
+      outline: none;
+      width: 100%;
+      color: #000;
+      margin: 16px 0;
+      padding: 12px;
+      border-radius: 8px;
+      background-color: #dfecff;
+      display: block;
+    }
+
+    .login .loginInfo .loginCon .btn {
+      width: 100%;
+      background-color: #62a1fe;
+      box-shadow: 0px 1px 13px 0px #beccf3;
+      border-radius: 8px;
+      padding: 12px 0;
+      color: #fff;
+    }
+
+    .login .loginInfo .loginCon2 {
+      background-color: #fff;
+      border-radius: 16px;
+      padding: 40px;
+      box-shadow: 0px 1px 13px 0px #beccf3;
+      width: 93%;
+      margin: -20% auto 0;
+      opacity: .6;
+    }
+
+    .login .loginInfo .loginCon3 {
+      background-color: #fff;
+      border-radius: 16px;
+      padding: 40px;
+      box-shadow: 0px 1px 13px 0px #beccf3;
+      width: 78%;
+      margin: -21% auto 0;
+      opacity: .3;
+    }
+
+    .index2Main .loading {
+      position: fixed;
+      width: 50%;
+      top: 42%;
+      transform: translateY(-50%);
       text-align: center;
-      z-index: 2;
-      background-color: white;
-      padding: 0 8px;
-      line-height: 20px;
     }
 
-    .link-button {
-      width: 154px;
-      height: 48px;
-      box-sizing: border-box;
-      font-weight: 400;
-      font-size: 14px;
-      color: rgba(0, 0, 0, 0.90);
-      letter-spacing: 0;
-      text-align: center;
-      background: rgba(0, 0, 0, 0.03);
-      border-radius: 6px;
+    .list {
+      background-color: #d4e5ff;
+      height: 100%;
+    }
+
+    .list .top {
+      background-color: #4694ff;
+      border-bottom-left-radius: 20px;
+      border-bottom-right-radius: 20px;
+      padding-bottom: 14px;
+    }
+
+    .list .top ul {
       display: flex;
-      align-items: center;
-      justify-content: center;
+      justify-content: space-between;
+      margin-top: 10px;
+      color: #fff;
     }
 
-    .card {
-      margin-top: 16px;
-      width: 320px;
-      height: 200px;
-      box-sizing: border-box;
-      border: 1px solid rgba(0, 0, 0, 0.10);
-      border-radius: 5.71px;
+    .list .top li {
+      width: 33%;
+      text-align: center;
+      padding-bottom: 15px;
       position: relative;
     }
 
-    .card-text {
+    .list .top li.act::before {
+      content: '';
+      position: absolute;
+      /* width: 12%;
+    height: 3px;
+    background-color: #fff;
+    bottom: 0;
+    left: 44%; */
+
+      background: url(img/i3.png) no-repeat 0/50%;
+      width: 30%;
+      height: 13px;
+      bottom: 0;
+      left: 43%;
+    }
+
+    .list .carList {}
+
+    .list .carList .carItem {
+      background-color: #fff;
+      box-shadow: 0px 1px 13px 0px #beccf3;
+      width: 93%;
+      margin: auto;
+      border-radius: 10px;
+      margin: 15px auto;
+    }
+
+    .list .carList .carItem .d1 {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #eaeaea;
+      padding-left: 5%;
+      padding-bottom: 2%;
+    }
+
+    .list .carList .carItem .d1 img {
+      width: 30px;
+    }
+
+    .list .carList .carItem .d1 span {
+      display: inline-block;
+      font-weight: bold;
+      margin-left: 6px;
+    }
+
+    .list .carList .carItem .d1 .state {
+      color: #fff;
+      width: 25%;
       text-align: center;
-      font-weight: 400;
+      padding: 10px 0px 10px 15px;
+      border-bottom-left-radius: 50px;
+    }
+
+    .cor1 {
+      color: red;
+    }
+
+    .cor1 {
+      color: green;
+    }
+
+    .list .carList .carItem .d2 {
+      width: 88%;
+      margin: auto;
+      padding: 4% 0;
       font-size: 14px;
-      color: rgba(0, 0, 0, 0.55);
-      letter-spacing: 0;
+    }
+
+    .list .carList .carItem .d3 {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .list .carList .carItem .d3 span {
+      width: 50%;
+      margin-bottom: 10px;
+    }
+
+    .list .carList .carItem .d4 ul {
+      display: inline-block;
+
+    }
+
+    .list .carList .carItem .d4 ul li {
+      display: inline-block;
+      border: 1px solid #4694ff;
+      color: #4694ff;
+      border-radius: 50px;
+      padding: 0 8px;
+    }
+
+    .list .carList .carItem .d5 {
+      display: flex;
+      text-align: center;
+      margin: 16px 0;
+    }
+
+    .list .carList .carItem .d5 div {
+      border-right: 1px dashed #ccc;
+    }
+
+    .list .carList .carItem .d5 div:nth-last-child(1) {
+      border: none;
+    }
+
+    .list .carList .carItem .d5 .s1 {
+      font-weight: bolder;
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    .list .carList .carItem .d5 .s2 {
+      color: #666;
+    }
+
+    .list .carList .carItem .d6 {
+      border-top: 1px solid #eaeaea;
+      padding: 10px 5%;
+      text-align: right;
+    }
+
+    .list .carList .carItem .d6 .btn {
+      width: 27%;
+      border: 1px solid red;
+      border-radius: 50px;
+      color: red;
     }
   </style>
-
-
-
   <script src="https://unpkg.com/vconsole@latest/dist/vconsole.min.js"></script>
   <script src="https://res.wx.qq.com/open/js/jweixin-1.6.0.js"></script>
   <script src="https://web-9gikcbug35bad3a8-1304825656.tcloudbaseapp.com/sdk/1.3.0/cloud.js"></script>
   <script src="https://web-9gikcbug35bad3a8-1304825656.tcloudbaseapp.com/sdk/1.3.1/mplogin.min.js"></script>
-  <script>
-    /*
-    * 当前用户信息
-    * openId 唯一识别码
-    * nickName 用户昵称
-    * avatarUrl 头像
-    *
-    * */
-    let CurUserInfo = {
+</head>
 
-    }
-    let CurRecordID = 0;//用户当前的车辆记录ID
-    window.onload = async function () {
+<body>
+  <div class="index2Main" id="index2">
+    <div class="login" v-show="!isLogin">
+      <img src="img/loginBg.png" width="100%">
+      <div class="loginInfo">
+        <p class="p1">济南东高速服务区</p>
+        <p class="p2">危化品车辆管理</p>
+        <div class="loginCon">
+          <img class="i1" src="img/i1.png" width="100%">
+          <p class="p3">欢迎登陆</p>
+          <input type="text" v-model="formInfo.username" placeholder="输入账号">
+          <input type="password" v-model="formInfo.pwd" placeholder="输入密码">
+          <p class="btn" @click="handleLogin">登录</p>
+        </div>
+        <div class="loginCon2"></div>
+        <div class="loginCon3"></div>
+      </div>
+    </div>
+    <div class="list" v-show="isLogin">
+      <div class="top">
+        <van-search v-model="keywork" shape="round" background="#4694ff" placeholder="请输入搜索关键词"></van-search>
+        <ul>
+          <li :class="nowState==2?'act':''" @click="changeState(2)">全部</li>
+          <li :class="nowState==1?'act':''" @click="changeState(1)">已离开</li>
+          <li :class="nowState==0?'act':''" @click="changeState(0)">未离开</li>
+        </ul>
+      </div>
+      <van-list class="carList" v-model="loading" :finished="finished" finished-text="没有更多了" @load="handleMore">
+        <!-- <van-cell v-for="item in list" :key="item" :title="item"> -->
+        <div class="carItem" v-for="item in list" :key="item" :title="item">
+          <div class="d1">
+            <div>
+              <img src="img/i2.png">
+              <span>{{item.CarNo}}</span>
+            </div>
+            <div class="state col2" v-if="item.state==1">已离开</div>
+            <div class="state col1" v-else>未离开</div>
+          </div>
+          <div class="d2">
+            <div class="d3">
+              <span>车辆吨位：{{item.dunwei}}</span>
+              <span>车辆状况：{{item.zhuangkuang}}</span>
+            </div>
+            <div class="d3">
+              <span>联系人：{{item.name}}</span>
+              <span>联系方式：{{item.moble}}</span>
+            </div>
+            <div class="d4">
+              <span>危化品品名/种类：</span>
+              <ul>
+                <li>{{item.weihuapin}}</li>
+              </ul>
+            </div>
+            <div class="d5">
+              <div>
+                <span class="s1">{{item.intime}}</span>
+                <span class="s2">入场时间</span>
+              </div>
+              <div>
+                <span class="s1" v-if="item.state==0">-</span>
+                <span class="s1" v-else>{{item.outtime}}</span>
+                <span class="s2">离场时间</span>
+              </div>
+              <div>
+                <span class="s1" v-if="item.state==0">-</span>
+                <span class="s1" v-else>{{item.stoptime}}</span>
+                <span class="s2">停车时长</span>
+              </div>
+            </div>
+          </div>
+          <div class="d6" v-if="item.state==0">
+            <div class="btn">离场</div>
+          </div>
+        </div>
+        <!-- </van-cell> -->
+      </van-list>
+      <!-- <div class="carList">
+        <div class="carItem">
+          <div class="d1">
+            <div>
+              <img src="img/i2.png">
+              <span>鲁A123456</span>
+            </div>
+            <div class="state">已离开</div>
+          </div>
+          <div class="d2">
+            <div class="d3">
+              <span>车辆吨位：</span>
+              <span>车辆状况：</span>
+            </div>
+            <div class="d3">
+              <span>联系人：</span>
+              <span>联系方式：</span>
+            </div>
+            <div class="d4">
+              <span>危化品品名/种类：</span>
+              <ul>
+                <li>硫化氢</li>
+                <li>硫化氢2</li>
+              </ul>
+            </div>
+            <div class="d5">
+              <div>
+                <span class="s1">08-05 12:00:00r</span>
+                <span class="s2">入场时间</span>
+              </div>
+              <div>
+                <span class="s1">08-05 12:00:00r</span>
+                <span class="s2">离场时间</span>
+              </div>
+              <div>
+                <span class="s1">08-05 12:00:00r</span>
+                <span class="s2">停车时长</span>
+              </div>
+            </div>
+          </div>
+          <div class="d6">
+            <div class="btn">离场</div>
+          </div>
+        </div>
+        <div class="carItem">
+          <div class="d1">
+            <div>
+              <img src="img/i2.png">
+              <span>鲁A123456</span>
+            </div>
+            <div class="state">已离开</div>
+          </div>
+          <div class="d2">
+            <div class="d3">
+              <span>车辆吨位：</span>
+              <span>车辆状况：</span>
+            </div>
+            <div class="d3">
+              <span>联系人：</span>
+              <span>联系方式：</span>
+            </div>
+            <div class="d4">
+              <span>危化品品名/种类：</span>
+              <ul>
+                <li>硫化氢</li>
+                <li>硫化氢2</li>
+              </ul>
+            </div>
+            <div class="d5">
+              <div>
+                <span class="s1">08-05 12:00:00r</span>
+                <span class="s2">入场时间</span>
+              </div>
+              <div>
+                <span class="s1">08-05 12:00:00r</span>
+                <span class="s2">离场时间</span>
+              </div>
+              <div>
+                <span class="s1">08-05 12:00:00r</span>
+                <span class="s2">停车时长</span>
+              </div>
+            </div>
+          </div>
+          <div class="d6">
+            <div class="btn">离场</div>
+          </div>
+        </div>
+      </div>
+    </div> -->
+      <div class="loading" v-if="loadingVis">
+        <van-loading color="#0094ff" vertical>加载中...</van-loading>
+      </div>
+    </div>
+</body>
+<script src="https://mat1.gtimg.com/www/asset/lib/jquery/jquery/jquery-1.11.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
+  </script>
+<script>
+  new Vue({
+    el: "#index2",
+    data() {
+      return {
+        isLogin: false,//是否登录
+        loadingVis: false,
+        keywork: '',//关键字
+        CurRecordID: 0,//用户当前的车辆记录ID
+        CurUserInfo: {}, //当前用户信息
+        nowState: 2, //默认全部
+        formInfo: {
+          username: '',
+          pwd: '',
+        },
+        list: [],
+        loading: false, //分页加载
+        finished: false,
+        limit: 2,//每页两条
+        pageIndex: 1,//页码
+      };
+    },
+    async created() {
+      console.log(11);
       let myappid = "wxa806018a131603d3";
       const vConsole = new window.VConsole();
       const result = await window.mplogin({
@@ -230,15 +503,87 @@
         resourceAppid: myappid, // 选填，如果是资源复用模式，需要填资源方微信账号
         signature: window.location.href // 选填，如果需要微信 SDK 的API方法，则填写要使用的地址，会返回 signature 签名对象，envid参数不填则无效
       })
-      console.log(result);
-      if (result.ret === 0) {
-        window.app = result.cloud
-        const callres = await window.app.callContainer({
-          path: '/api/GetUserInfo',
+      try {
+        if (result.ret === 0) {
+          window.app = result.cloud
+          const callres = await window.app.callContainer({
+            path: '/api/GetUserInfo',
+            method: 'POST',
+            header: {
+              'X-WX-SERVICE': 'golang-zqzy',
+              'X-WX-CLOUDID': result.info
+            },
+            config: {
+              'env': 'prod-4g9w3eru303c9c3a'
+            },
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: JSON.stringify({
+              "openid": result.info
+            })
+          })
+          this.CurUserInfo = JSON.parse(callres["data"]["data_list"][0]["json"])["data"]
+          console.log(this.CurUserInfo)
+        } else { // ret不为0时，代表登录出现错误，一般出现在开发调试中，正式使用一般只有2-系统拦截错误
+          // 登录出现问题，打印问题描述
+          //window.alert(result.msg)
+        }
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    methods: {
+      // 用户登录
+      async handleLogin() {
+        var that = this;
+        if (this.formInfo.username == '' || this.formInfo.pwd == '') {
+          vant.Notify({ type: 'warning', message: '请输入用户名及密码' });
+          return false
+        } else {
+          // 用户登录
+          await window.app.callContainer({
+            path: '/api/UserLogin',
+            method: 'POST',
+            header: {
+              'X-WX-SERVICE': 'golang-zqzy',
+            },
+            config: {
+              'env': 'prod-4g9w3eru303c9c3a'
+            },
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: JSON.stringify({
+              "username": that.formInfo.username,
+              "pwd": that.formInfo.pwd,
+            }),
+            success: function (res) {
+              console.log(JSON.stringify(res))
+              if (res.data.data) {
+                that.isLogin = true;
+                that.loadingVis = true;
+                that.handleMore();
+              } else {
+                vant.Notify({ type: 'warning', message: '用户名及密码错误' });
+              }
+            },
+            fail: function (res) {
+              console.log(JSON.stringify(res))
+            }
+          })
+        }
+      },
+      // 改变状态
+      changeState(state) {
+        this.nowState = state;
+      },
+      // 分页
+      async handleMore() {
+        var that = this;
+        await window.app.callContainer({
+          path: '/api/CarList',
           method: 'POST',
           header: {
             'X-WX-SERVICE': 'golang-zqzy',
-            'X-WX-CLOUDID': result.info
           },
           config: {
             'env': 'prod-4g9w3eru303c9c3a'
@@ -246,164 +591,48 @@
           contentType: "application/json; charset=utf-8",
           dataType: "json",
           data: JSON.stringify({
-            "openid": result.info
+            "status": that.nowState,
+            "offset": that.pageIndex == 0 ? 0 : (that.pageIndex * that.limit),
+            "limit": that.limit,
           }),
           success: function (res) {
-            alert("success");
-            alert(JSON.stringify(res))
+            that.pageIndex++;
+            // 加载状态结束
+            that.loadingVis = false;
+            that.loading = false;
+            let dres = res.data.data;
+            if (res.data.data.length > 0) {
+              for (let i = 0; i < dres.length; i++) {
+                dres[i].outtime = this.format(dres[i].outtime);
+                dres[i].intime = this.format(dres[i].intime);
+                let beginDate = new Date(dres[i].intime);
+                let endDate = new Date(dres[i].outtime);
+                dres[i].stoptime = (endDate - beginDate) / (1000 * 60);// stoptime //停车时长
+              }
+              that.list.concat(dres);
+            } else {
+              that.finished = true;// 数据全部加载完成
+            }
           },
           fail: function (res) {
-            alert("fail");
-            alert(JSON.stringify(res))
+            console.log(JSON.stringify(res))
           }
-
         })
-        CurUserInfo = JSON.parse(callres["data"]["data_list"][0]["json"])["data"]
-        alert(CurUserInfo)
-      } else { // ret不为0时，代表登录出现错误，一般出现在开发调试中，正式使用一般只有2-系统拦截错误
-        // 登录出现问题，打印问题描述
-        //window.alert(result.msg)
-      }
+      },
+      format(formatTime) {
+        let a = new Date(formatTime).getTime();
+        const date = new Date(a);
+        const Y = date.getFullYear() + '-';
+        const M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+        const D = (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) + ' ';
+        const h = (date.getHours() < 10 ? '0' + date.getHours() : date.getHours()) + ':';
+        const m = (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()) + ':';
+        const s = date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds();
+        const dateString = Y + M + D + h + m + s;
+        return dateString;
+      },
     }
-  </script>
-</head>
-
-<body>
-  <div class="container">
-    <div class="title">
-      <img class="title-logo"
-        src="https://static-index-4gtuqm3bfa95c963-1304825656.tcloudbaseapp.com/official-website/favicon.svg" />
-      <div style="display: inline; margin-bottom: 48px" class="title-text">hello,world!这里是page1</div>
-      <button onclick="set()" style="display:none;">入场</button>
-      <button onclick="out()" style="display:none;">出场</button>
-      <button onclick="getOne()">获取本人记录</button>
-      <button onclick="get()" style="display:none;">获取管理数据</button>
-    </div>
-
-  </div>
-</body>
-<script src="https://mat1.gtimg.com/www/asset/lib/jquery/jquery/jquery-1.11.1.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-  integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
-  </script>
-<script>
-  async function set() {
-    // 提交 信息填报
-    await window.app.callContainer({
-      path: '/api/CarInsert',
-      method: 'POST',
-      header: {
-        'X-WX-SERVICE': 'golang-zqzy',
-      },
-      config: {
-        'env': 'prod-4g9w3eru303c9c3a'
-      },
-      contentType: "application/json; charset=utf-8",
-      dataType: "json",
-      data: JSON.stringify({
-        "wechartid": CurUserInfo["openId"],
-        "carNo": "fff000f",
-        "dunwei": 30.0,
-        "weihuapin": "硫酸;",
-        "name": "张云雷",
-        "moble": "18888888888",
-        "zhuangkuang": "良好01"
-      }),
-      success: function (res) {
-        alert(JSON.stringify(res))
-      },
-      fail: function (res) {
-        alert(JSON.stringify(res))
-      }
-    })
-
-  }
-  async function out() {
-    if (CurRecordID <= 0) {
-      alert("请先获取ID,或者入场")
-    } else {
-      // 离场
-      await window.app.callContainer({
-        path: '/api/CarOver',
-        method: 'POST',
-        header: {
-          'X-WX-SERVICE': 'golang-zqzy',
-        },
-        config: {
-          'env': 'prod-4g9w3eru303c9c3a'
-        },
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify({
-          "id": CurRecordID
-        }),
-        success: function (res) {
-          alert("hello,world")
-          CurRecordID = 0
-        },
-        fail: function (res) {
-          alert(JSON.stringify(res))
-        }
-      })
-    }
-
-
-  }
-  async function getOne() {
-    // 获取上次填报的信息
-    console.log(window.app);
-    console.log(CurUserInfo);
-    await window.app.callContainer({
-      path: '/api/CarGet',
-      method: 'POST',
-      header: {
-        'X-WX-SERVICE': 'golang-zqzy',
-      },
-      config: {
-        'env': 'prod-4g9w3eru303c9c3a'
-      },
-      contentType: "application/json; charset=utf-8",
-      dataType: "json",
-      data: JSON.stringify({
-        "wechartid": CurUserInfo["openId"],
-      }),
-      success: function (res) {
-        alert(JSON.stringify(res))
-      },
-      fail: function (res) {
-        alert(JSON.stringify(res))
-      }
-    })
-
-  }
-  async function get() {
-    // 筛选离场的
-    if (CurUserInfo["nickName"] === "唐文光") {
-      await window.app.callContainer({
-        path: '/api/CarList',
-        method: 'POST',
-        header: {
-          'X-WX-SERVICE': 'golang-zqzy',
-        },
-        config: {
-          'env': 'prod-4g9w3eru303c9c3a'
-        },
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify({
-          "status": 2,
-        }),
-        success: function (res) {
-          alert(JSON.stringify(res))
-        },
-        fail: function (res) {
-          alert(JSON.stringify(res))
-        }
-      })
-    }
-
-
-  }
+  })
 </script>
 
 </html>
