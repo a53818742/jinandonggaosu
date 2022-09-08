@@ -493,11 +493,11 @@
         loading: false, //分页加载
         finished: false,
         limit: 2,//每页两条
-        pageIndex: 1,//页码
+        pageIndex: 0,//页码
       };
     },
     async created() {
-      console.log(14);
+      console.log(15);
       let myappid = "wxa806018a131603d3";
       const vConsole = new window.VConsole();
       const result = await window.mplogin({
@@ -616,6 +616,7 @@
             that.loadingVis = false;
             that.loading = false;
             let dres = res.data.data;
+            console.log(dres);
             if (res.data.data.length > 0) {
               for (let i = 0; i < dres.length; i++) {
                 dres[i].outtime = that.format(dres[i].outtime);
@@ -625,6 +626,7 @@
                 dres[i].stoptime = (endDate - beginDate) / (1000 * 60);// stoptime //停车时长
               }
               that.list.concat(dres);
+              console.log(that.list);
             } else {
               that.finished = true;// 数据全部加载完成
             }
