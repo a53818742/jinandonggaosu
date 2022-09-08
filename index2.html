@@ -260,6 +260,7 @@
 
     .list .carList .carItem .d5 div {
       border-right: 1px dashed #ccc;
+      width: 33%;
     }
 
     .list .carList .carItem .d5 div:nth-last-child(1) {
@@ -334,8 +335,8 @@
                 src="https://prod-4g9w3eru303c9c3a-1313570671.tcloudbaseapp.com/i2.png?sign=3ed5fe9116618c6fa93cf61db844b0ed&t=1662617965">
               <span>{{item.CarNo}}</span>
             </div>
-            <div class="state col2" v-if="item.status=='1'">已离开</div>
-            <div class="state col1" v-else>未离开</div>
+            <div class="state cor2" v-if="item.status=='1'">已离开</div>
+            <div class="state cor1" v-else>未离开</div>
           </div>
           <div class="d2">
             <div class="d3">
@@ -408,8 +409,8 @@
       };
     },
     async created() {
-      console.log(17);
-      $.getJSON('https://prod-4g9w3eru303c9c3a-1313570671.tcloudbaseapp.com/CN.json?sign=2ba5dc885138ad438de53d6c964393cc&t=1662615138', function (data) {
+      console.log(18);
+      $.getJSON('https://prod-4g9w3eru303c9c3a-1313570671.tcloudbaseapp.com/UN.json?sign=6d7f58711ed1a6c700c39becc9ef047c&t=1662628795', function (data) {
         console.log("json文件数据", data);
       })
       let myappid = "wxa806018a131603d3";
@@ -497,7 +498,7 @@
       async getJson() {
         console.log("获取json");
         await window.app.callContainer({
-          path: 'https://prod-4g9w3eru303c9c3a-1313570671.tcloudbaseapp.com/CN.json?sign=2ba5dc885138ad438de53d6c964393cc&t=1662615138',
+          path: 'https://prod-4g9w3eru303c9c3a-1313570671.tcloudbaseapp.com/UN.json?sign=6d7f58711ed1a6c700c39becc9ef047c&t=1662628795',
           method: 'GET',
           contentType: "application/json; charset=utf-8",
           dataType: "json",
