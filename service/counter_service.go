@@ -101,25 +101,31 @@ func GetUserInfo(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	Openid := r.Header.Get("X-Wx-Openid")
-	at := r.Header.Get("X-Wx-Cloudbase-Access-Token")
-	url := "https://api.weixin.qq.com/wxa/getopendata?openid=" + Openid + "&cloudbase_access_token=" + at + "&cloudid_list=" + j.Openid
-	data := "{\"cloudid_list\": [\"" + j.Openid + "\"]}"
-	payload := strings.NewReader(data)
-	response, e0 := http.Post(url, "application/json", payload)
-	if e0 == nil {
-		res.Code = 0
-		res.ErrorMsg = ""
-		BodyBytes0, e1 := ioutil.ReadAll(response.Body)
-		if e1 == nil {
-			w.Header().Set("content-type", "application/json")
-			w.Write(BodyBytes0)
-		} else {
-			fmt.Println(e1)
-		}
+	res.Data = Openid
 
-	} else {
-		fmt.Println(e0)
-	}
+	ReturnBack(w, r, *res)
+
+	//at := r.Header.Get("X-Wx-Cloudbase-Access-Token")
+	//url := "https://api.weixin.qq.com/wxa/getopendata?openid=" + Openid + "&cloudbase_access_token=" + at + "&cloudid_list=" + j.Openid
+	//data := "{\"cloudid_list\": [\"" + j.Openid + "\"]}"
+	//payload := strings.NewReader(data)
+	//response, e0 := http.Post(url, "application/json", payload)
+	//if e0 == nil {
+	//	res.Code = 0
+	//	res.ErrorMsg = ""
+	//
+	//	BodyBytes0, e1 := ioutil.ReadAll(response.Body)
+	//	BodyBytes0 := []byte("")
+	//	if e1 == nil {
+	//		w.Header().Set("content-type", "application/json")
+	//		w.Write(BodyBytes0)
+	//	} else {
+	//		fmt.Println(e1)
+	//	}
+	//
+	//} else {
+	//	fmt.Println(e0)
+	//}
 
 }
 
