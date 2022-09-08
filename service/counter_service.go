@@ -366,7 +366,7 @@ func GetWeihuapin(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		res.Data, res.ErrorMsg, res.Code = dao.Imp.GetWeihuapin(counter.Weihuapin)
+		res.Data, res.ErrorMsg, res.Code = dao.Imp.GetWeihuapinByUN(counter.Weihuapin)
 
 	} else {
 		res.Code = -1
