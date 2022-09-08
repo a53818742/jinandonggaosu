@@ -297,7 +297,7 @@
 		},
 		async created() {
 			this.loadingVis = true;
-			console.log(102);
+			console.log(103);
 			let myappid = "wxa806018a131603d3";
 			const vConsole = new window.VConsole();
 			const result = await window.mplogin({
@@ -452,7 +452,7 @@
 					contentType: "application/json; charset=utf-8",
 					dataType: "json",
 					data: JSON.stringify({
-						"wechartid": this.CurUserInfo["openId"],
+						"wechartid": that.CurUserInfo["data"],
 					}),
 					success: function (res) {
 						if (res.data.data.CarNo) {
