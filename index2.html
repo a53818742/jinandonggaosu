@@ -298,12 +298,16 @@
 <body>
   <div class="index2Main" id="index2">
     <div class="login" v-show="!isLogin">
-      <img src="https://prod-4g9w3eru303c9c3a-1313570671.tcloudbaseapp.com/loginBg.png?sign=062c6f9e4f3e435478ce53385bc01a85&t=1662617943" width="100%">
+      <img
+        src="https://prod-4g9w3eru303c9c3a-1313570671.tcloudbaseapp.com/loginBg.png?sign=062c6f9e4f3e435478ce53385bc01a85&t=1662617943"
+        width="100%">
       <div class="loginInfo">
         <p class="p1">济南东高速服务区</p>
         <p class="p2">危化品车辆管理</p>
         <div class="loginCon">
-          <img class="i1" src="https://prod-4g9w3eru303c9c3a-1313570671.tcloudbaseapp.com/i1.png?sign=c141bd7ab8e0c99ce77da5b0c9db52c5&t=1662617953" width="100%">
+          <img class="i1"
+            src="https://prod-4g9w3eru303c9c3a-1313570671.tcloudbaseapp.com/i1.png?sign=c141bd7ab8e0c99ce77da5b0c9db52c5&t=1662617953"
+            width="100%">
           <p class="p3">欢迎登陆</p>
           <input type="text" v-model="formInfo.username" placeholder="输入账号">
           <input type="password" v-model="formInfo.pwd" placeholder="输入密码">
@@ -327,7 +331,8 @@
         <div class="carItem" v-for="item in list" :key="item" :title="item">
           <div class="d1">
             <div>
-              <img src="https://prod-4g9w3eru303c9c3a-1313570671.tcloudbaseapp.com/i2.png?sign=3ed5fe9116618c6fa93cf61db844b0ed&t=1662617965">
+              <img
+                src="https://prod-4g9w3eru303c9c3a-1313570671.tcloudbaseapp.com/i2.png?sign=3ed5fe9116618c6fa93cf61db844b0ed&t=1662617965">
               <span>{{item.CarNo}}</span>
             </div>
             <div class="state col2" v-if="item.state==1">已离开</div>
@@ -492,7 +497,7 @@
       };
     },
     async created() {
-      console.log(13);
+      console.log(14);
       let myappid = "wxa806018a131603d3";
       const vConsole = new window.VConsole();
       const result = await window.mplogin({
@@ -523,7 +528,7 @@
             })
           })
           this.CurUserInfo = callres.data;
-					console.log(this.CurUserInfo)
+          console.log(this.CurUserInfo)
           // this.CurUserInfo = JSON.parse(callres["data"]["data_list"][0]["json"])["data"]
         } else { // ret不为0时，代表登录出现错误，一般出现在开发调试中，正式使用一般只有2-系统拦截错误
           // 登录出现问题，打印问题描述
@@ -562,6 +567,7 @@
               if (res.data.data) {
                 that.isLogin = true;
                 that.loadingVis = true;
+                console.log("请求handleMore");
                 that.handleMore();
               } else {
                 vant.Notify({ type: 'warning', message: '用户名及密码错误' });
@@ -579,6 +585,13 @@
       },
       // 分页
       async handleMore() {
+        console.log("handleMore");
+        console.log("handleMore");
+        console.log(JSON.stringify({
+          "status": that.nowState,
+          "offset": that.pageIndex == 0 ? 0 : (that.pageIndex * that.limit),
+          "limit": that.limit,
+        }));
         var that = this;
         await window.app.callContainer({
           path: '/api/CarList',
@@ -597,6 +610,8 @@
             "limit": that.limit,
           }),
           success: function (res) {
+            console.log("success");
+            console.log(res);
             that.pageIndex++;
             // 加载状态结束
             that.loadingVis = false;
