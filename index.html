@@ -303,7 +303,7 @@
 		},
 		async created() {
 			this.loadingVis = true;
-			console.log(100);
+			console.log(101);
 			var that=this;
 			let myappid = "wxa806018a131603d3";
 			const vConsole = new window.VConsole();
@@ -334,6 +334,8 @@
 							"openid": result.info
 						})
 					})
+					console.log(callres);
+					console.log(JSON.parse(callres));
 					that.CurUserInfo = JSON.parse(callres["data"]["data_list"][0]["json"])["data"]
 					console.log(that.CurUserInfo)
 				} else { // ret不为0时，代表登录出现错误，一般出现在开发调试中，正式使用一般只有2-系统拦截错误
