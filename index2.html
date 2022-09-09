@@ -1589,7 +1589,7 @@
       };
     },
     async created() {
-      console.log(21);
+      console.log(22);
       let myappid = "wxa806018a131603d3";
       const vConsole = new window.VConsole();
       const result = await window.mplogin({
@@ -1717,7 +1717,8 @@
               for (let i = 0; i < dres.length; i++) {
                 dres[i].outtime = that.format(dres[i].outtime);
                 dres[i].intime = that.format(dres[i].intime);
-                dres[i].weihuapinName = that.cnJson(dres[i].weihuapin);
+                console.log(that.cnJson);
+                dres[i].weihuapinName = that.cnJson[dres[i].weihuapin];
                 let beginDate = new Date(dres[i].intime);
                 let endDate = new Date(dres[i].outtime);
                 dres[i].stoptime = (endDate - beginDate) / (1000 * 60);// stoptime //停车时长
