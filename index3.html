@@ -140,8 +140,8 @@
                 }),
                 success: function (res) {
                     console.log(res);
-                    if (res.data.length) {
-                        that.info = res.data[0];
+                    if (res.data.data.length) {
+                        that.info = res.data.data[0];
                     } else {
                         vant.Toast('暂无该产品信息');
                     }
