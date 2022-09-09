@@ -1589,7 +1589,7 @@
       };
     },
     async created() {
-      console.log(24);
+      console.log(25);
       var token=sessionStorage.getItem("token");
       console.log(token);
       if(token){
@@ -1786,7 +1786,7 @@
       },
       //跳转页面
       jumpIndex3(id,name){
-        location.href='index3.html?code='+id+'&codeName='+name;
+        location.href='index3.html?code='+id+'&codeName='+encodeURI(name);
       },
     }
   })
