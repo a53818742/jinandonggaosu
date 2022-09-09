@@ -200,7 +200,7 @@ func (imp *CounterInterfaceImp) GetWeihuapinByCN(weihuapin string) (data []map[s
 		}
 		ret = append(ret, m)
 	}
-
+	fmt.Println("GetWeihuapinByCN", len(ret), ret)
 	return ret, "", 0
 }
 
