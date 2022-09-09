@@ -1580,12 +1580,11 @@
         },
         loading: false, //分页加载
         finished: false,
-        limit: 2,//每页两条
+        limit: 10,//每页两条
         pageIndex: 0,//页码
       };
     },
     async created() {
-      console.log(27);
       var token = sessionStorage.getItem("token");
       if (token) {
         this.isLogin = true;
@@ -1621,7 +1620,6 @@
           })
           this.CurUserInfo = callres.data;
           console.log(this.CurUserInfo)
-          // this.CurUserInfo = JSON.parse(callres["data"]["data_list"][0]["json"])["data"]
         } else { // ret不为0时，代表登录出现错误，一般出现在开发调试中，正式使用一般只有2-系统拦截错误
           // 登录出现问题，打印问题描述
           //window.alert(result.msg)
@@ -1657,12 +1655,10 @@
               "pwd": that.formInfo.pwd,
             }),
             success: function (res) {
-              console.log(JSON.stringify(res))
               if (res.data.data) {
                 sessionStorage.setItem('token', true);
                 that.isLogin = true;
                 that.loadingVis = true;
-                console.log("请求handleMore");
                 that.handleMore();
               } else {
                 vant.Notify({ type: 'warning', message: '用户名及密码错误' });
@@ -1676,7 +1672,6 @@
       },
       // 改变状态
       changeState(state) {
-        console.log("改变状态");
         this.nowState = state;
         this.list = [];
         this.pageIndex = 0;
@@ -1684,12 +1679,6 @@
       },
       // 分页
       async handleMore() {
-        console.log("handleMore");
-        console.log(JSON.stringify({
-          "status": this.nowState,
-          "offset": this.pageIndex == 0 ? 0 : (this.pageIndex * this.limit),
-          "limit": this.limit,
-        }));
         var that = this;
         await window.app.callContainer({
           path: '/api/CarList',
@@ -1708,26 +1697,21 @@
             "limit": that.limit,
           }),
           success: function (res) {
-            console.log("success");
-            console.log(res);
             that.pageIndex++;
             // 加载状态结束
             that.loadingVis = false;
             that.loading = false;
             let dres = res.data.data;
-            console.log(dres);
             if (res.data.data.length > 0) {
               for (let i = 0; i < dres.length; i++) {
                 dres[i].outtime = that.format(dres[i].outtime);
                 dres[i].intime = that.format(dres[i].intime);
-                console.log(that.cnJson);
                 dres[i].weihuapinName = that.cnJson[dres[i].weihuapin];
                 let beginDate = new Date(dres[i].intime);
                 let endDate = new Date(dres[i].outtime);
                 dres[i].stoptime = (endDate - beginDate) / (1000 * 60);// stoptime //停车时长
               }
               that.list = that.list.concat(dres);
-              console.log(that.list);
             } else {
               that.finished = true;// 数据全部加载完成
             }
@@ -1749,35 +1733,40 @@
       },
       // 离场
       async handleOut(id) {
-        console.log("离场");
         var that = this;
-        // 离场
-        await window.app.callContainer({
-          path: '/api/CarOver',
-          method: 'POST',
-          header: {
-            'X-WX-SERVICE': 'golang-zqzy',
-          },
-          config: {
-            'env': 'prod-4g9w3eru303c9c3a'
-          },
-          contentType: "application/json; charset=utf-8",
-          dataType: "json",
-          data: JSON.stringify({
-            "id": id
-          }),
-          success: function (res) {
-            console.log("离场success");
-            console.log(res);
-            that.handleMore();
-            that.pageIndex = 0;
-            that.list = [];
-            vant.Notify({ type: 'success', message: '已离场' });
-          },
-          fail: function (res) {
-            alert(JSON.stringify(res))
-          }
+        vant.Dialog.confirm({
+          title: '提示',
+          message: '是否确认该车辆已离场',
         })
+          .then(async () => {
+            await window.app.callContainer({
+              path: '/api/CarOver',
+              method: 'POST',
+              header: {
+                'X-WX-SERVICE': 'golang-zqzy',
+              },
+              config: {
+                'env': 'prod-4g9w3eru303c9c3a'
+              },
+              contentType: "application/json; charset=utf-8",
+              dataType: "json",
+              data: JSON.stringify({
+                "id": id
+              }),
+              success: function (res) {
+                that.handleMore();
+                that.pageIndex = 0;
+                that.list = [];
+                vant.Toast.success('已离场');
+              },
+              fail: function (res) {
+                alert(JSON.stringify(res))
+              }
+            })
+          })
+          .catch(() => {
+            // on cancel
+          });
       },
       //跳转页面
       jumpIndex3(id, name) {
