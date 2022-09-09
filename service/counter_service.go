@@ -357,6 +357,8 @@ func GetWeihuapin(w http.ResponseWriter, r *http.Request) {
 	res.Code = 0
 	if r.Method == http.MethodPost {
 		BodyBytes, _ := ioutil.ReadAll(r.Body)
+
+		fmt.Println("GetWeihuapin", string(BodyBytes))
 		counter := &model.WeihuapinInfo{}
 		err := json.Unmarshal(BodyBytes, &counter)
 		if err != nil {
