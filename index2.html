@@ -239,7 +239,7 @@
       margin-bottom: 10px;
     }
 
-    .list .carList .carItem .d4 a {
+    .list .carList .carItem .d4 .code {
       border: 1px solid #4694ff;
       color: #4694ff;
       border-radius: 50px;
@@ -343,7 +343,7 @@
             </div>
             <div class="d4">
               <span>危化品运输编号：</span>
-              <a href="index3.html?code='item.weihuapin'">{{item.weihuapinName}}</a>
+              <span class="code" @click="jumpIndex3(item.weihuapin)">{{item.weihuapinName}}</span>
             </div>
             <div class="d5">
               <div>
@@ -1589,7 +1589,12 @@
       };
     },
     async created() {
-      console.log(22);
+      console.log(23);
+      var token=sessionStorage.getItem("token");
+      console.log(token);
+      if(token){
+        this.isLogin=true;
+      }
       let myappid = "wxa806018a131603d3";
       const vConsole = new window.VConsole();
       const result = await window.mplogin({
@@ -1657,6 +1662,7 @@
             success: function (res) {
               console.log(JSON.stringify(res))
               if (res.data.data) {
+                sessionStorage.setItem('token',true);
                 that.isLogin = true;
                 that.loadingVis = true;
                 console.log("请求handleMore");
@@ -1775,7 +1781,11 @@
             alert(JSON.stringify(res))
           }
         })
-      }
+      },
+      //跳转页面
+      jumpIndex3(id){
+        location.href='index3.html?code='+id;
+      },
     }
   })
 </script>
