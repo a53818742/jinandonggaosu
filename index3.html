@@ -104,14 +104,14 @@
             return {
                 loadingVis: true,
                 info: {},
-                codeName:'',
+                codeName: '',
             };
         },
         async created() {
             let code = this.getQueryString("code");
             let name = this.getQueryString("codeName");
             document.title = decodeURIComponent(decodeURIComponent(name));//网页标题
-            this.codeName=decodeURIComponent(decodeURIComponent(name));
+            this.codeName = decodeURIComponent(decodeURIComponent(name));
             var that = this;
             let myappid = "wxa806018a131603d3";
             const vConsole = new window.VConsole();
@@ -139,9 +139,10 @@
                     "weihuapin": code,
                 }),
                 success: function (res) {
+                    console.log(res);
                     if (res.data.length) {
                         that.info = res.data[0];
-                    }else{
+                    } else {
                         vant.Toast('暂无该产品信息');
                     }
                     that.loadingVis = false;
