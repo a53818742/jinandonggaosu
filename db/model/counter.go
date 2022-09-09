@@ -47,6 +47,7 @@ type WeihuapinCarOver struct {
 type OverMsg struct {
 	Id     int `gorm:"column:ID" json:"ID"`
 	MsgNum int `gorm:"column:msgnum" json:"msgnum"`
+	Status int `gorm:"column:status" json:"status"`
 }
 
 type WeihuapinGetOne struct {

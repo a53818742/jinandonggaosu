@@ -304,7 +304,7 @@ func (imp *CounterInterfaceImp) GetRecord(status int, offset int, limit int) (da
 		strr = " status=1 and intime>" + strconv.FormatInt(now, 10)
 		break
 	default:
-		strr = " status=0 or (status=1 and intime>" + strconv.FormatInt(now, 10) + ") "
+		strr = " status=0 or (status=1 and UNIX_TIMESTAMP(intime)>" + strconv.FormatInt(now, 10) + ") "
 
 	}
 
