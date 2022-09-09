@@ -385,7 +385,7 @@
     el: "#index2",
     data() {
       return {
-        isLogin: true,//是否登录
+        isLogin: false,//是否登录
         loadingVis: false,
         keywork: '',//关键字
         CurRecordID: 0,//用户当前的车辆记录ID
@@ -1593,7 +1593,7 @@
       };
     },
     async created() {
-      console.log(19);
+      console.log(20);
       let myappid = "wxa806018a131603d3";
       const vConsole = new window.VConsole();
       const result = await window.mplogin({
