@@ -107,10 +107,10 @@
             };
         },
         async created() {
-            console.log(1);
+            console.log(2);
             let code = this.getQueryString("code");
             let name = this.getQueryString("codeName");
-            document.title = name;//网页标题
+            document.title = decodeURI(name);//网页标题
             console.log(code);
             var that = this;
             await window.app.callContainer({
