@@ -343,7 +343,7 @@
             </div>
             <div class="d4">
               <span>危化品运输编号：</span>
-              <span class="code" @click="jumpIndex3(item.weihuapin)">{{item.weihuapinName}}</span>
+              <span class="code" @click="jumpIndex3(item.weihuapin,item.weihuapinName)">{{item.weihuapinName}}</span>
             </div>
             <div class="d5">
               <div>
@@ -1589,7 +1589,7 @@
       };
     },
     async created() {
-      console.log(23);
+      console.log(24);
       var token=sessionStorage.getItem("token");
       console.log(token);
       if(token){
@@ -1634,6 +1634,8 @@
       } catch (e) {
         console.log(e)
       }
+      console.log('created handleMore');
+      this.handleMore();
     },
     methods: {
       // 用户登录
@@ -1783,8 +1785,8 @@
         })
       },
       //跳转页面
-      jumpIndex3(id){
-        location.href='index3.html?code='+id;
+      jumpIndex3(id,name){
+        location.href='index3.html?code='+id+'&codeName='+name;
       },
     }
   })
