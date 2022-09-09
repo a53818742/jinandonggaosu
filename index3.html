@@ -2,408 +2,152 @@
 <html>
 
 <head>
-  <meta charset="utf-8" />
-  <link rel="shortcut icon"
-    href="https://static-index-4gtuqm3bfa95c963-1304825656.tcloudbaseapp.com/official-website/favicon.svg"
-    mce_href="https://static-index-4gtuqm3bfa95c963-1304825656.tcloudbaseapp.com/official-website/favicon.svg"
-    type="image/x-icon" />
-  <meta name="viewport"
-    content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous" />
-  <title>欢迎使用微信云托管</title>
-  <style>
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Droid Sans", "Helvetica Neue", "PingFang SC", "Hiragino Sans GB", "Droid Sans Fallback", "Microsoft YaHei", sans-serif;
-    }
+    <meta charset="utf-8" />
+    <link rel="shortcut icon"
+        href="https://static-index-4gtuqm3bfa95c963-1304825656.tcloudbaseapp.com/official-website/favicon.svg"
+        mce_href="https://static-index-4gtuqm3bfa95c963-1304825656.tcloudbaseapp.com/official-website/favicon.svg"
+        type="image/x-icon" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://unpkg.com/vant@2.12/lib/index.css" />
+    <!-- 引入 Vue 和 Vant 的 JS 文件 -->
+    <script src="https://unpkg.com/vue@2.6/dist/vue.min.js"></script>
+    <script src="https://unpkg.com/vant@2.12/lib/vant.min.js"></script>
+    <title>化学品信息</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Droid Sans", "Helvetica Neue", "PingFang SC", "Hiragino Sans GB", "Droid Sans Fallback", "Microsoft YaHei", sans-serif;
+            background-color: #5a87fc;
+        }
 
-    .title-logo {
-      width: 80px;
-      height: 80px;
-    }
+        .detailMain .tit {
+            position: absolute;
+            width: 60%;
+            left: 20%;
+            top: 6%;
+            background: url(img/i4.png) no-repeat 0 0/contain;
+            height: 60px;
+            line-height: 55px;
+            color: #fff;
+            text-align: center;
+            font-size: 20px;
+        }
 
-    .container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
+        .detailMain .info {
+            background-color: #d3e0ff;
+            width: 90%;
+            margin: auto;
+            border-radius: 7px;
+            position: absolute;
+            top: 17%;
+            left: 5%;
+            padding: 4%;
+        }
 
-    @media screen and (min-width:1200px) {
-      body .container {
-        margin-top: 160px;
-        margin-bottom: 272px;
-      }
-    }
+        .detailMain .info .p1 {
+            width: 50%;
+            background: #ffdb01;
+            text-align: center;
+            margin: auto;
+            font-weight: bold;
+            padding: 5px;
+        }
 
-    @media screen and (max-width:1919px) {
-      body .container {
-        margin-top: 76px;
-        margin-bottom: 128px;
-      }
-    }
-
-    .container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .count-button {
-      width: 320px;
-      height: 40px;
-      box-sizing: border-box;
-      margin: 16px 8px;
-      font-weight: 500;
-      font-size: 17px;
-      color: #FFFFFF;
-      letter-spacing: 1px;
-      text-align: center;
-      border-radius: 4px;
-    }
-
-    .count-number {
-      align-self: flex-start;
-      opacity: 0.9;
-      font-weight: 500;
-      font-size: 14px;
-      color: #000000;
-    }
-
-    .count-reset {
-      color: #576b95;
-      cursor: pointer;
-      margin-left: auto;
-    }
-
-    .count-text {
-      width: 320px;
-      height: 40px;
-      padding: 0 12px;
-      margin: 0 auto;
-      line-height: 40px;
-      text-align: left;
-      display: flex;
-      border: 1px solid rgba(0, 0, 0, 0.1);
-      border-radius: 4px;
-      opacity: 0.9;
-      box-sizing: border-box;
-      font-weight: 400;
-      font-size: 14px;
-      color: #000000;
-    }
-
-    .quote {
-      font-size: 12px;
-    }
-
-    .qrcode {
-      height: 144px;
-      width: 144px;
-      display: block;
-      margin: 0 auto;
-    }
-
-    .title {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      width: 320px;
-    }
-
-    .title-text {
-      width: 320px;
-      height: 48px;
-      text-align: center;
-      margin-top: 16px;
-      font-size: 32px;
-      opacity: 0.9;
-      font-weight: 500;
-      font-size: 32px;
-      color: #000000;
-      letter-spacing: 0;
-      line-height: 48px;
-    }
-
-    .counter-container {
-      margin-top: 48px;
-    }
-
-    .hr {
-      text-align: center;
-      position: relative;
-      z-index: 2;
-      height: 20px;
-      line-height: 20px;
-    }
-
-    .hr::after {
-      position: absolute;
-      content: '';
-      top: 10px;
-      left: 60px;
-      width: 200px;
-      border-bottom: 1px solid rgba(0, 0, 0, .1);
-      z-index: -1;
-    }
-
-    .hr small {
-      display: inline-block;
-      background-color: white;
-    }
-
-    .hr-text {
-      display: inline-block;
-      height: 20px;
-      font-weight: 400;
-      font-size: 14px;
-      color: rgba(0, 0, 0, 0.55);
-      letter-spacing: 0;
-      text-align: center;
-      z-index: 2;
-      background-color: white;
-      padding: 0 8px;
-      line-height: 20px;
-    }
-
-    .link-button {
-      width: 154px;
-      height: 48px;
-      box-sizing: border-box;
-      font-weight: 400;
-      font-size: 14px;
-      color: rgba(0, 0, 0, 0.90);
-      letter-spacing: 0;
-      text-align: center;
-      background: rgba(0, 0, 0, 0.03);
-      border-radius: 6px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .card {
-      margin-top: 16px;
-      width: 320px;
-      height: 200px;
-      box-sizing: border-box;
-      border: 1px solid rgba(0, 0, 0, 0.10);
-      border-radius: 5.71px;
-      position: relative;
-    }
-
-    .card-text {
-      text-align: center;
-      font-weight: 400;
-      font-size: 14px;
-      color: rgba(0, 0, 0, 0.55);
-      letter-spacing: 0;
-    }
-  </style>
-
-
-
-  <script src="https://unpkg.com/vconsole@latest/dist/vconsole.min.js"></script>
-  <script src="https://res.wx.qq.com/open/js/jweixin-1.6.0.js"></script>
-  <script src="https://web-9gikcbug35bad3a8-1304825656.tcloudbaseapp.com/sdk/1.3.0/cloud.js"></script>
-  <script src="https://web-9gikcbug35bad3a8-1304825656.tcloudbaseapp.com/sdk/1.3.1/mplogin.min.js"></script>
-  <script>
-    /*
-    * 当前用户信息
-    * openId 唯一识别码
-    * nickName 用户昵称
-    * avatarUrl 头像
-    *
-    * */
-    let CurUserInfo = {
-
-    }
-    let CurRecordID = 0;//用户当前的车辆记录ID
-    window.onload = async function () {
-      let myappid = "wxa806018a131603d3";
-      const vConsole = new window.VConsole();
-      const result = await window.mplogin({
-        scope: "snsapi_userinfo", // 必填，登录方式：snsapi_userinfo、snsapi_base
-        appid: myappid, // 必填，公众号appid，将以此 appid 名义进行请求
-        // redirect: '',                      // 选填，授权成功后路由的地址，目标地址应能处理授权参数，不填为当前页面
-        envid: 'prod-4g9w3eru303c9c3a', // 选填，资源方微信云托管环境，如果传递此参数则会返回初始化的 cloud 操作对象
-        resourceAppid: myappid, // 选填，如果是资源复用模式，需要填资源方微信账号
-        signature: window.location.href // 选填，如果需要微信 SDK 的API方法，则填写要使用的地址，会返回 signature 签名对象，envid参数不填则无效
-      })
-      console.log(result);
-      if (result.ret === 0) {
-        window.app = result.cloud
-        const callres = await window.app.callContainer({
-          path: '/api/GetUserInfo',
-          method: 'POST',
-          header: {
-            'X-WX-SERVICE': 'golang-zqzy',
-            'X-WX-CLOUDID': result.info
-          },
-          config: {
-            'env': 'prod-4g9w3eru303c9c3a'
-          },
-          contentType: "application/json; charset=utf-8",
-          dataType: "json",
-          data: JSON.stringify({
-            "openid": result.info
-          }),
-          success: function (res) {
-            alert("success");
-            alert(JSON.stringify(res))
-          },
-          fail: function (res) {
-            alert("fail");
-            alert(JSON.stringify(res))
-          }
-
-        })
-        CurUserInfo = JSON.parse(callres["data"]["data_list"][0]["json"])["data"]
-        alert(CurUserInfo)
-      } else { // ret不为0时，代表登录出现错误，一般出现在开发调试中，正式使用一般只有2-系统拦截错误
-        // 登录出现问题，打印问题描述
-        //window.alert(result.msg)
-      }
-    }
-  </script>
+        .detailMain .info .p2 {
+            text-align: center;
+            color: #555;
+            padding: 5px;
+        }
+    </style>
+    <script src="https://unpkg.com/vconsole@latest/dist/vconsole.min.js"></script>
+    <script src="https://res.wx.qq.com/open/js/jweixin-1.6.0.js"></script>
+    <script src="https://web-9gikcbug35bad3a8-1304825656.tcloudbaseapp.com/sdk/1.3.0/cloud.js"></script>
+    <script src="https://web-9gikcbug35bad3a8-1304825656.tcloudbaseapp.com/sdk/1.3.1/mplogin.min.js"></script>
 </head>
 
 <body>
-  <div class="container">
-    <div class="title">
-      <img class="title-logo"
-        src="https://static-index-4gtuqm3bfa95c963-1304825656.tcloudbaseapp.com/official-website/favicon.svg" />
-      <div style="display: inline; margin-bottom: 48px" class="title-text">hello,world!这里是page3</div>
-      <button onclick="set()" style="display:none;">入场</button>
-      <button onclick="out()" style="display:none;">出场</button>
-      <button onclick="getOne()">获取本人记录</button>
-      <button onclick="get()" style="display:none;">获取管理数据</button>
+    <div class="detailMain" id="detail">
+        <img src="https://prod-4g9w3eru303c9c3a-1313570671.tcloudbaseapp.com/i5.jpg?sign=bc1053bc45d0bac1aa7c98ad5c66f06f&t=1662688829"
+            width="100%" />
+        <div class="tit">{{info.ChemicalName}}</div>
+        <div class="info">
+            <p class="p1">化学品名称</p>
+            <p class="p2">{{info.ChemicalName}}</p>
+            <p class="p1">危险品类别</p>
+            <p class="p2">{{info.ChemicalType}}</p>
+            <p class="p1">物理特性</p>
+            <p class="p2">{{info.LiHuaTeXing}}</p>
+            <p class="p1">化学特性</p>
+            <p class="p2">{{info.WendingAndFangYingxing}}</p>
+            <p class="p1">运输信息</p>
+            <p class="p2">{{info.YunShuXinXi}}</p>
+            <p class="p1">注意事项</p>
+            <p class="p2">{{info.OpraAndSave}}</p>
+            <p class="p1">应急行动</p>
+            <p class="p2">{{info.Revealdisposition}}</p>
+        </div>
+        <div class="loading" v-if="loadingVis">
+            <van-loading color="#0094ff" vertical>加载中...</van-loading>
+        </div>
     </div>
-
-  </div>
 </body>
 <script src="https://mat1.gtimg.com/www/asset/lib/jquery/jquery/jquery-1.11.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-  integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
-  </script>
+    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
+    </script>
 <script>
-  async function set() {
-    // 提交 信息填报
-    await window.app.callContainer({
-      path: '/api/CarInsert',
-      method: 'POST',
-      header: {
-        'X-WX-SERVICE': 'golang-zqzy',
-      },
-      config: {
-        'env': 'prod-4g9w3eru303c9c3a'
-      },
-      contentType: "application/json; charset=utf-8",
-      dataType: "json",
-      data: JSON.stringify({
-        "wechartid": CurUserInfo["openId"],
-        "carNo": "fff000f",
-        "dunwei": 30.0,
-        "weihuapin": "硫酸;",
-        "name": "张云雷",
-        "moble": "18888888888",
-        "zhuangkuang": "良好01"
-      }),
-      success: function (res) {
-        alert(JSON.stringify(res))
-      },
-      fail: function (res) {
-        alert(JSON.stringify(res))
-      }
-    })
-
-  }
-  async function out() {
-    if (CurRecordID <= 0) {
-      alert("请先获取ID,或者入场")
-    } else {
-      // 离场
-      await window.app.callContainer({
-        path: '/api/CarOver',
-        method: 'POST',
-        header: {
-          'X-WX-SERVICE': 'golang-zqzy',
+    new Vue({
+        el: "#detail",
+        data() {
+            return {
+                loadingVis: true,
+                info: {},
+            };
         },
-        config: {
-          'env': 'prod-4g9w3eru303c9c3a'
+        async created() {
+            console.log(1);
+            let code = this.getQueryString("code");
+            let name = this.getQueryString("codeName");
+            document.title = name;//网页标题
+            console.log(code);
+            var that = this;
+            await window.app.callContainer({
+                path: '/api/GetWeihuapin',
+                method: 'POST',
+                header: {
+                    'X-WX-SERVICE': 'golang-zqzy',
+                },
+                config: {
+                    'env': 'prod-4g9w3eru303c9c3a'
+                },
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify({
+                    "weihuapin": code,
+                }),
+                success: function (res) {
+                    console.log(res);
+                    console.log("success");
+                    if (res.data.length) {
+                        that.info = res.data[0];
+                        that.loadingVis = false
+                    }
+                },
+                fail: function (res) {
+                    console.log(JSON.stringify(res))
+                }
+            })
         },
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify({
-          "id": CurRecordID
-        }),
-        success: function (res) {
-          alert("hello,world")
-          CurRecordID = 0
-        },
-        fail: function (res) {
-          alert(JSON.stringify(res))
+        methods: {
+            getQueryString(name) {
+                var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+                var r = window.location.search.substr(1).match(reg);
+                if (r != null) return unescape(r[2]); return null;
+            },
         }
-      })
-    }
-
-
-  }
-  async function getOne() {
-    // 获取上次填报的信息
-    console.log(window.app);
-    console.log(CurUserInfo);
-    await window.app.callContainer({
-      path: '/api/CarGet',
-      method: 'POST',
-      header: {
-        'X-WX-SERVICE': 'golang-zqzy',
-      },
-      config: {
-        'env': 'prod-4g9w3eru303c9c3a'
-      },
-      contentType: "application/json; charset=utf-8",
-      dataType: "json",
-      data: JSON.stringify({
-        "wechartid": CurUserInfo["openId"],
-      }),
-      success: function (res) {
-        alert(JSON.stringify(res))
-      },
-      fail: function (res) {
-        alert(JSON.stringify(res))
-      }
     })
-
-  }
-  async function get() {
-    // 筛选离场的
-    if (CurUserInfo["nickName"] === "唐文光") {
-      await window.app.callContainer({
-        path: '/api/CarList',
-        method: 'POST',
-        header: {
-          'X-WX-SERVICE': 'golang-zqzy',
-        },
-        config: {
-          'env': 'prod-4g9w3eru303c9c3a'
-        },
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify({
-          "status": 2,
-        }),
-        success: function (res) {
-          alert(JSON.stringify(res))
-        },
-        fail: function (res) {
-          alert(JSON.stringify(res))
-        }
-      })
-    }
-
-
-  }
 </script>
 
 </html>
