@@ -143,7 +143,7 @@
       background-color: #4694ff;
       border-bottom-left-radius: 20px;
       border-bottom-right-radius: 20px;
-      padding-bottom: 14px;
+      padding: 2px 0 14px;
     }
 
     .list .top ul {
@@ -175,8 +175,6 @@
       bottom: 0;
       left: 43%;
     }
-
-    .list .carList {}
 
     .list .carList .carItem {
       background-color: #fff;
@@ -314,7 +312,6 @@
     </div>
     <div class="list" v-show="isLogin">
       <div class="top">
-        <van-search v-model="keywork" shape="round" background="#4694ff" placeholder="请输入搜索关键词"></van-search>
         <ul>
           <li :class="nowState==2?'act':''" @click="changeState(2)">全部</li>
           <li :class="nowState==1?'act':''" @click="changeState(1)">已离开</li>
@@ -342,7 +339,7 @@
               <span>联系方式：{{item.moble}}</span>
             </div>
             <div class="d4">
-              <span>危化品运输编号：</span>
+              <span>危化品运输名称：</span>
               <span class="code" @click="jumpIndex3(item.weihuapin,item.weihuapinName)">{{item.weihuapinName}}</span>
             </div>
             <div class="d5">
@@ -383,7 +380,6 @@
       return {
         isLogin: false,//是否登录
         loadingVis: false,
-        keywork: '',//关键字
         CurRecordID: 0,//用户当前的车辆记录ID
         CurUserInfo: {}, //当前用户信息
         nowState: 2, //默认全部
@@ -1589,11 +1585,10 @@
       };
     },
     async created() {
-      console.log(25);
-      var token=sessionStorage.getItem("token");
-      console.log(token);
-      if(token){
-        this.isLogin=true;
+      console.log(27);
+      var token = sessionStorage.getItem("token");
+      if (token) {
+        this.isLogin = true;
       }
       let myappid = "wxa806018a131603d3";
       const vConsole = new window.VConsole();
@@ -1664,7 +1659,7 @@
             success: function (res) {
               console.log(JSON.stringify(res))
               if (res.data.data) {
-                sessionStorage.setItem('token',true);
+                sessionStorage.setItem('token', true);
                 that.isLogin = true;
                 that.loadingVis = true;
                 console.log("请求handleMore");
@@ -1748,7 +1743,7 @@
         const M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
         const D = (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) + ' ';
         const h = (date.getHours() < 10 ? '0' + date.getHours() : date.getHours()) + ':';
-        const m = (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()) + ':';
+        const m = (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes());
         const dateString = M + D + h + m;
         return dateString;
       },
@@ -1785,8 +1780,8 @@
         })
       },
       //跳转页面
-      jumpIndex3(id,name){
-        location.href='index3.html?code='+id+'&codeName='+encodeURI(name);
+      jumpIndex3(id, name) {
+        location.href = 'index3.html?code=' + id + '&codeName=' + encodeURIComponent(encodeURIComponent(name));
       },
     }
   })
