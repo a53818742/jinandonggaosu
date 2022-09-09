@@ -213,11 +213,11 @@
     }
 
     .cor1 {
-      color: red;
+      background-color: red;
     }
 
     .cor2 {
-      color: green;
+      background-color: green;
     }
 
     .list .carList .carItem .d2 {
@@ -379,7 +379,7 @@
     data() {
       return {
         isLogin: false,//是否登录
-        loadingVis: false,
+        loadingVis: true,
         CurRecordID: 0,//用户当前的车辆记录ID
         CurUserInfo: {}, //当前用户信息
         nowState: 2, //默认全部
@@ -1585,10 +1585,6 @@
       };
     },
     async created() {
-      var token = sessionStorage.getItem("token");
-      if (token) {
-        this.isLogin = true;
-      }
       let myappid = "wxa806018a131603d3";
       const vConsole = new window.VConsole();
       const result = await window.mplogin({
@@ -1620,13 +1616,6 @@
           })
           this.CurUserInfo = callres.data;
           console.log(this.CurUserInfo)
-          let user = this.getCookie('user');
-          console.log(user);
-          if (user) {
-            this.isLogin = true;
-            this.loadingVis = true;
-            this.handleMore();
-          }
         } else { // ret不为0时，代表登录出现错误，一般出现在开发调试中，正式使用一般只有2-系统拦截错误
           // 登录出现问题，打印问题描述
           //window.alert(result.msg)
@@ -1634,8 +1623,12 @@
       } catch (e) {
         console.log(e)
       }
-      console.log('created handleMore');
-      this.handleMore();
+      let user = this.getCookie('user');
+      console.log(user);
+      if (user) {
+        this.isLogin = true;
+        this.handleMore();
+      }
     },
     methods: {
       // 用户登录
@@ -1663,7 +1656,6 @@
             }),
             success: function (res) {
               if (res.data.data) {
-                sessionStorage.setItem('token', true);
                 that.isLogin = true;
                 that.loadingVis = true;
                 that.handleMore();
@@ -1680,6 +1672,7 @@
       },
       // 改变状态
       changeState(state) {
+        this.loadingVis=true;
         this.nowState = state;
         this.list = [];
         this.pageIndex = 0;
