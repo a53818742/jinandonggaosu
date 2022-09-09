@@ -252,10 +252,9 @@
 			</div>
 			<div class="fItem">
 				<span>危化品运输编号</span>
-				<input type="text" placeholder="请输入危化品运输编号" v-bind:value="formInfo.weihuapin"
+				<input type="number" placeholder="请输入危化品运输编号" v-bind:value="formInfo.weihuapin"
 					v-on:input="formInfo.weihuapin = $event.target.value">
-					<!-- <input type="text" placeholder="请输入危化品运输编号" v-modele="formInfo.weihuapin"
-					oninput="value=value.replace(/[^0-9.]/g,'')"> -->
+					<!-- oninput="value=value.replace(/[^0-9.]/g,'')" -->
 			</div>
 			<div class="fItem">
 				<span>联系人</span>
@@ -305,7 +304,7 @@
 		},
 		async created() {
 			this.loadingVis = true;
-			console.log(105);
+			console.log(106);
 			let myappid = "wxa806018a131603d3";
 			const vConsole = new window.VConsole();
 			const result = await window.mplogin({
@@ -361,10 +360,11 @@
 					return false
 				}
 				if (this.isUpload) {
+					console.log("修改");
 					console.log(JSON.stringify({
 						"id": that.formInfo.id,
 						"carNo": that.formInfo.carNo,
-						"dunwei": that.formInfo.dunwei,
+						"dunwei": Number(that.formInfo.dunwei),
 						"weihuapin": that.formInfo.weihuapin,
 						"name": that.formInfo.name,
 						"moble": that.formInfo.moble,
@@ -385,7 +385,7 @@
 						data: JSON.stringify({
 							"id": that.formInfo.id,
 							"carNo": that.formInfo.carNo,
-							"dunwei": that.formInfo.dunwei,
+							"dunwei": Number(that.formInfo.dunwei),
 							"weihuapin": that.formInfo.weihuapin,
 							"name": that.formInfo.name,
 							"moble": that.formInfo.moble,
@@ -403,10 +403,11 @@
 						}
 					})
 				} else {
+					console.log("新增");
 					console.log(JSON.stringify({
 						"wechartid": that.CurUserInfo["data"],
 						"carNo": that.formInfo.carNo,
-						"dunwei": that.formInfo.dunwei,
+						"dunwei": Number(that.formInfo.dunwei),
 						"weihuapin": that.formInfo.weihuapin,
 						"name": that.formInfo.name,
 						"moble": that.formInfo.moble,
@@ -427,7 +428,7 @@
 						data: JSON.stringify({
 							"wechartid": that.CurUserInfo["data"],
 							"carNo": that.formInfo.carNo,
-							"dunwei": that.formInfo.dunwei,
+							"dunwei": Number(that.formInfo.dunwei),
 							"weihuapin": that.formInfo.weihuapin,
 							"name": that.formInfo.name,
 							"moble": that.formInfo.moble,
