@@ -1647,6 +1647,7 @@
 								moble: res.data.data.moble,
 								zhuangkuang: res.data.data.zhuangkuang,
 							};
+							that.wName=that.cnJson[res.data.data.weihuapin];
 						} else {
 							// 查看缓存是否存在
 							let info = localStorage.getItem("formInfo");
