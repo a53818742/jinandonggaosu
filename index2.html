@@ -216,7 +216,7 @@
       color: red;
     }
 
-    .cor1 {
+    .cor2 {
       color: green;
     }
 
@@ -301,7 +301,7 @@
           <img class="i1"
             src="https://prod-4g9w3eru303c9c3a-1313570671.tcloudbaseapp.com/i1.png?sign=c141bd7ab8e0c99ce77da5b0c9db52c5&t=1662617953"
             width="100%">
-          <p class="p3">欢迎登陆</p>
+          <p class="p3">欢迎登录</p>
           <input type="text" v-model="formInfo.username" placeholder="输入账号">
           <input type="password" v-model="formInfo.pwd" placeholder="输入密码">
           <p class="btn" @click="handleLogin">登录</p>
@@ -1620,6 +1620,13 @@
           })
           this.CurUserInfo = callres.data;
           console.log(this.CurUserInfo)
+          let user = this.getCookie('user');
+          console.log(user);
+          if (user) {
+            this.isLogin = true;
+            this.loadingVis = true;
+            this.handleMore();
+          }
         } else { // ret不为0时，代表登录出现错误，一般出现在开发调试中，正式使用一般只有2-系统拦截错误
           // 登录出现问题，打印问题描述
           //window.alert(result.msg)
@@ -1660,6 +1667,7 @@
                 that.isLogin = true;
                 that.loadingVis = true;
                 that.handleMore();
+                that.setCookie('user', true);
               } else {
                 vant.Notify({ type: 'warning', message: '用户名及密码错误' });
               }
@@ -1704,12 +1712,10 @@
             let dres = res.data.data;
             if (res.data.data.length > 0) {
               for (let i = 0; i < dres.length; i++) {
+                dres[i].stoptime = that.format2(dres[i].intime, dres[i].outtime);//停车时长
                 dres[i].outtime = that.format(dres[i].outtime);
                 dres[i].intime = that.format(dres[i].intime);
                 dres[i].weihuapinName = that.cnJson[dres[i].weihuapin];
-                let beginDate = new Date(dres[i].intime);
-                let endDate = new Date(dres[i].outtime);
-                dres[i].stoptime = (endDate - beginDate) / (1000 * 60);// stoptime //停车时长
               }
               that.list = that.list.concat(dres);
             } else {
@@ -1730,6 +1736,34 @@
         const m = (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes());
         const dateString = M + D + h + m;
         return dateString;
+      },
+      format2(start, end) {
+        let beginTime = (new Date(start).getTime()) / 1000;
+        let endTime = (new Date(end).getTime()) / 1000;
+        var starttime = ''
+        var endtime = ''
+        if (beginTime < endTime) {
+          starttime = beginTime;
+          endtime = endTime;
+        } else {
+          starttime = endTime;
+          endtime = beginTime;
+        }
+        //计算天数
+        var timediff = parseInt((endtime - starttime) / (1000 * 60) * 1000);
+        return timediff;
+      },
+      setCookie(name, value) {
+        var Days = 30;
+        var exp = new Date();
+        exp.setTime(exp.getTime() + Days * 24 * 60 * 60 * 1000);
+        document.cookie = name + "=" + escape(value) + ";expires=" + exp.toGMTString();
+      },
+      //读取cookies
+      getCookie(name) {
+        var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+        if (arr = document.cookie.match(reg)) return unescape(arr[2]);
+        else return null;
       },
       // 离场
       async handleOut(id) {
