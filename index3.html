@@ -71,10 +71,10 @@
     <div class="detailMain" id="detail">
         <img src="https://prod-4g9w3eru303c9c3a-1313570671.tcloudbaseapp.com/i5.jpg?sign=bc1053bc45d0bac1aa7c98ad5c66f06f&t=1662688829"
             width="100%" />
-        <div class="tit">{{info.ChemicalName}}</div>
+        <div class="tit">{{codeName}}</div>
         <div class="info">
             <p class="p1">化学品名称</p>
-            <p class="p2">{{info.ChemicalName}}</p>
+            <p class="p2">{{codeName}}</p>
             <p class="p1">危险品类别</p>
             <p class="p2">{{info.ChemicalType}}</p>
             <p class="p1">物理特性</p>
@@ -104,15 +104,14 @@
             return {
                 loadingVis: true,
                 info: {},
+                codeName:'',
             };
         },
         async created() {
-            console.log(3);
             let code = this.getQueryString("code");
             let name = this.getQueryString("codeName");
-            console.log(decodeURIComponent(decodeURIComponent(name)));
             document.title = decodeURIComponent(decodeURIComponent(name));//网页标题
-            console.log(code);
+            this.codeName=decodeURIComponent(decodeURIComponent(name));
             var that = this;
             let myappid = "wxa806018a131603d3";
             const vConsole = new window.VConsole();
@@ -140,12 +139,12 @@
                     "weihuapin": code,
                 }),
                 success: function (res) {
-                    console.log(res);
-                    console.log("success");
                     if (res.data.length) {
                         that.info = res.data[0];
-                        that.loadingVis = false
+                    }else{
+                        vant.Toast('暂无该产品信息');
                     }
+                    that.loadingVis = false;
                 },
                 fail: function (res) {
                     console.log(JSON.stringify(res))
