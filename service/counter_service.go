@@ -536,7 +536,7 @@ func GetToken() {
 	if tnow-GetTokenTime < 4000 {
 		return
 	}
-	GetTokenTime = tnow
+
 	url := "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wxa806018a131603d3&secret=2e23f64187fa7aed8d528c5d0451288a"
 	response, er0 := http.Post(url, "application/json", nil)
 	if er0 == nil {
@@ -545,12 +545,18 @@ func GetToken() {
 			var msgstruct TokenStruct
 			err11 := json.Unmarshal(BodyBytes0, &msgstruct)
 			if err11 != nil {
+				fmt.Println("GetToken Error11", err11)
 				return
 			}
 			if msgstruct.AccessToken != "" {
+				GetTokenTime = tnow
 				Token = msgstruct.AccessToken
 			}
+		} else {
+			fmt.Println("GetToken Error1", e1)
 		}
+	} else {
+		fmt.Println("GetToken Error", er0)
 	}
 }
 func Interface2Int(inte interface{}) int {
