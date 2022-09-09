@@ -254,7 +254,7 @@
 				<span>危化品运输编号</span>
 				<input type="number" placeholder="请输入危化品运输编号" v-bind:value="formInfo.weihuapin"
 					v-on:input="formInfo.weihuapin = $event.target.value">
-					<!-- oninput="value=value.replace(/[^0-9.]/g,'')" -->
+				<!-- oninput="value=value.replace(/[^0-9.]/g,'')" -->
 			</div>
 			<div class="fItem">
 				<span>联系人</span>
@@ -304,7 +304,6 @@
 		},
 		async created() {
 			this.loadingVis = true;
-			console.log(106);
 			let myappid = "wxa806018a131603d3";
 			const vConsole = new window.VConsole();
 			const result = await window.mplogin({
@@ -360,16 +359,6 @@
 					return false
 				}
 				if (this.isUpload) {
-					console.log("修改");
-					console.log(JSON.stringify({
-						"id": that.formInfo.id,
-						"carNo": that.formInfo.carNo,
-						"dunwei": Number(that.formInfo.dunwei),
-						"weihuapin": that.formInfo.weihuapin,
-						"name": that.formInfo.name,
-						"moble": that.formInfo.moble,
-						"zhuangkuang": that.formInfo.zhuangkuang,
-					}));
 					// 修改
 					await window.app.callContainer({
 						path: '/api/CarUpdate',
@@ -392,9 +381,8 @@
 							"zhuangkuang": that.formInfo.zhuangkuang,
 						}),
 						success: function (res) {
-							console.log(JSON.stringify(res))
 							if (res.data.code == 0) {
-								vant.Notify({ type: 'success', message: '修改成功' });
+								vant.Toast.success('修改成功');
 								localStorage.setItem("formInfo", JSON.stringify(that.formInfo));
 							}
 						},
@@ -403,16 +391,6 @@
 						}
 					})
 				} else {
-					console.log("新增");
-					console.log(JSON.stringify({
-						"wechartid": that.CurUserInfo["data"],
-						"carNo": that.formInfo.carNo,
-						"dunwei": Number(that.formInfo.dunwei),
-						"weihuapin": that.formInfo.weihuapin,
-						"name": that.formInfo.name,
-						"moble": that.formInfo.moble,
-						"zhuangkuang": that.formInfo.zhuangkuang,
-					}));
 					// 新增
 					await window.app.callContainer({
 						path: '/api/CarInsert',
@@ -435,10 +413,9 @@
 							"zhuangkuang": that.formInfo.zhuangkuang,
 						}),
 						success: function (res) {
-							console.log(JSON.stringify(res))
 							if (res.data.code == 0) {
 								localStorage.setItem("formInfo", JSON.stringify(that.formInfo));
-								vant.Notify({ type: 'success', message: '提交成功' });
+								vant.Toast.success('提交成功');
 							}
 						},
 						fail: function (res) {
@@ -465,7 +442,6 @@
 						"wechartid": that.CurUserInfo["data"],
 					}),
 					success: function (res) {
-						console.log(res);
 						if (res.data.data.CarNo) {
 							that.isUpload = true;
 							that.formInfo = {
