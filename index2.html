@@ -344,10 +344,6 @@
             <div class="d4">
               <span>危化品运输编号：</span>
               <a href="index3.html?code='item.weihuapin'">{{item.weihuapinName}}</a>
-              <a href="index3.html?code={{item.weihuapin}}">{{item.weihuapinName}}</a>
-              <a href="index3.html?code=item.weihuapin">{{item.weihuapinName}}</a>
-              <a :href="index3.html?code='item.weihuapin'">{{item.weihuapinName}}</a>
-              <a :href="index3.html?code=item.weihuapin">{{item.weihuapinName}}</a>
             </div>
             <div class="d5">
               <div>
@@ -367,7 +363,7 @@
             </div>
           </div>
           <div class="d6" v-if="item.status=='0'">
-            <div class="btn" @click="handleout(item.ID)">离场</div>
+            <div class="btn" @click="handleOut(item.ID)">离场</div>
           </div>
         </div>
       </van-list>
@@ -1593,7 +1589,7 @@
       };
     },
     async created() {
-      console.log(20);
+      console.log(21);
       let myappid = "wxa806018a131603d3";
       const vConsole = new window.VConsole();
       const result = await window.mplogin({
@@ -1680,8 +1676,8 @@
         console.log("改变状态");
         this.nowState = state;
         this.list = [];
+        this.pageIndex = 0;
         this.handleMore();
-        this.pageIndex = 0;//页码
       },
       // 分页
       async handleMore() {
@@ -1737,10 +1733,21 @@
           }
         })
       },
+      format(formatTime) {
+        let a = new Date(formatTime).getTime();
+        const date = new Date(a);
+        const M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+        const D = (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) + ' ';
+        const h = (date.getHours() < 10 ? '0' + date.getHours() : date.getHours()) + ':';
+        const m = (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()) + ':';
+        const dateString = M + D + h + m;
+        return dateString;
+      },
       // 离场
-      async handleout(id) {
-        var that=this;
+      async handleOut(id) {
         console.log("离场");
+        var that = this;
+        // 离场
         await window.app.callContainer({
           path: '/api/CarOver',
           method: 'POST',
@@ -1756,29 +1763,18 @@
             "id": id
           }),
           success: function (res) {
+            console.log("离场success");
             console.log(res);
-            if (res.data.code == 0) {
-              vant.Notify({ type: 'success', message: '已离场' });
-              that.list = [];
-              that.handleMore();
-              that.pageIndex = 0;//页码
-            }
+            that.handleMore();
+            that.pageIndex = 0;
+            that.list = [];
+            vant.Notify({ type: 'success', message: '已离场' });
           },
           fail: function (res) {
             alert(JSON.stringify(res))
           }
         })
-      },
-      format(formatTime) {
-        let a = new Date(formatTime).getTime();
-        const date = new Date(a);
-        const M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
-        const D = (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) + ' ';
-        const h = (date.getHours() < 10 ? '0' + date.getHours() : date.getHours()) + ':';
-        const m = (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()) + ':';
-        const dateString = M + D + h + m;
-        return dateString;
-      },
+      }
     }
   })
 </script>
