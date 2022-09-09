@@ -542,6 +542,7 @@ func GetToken() {
 	if er0 == nil {
 		BodyBytes0, e1 := ioutil.ReadAll(response.Body)
 		if e1 == nil {
+			fmt.Println("GetToken ==", string(BodyBytes0))
 			var msgstruct TokenStruct
 			err11 := json.Unmarshal(BodyBytes0, &msgstruct)
 			if err11 != nil {
