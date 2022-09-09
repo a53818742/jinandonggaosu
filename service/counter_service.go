@@ -338,7 +338,7 @@ func CarListNum(w http.ResponseWriter, r *http.Request) {
 		if counter.Status != 0 && counter.Status != 1 {
 			counter.Status = 100
 		}
-		res.Data, res.ErrorMsg, res.Code = dao.Imp.GetRecordNum(counter.Status, counter.Offset, counter.Limit)
+		res.Data, res.ErrorMsg, res.Code = dao.Imp.GetRecordNum(counter.Status)
 
 	} else {
 		res.Code = -1
@@ -543,7 +543,10 @@ func GetToken() {
 		BodyBytes0, e1 := ioutil.ReadAll(response.Body)
 		if e1 == nil {
 			var msgstruct TokenStruct
-			json.Unmarshal(BodyBytes0, &msgstruct)
+			err11 := json.Unmarshal(BodyBytes0, &msgstruct)
+			if err11 != nil {
+				return
+			}
 			if msgstruct.AccessToken != "" {
 				Token = msgstruct.AccessToken
 			}
@@ -569,7 +572,7 @@ func Interface2Int(inte interface{}) int {
 		return int(inte.(int32))
 	}
 	if reflect.TypeOf(inte).Kind() == reflect.Int {
-		return int(inte.(int))
+		return inte.(int)
 	}
 	if reflect.TypeOf(inte).Kind() == reflect.Int64 {
 		return int(inte.(int64))
@@ -598,7 +601,10 @@ func SendMsg(msg map[string]interface{}) {
 			var Cal SendMsgCallBack
 			Cal.ErrorCode = 100
 
-			json.Unmarshal(BodyBytes0, &Cal)
+			err11 := json.Unmarshal(BodyBytes0, &Cal)
+			if err11 != nil {
+				return
+			}
 			if Cal.ErrorCode == 0 {
 				dao.Imp.OverMsg(&model.OverMsg{
 					Id:     Interface2Int(msg["ID"]),

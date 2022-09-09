@@ -42,7 +42,7 @@ type CounterInterface interface {
 	UserLogin(username string, pwd string) bool
 
 	GetMsg(TimeLen int64) (data []map[string]interface{}, errorMsg string, errorCode int)
-	GetRecordNum(status int, offset int, limit int) (data int, errorMsg string, errorCode int)
+	GetRecordNum(status int) (data int, errorMsg string, errorCode int)
 	GetWeihuapin(weihuapin string) (data []map[string]interface{}, errorMsg string, errorCode int)
 	GetWeihuapinByUN(weihuapin string) (data []map[string]interface{}, errorMsg string, errorCode int)
 	GetWeihuapinByCN(weihuapin string) (data []map[string]interface{}, errorMsg string, errorCode int)

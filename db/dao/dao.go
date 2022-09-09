@@ -9,7 +9,7 @@ import (
 	"wxcloudrun-golang/db/model"
 )
 
-const tableName = "Counters"
+//const tableName = "Counters"
 const tableName2 = "weihuapincar"
 const tableName3 = "adminuser"
 
@@ -50,13 +50,13 @@ func (imp *CounterInterfaceImp) UpdateCar(counter *model.WeihuapinCarUpdate) err
 	return cli.Table(tableName2).Save(counter).Error
 }
 
-// OverCar 更新/写入counter
+// OverCar  车辆离场
 func (imp *CounterInterfaceImp) OverCar(counter *model.WeihuapinCarOver) error {
 	cli := db.Get()
 	return cli.Table(tableName2).Save(counter).Error
 }
 
-// OverCar 更新/写入counter
+// OverMsg 更新消息发送
 func (imp *CounterInterfaceImp) OverMsg(counter *model.OverMsg) error {
 	cli := db.Get()
 	return cli.Table(tableName2).Save(counter).Error
@@ -77,7 +77,7 @@ func (imp *CounterInterfaceImp) GetCar(id string) (data map[string]interface{}, 
 	count := len(columns)        //列的数量
 
 	var values = make([]interface{}, count) //创建一个与列的数量相当的空接口
-	for i, _ := range values {
+	for i := 0; i < count; i++ {
 		var ii interface{} //为空接口分配内存
 		values[i] = &ii    //取得这些内存的指针，因后继的Scan函数只接受指针
 	}
@@ -88,13 +88,13 @@ func (imp *CounterInterfaceImp) GetCar(id string) (data map[string]interface{}, 
 			panic(err)
 		}
 		for i, colName := range columns {
-			var raw_value = *(values[i].(*interface{})) //读出raw数据，类型为byte
-			if reflect.TypeOf(raw_value) == reflect.TypeOf([]byte{0}) {
-				b, _ := raw_value.([]byte)
+			var rawValue = *(values[i].(*interface{})) //读出raw数据，类型为byte
+			if reflect.TypeOf(rawValue) == reflect.TypeOf([]byte{0}) {
+				b, _ := rawValue.([]byte)
 				v := string(b)   //将raw数据转换成字符串
 				ret[colName] = v //colName是键，v是值
 			} else {
-				ret[colName] = raw_value
+				ret[colName] = rawValue
 			}
 		}
 		break
@@ -104,7 +104,7 @@ func (imp *CounterInterfaceImp) GetCar(id string) (data map[string]interface{}, 
 }
 
 // GetRecordNum 查询某一天的记录
-func (imp *CounterInterfaceImp) GetRecordNum(status int, offset int, limit int) (data int, errorMsg string, errorCode int) {
+func (imp *CounterInterfaceImp) GetRecordNum(status int) (data int, errorMsg string, errorCode int) {
 
 	cli := db.Get()
 	t := time.Now()
@@ -133,7 +133,7 @@ func (imp *CounterInterfaceImp) GetRecordNum(status int, offset int, limit int) 
 	columns, _ := rows.Columns()            //获取列的信息
 	count := len(columns)                   //列的数量
 	var values = make([]interface{}, count) //创建一个与列的数量相当的空接口
-	for i, _ := range values {
+	for i := 0; i < count; i++ {
 		var ii interface{} //为空接口分配内存
 		values[i] = &ii    //取得这些内存的指针，因后继的Scan函数只接受指针
 	}
@@ -144,15 +144,15 @@ func (imp *CounterInterfaceImp) GetRecordNum(status int, offset int, limit int) 
 			panic(err)
 		}
 		for i, colName := range columns {
-			var raw_value = *(values[i].(*interface{})) //读出raw数据，类型为byte
-			if reflect.TypeOf(raw_value) == reflect.TypeOf([]byte{0}) {
-				b, _ := raw_value.([]byte)
+			var rawValue = *(values[i].(*interface{})) //读出raw数据，类型为byte
+			if reflect.TypeOf(rawValue) == reflect.TypeOf([]byte{0}) {
+				b, _ := rawValue.([]byte)
 
 				v := string(b)   //将raw数据转换成字符串
 				ret[colName] = v //colName是键，v是值
 
 			} else {
-				ret[colName] = raw_value
+				ret[colName] = rawValue
 			}
 		}
 		break
@@ -162,11 +162,11 @@ func (imp *CounterInterfaceImp) GetRecordNum(status int, offset int, limit int) 
 	return data, "", 0
 }
 
-// GetWeihuapin 查询某一天的记录
+// GetWeihuapinByCN 根据CN编号查询危化品
 func (imp *CounterInterfaceImp) GetWeihuapinByCN(weihuapin string) (data []map[string]interface{}, errorMsg string, errorCode int) {
 
 	cli := db.Get()
-	rows, err := cli.Table("chemicalandyingjichuzhifangan").Where("YunShuXinXi like '%危险货物编号：" + weihuapin + ",%'").Rows()
+	rows, err := cli.Table("chemicalandyingjichuzhifangan").Select("ChemicalName,Element,ChemicalInfo,ChemicalType,LiHuaTeXing,WendingAndFangYingxing,YunShuXinXi,OpraAndSave,Revealdisposition").Where("YunShuXinXi like '%危险货物编号：" + weihuapin + ",%'").Rows()
 	if err != nil {
 		fmt.Println("Query ", err.Error())
 
@@ -176,12 +176,12 @@ func (imp *CounterInterfaceImp) GetWeihuapinByCN(weihuapin string) (data []map[s
 	columns, _ := rows.Columns()            //获取列的信息
 	count := len(columns)                   //列的数量
 	var values = make([]interface{}, count) //创建一个与列的数量相当的空接口
-	for i, _ := range values {
+	for i := 0; i < count; i++ {
 		var ii interface{} //为空接口分配内存
 		values[i] = &ii    //取得这些内存的指针，因后继的Scan函数只接受指针
 	}
 
-	ret := []map[string]interface{}{} //创建返回值：不定长的map类型切片
+	ret := make([]map[string]interface{}, 0)
 	for rows.Next() {
 		err0 := rows.Scan(values...) //开始读行，Scan函数只接受指针变量
 		if err0 != nil {
@@ -189,13 +189,13 @@ func (imp *CounterInterfaceImp) GetWeihuapinByCN(weihuapin string) (data []map[s
 		}
 		m := map[string]interface{}{}
 		for i, colName := range columns {
-			var raw_value = *(values[i].(*interface{})) //读出raw数据，类型为byte
-			if reflect.TypeOf(raw_value) == reflect.TypeOf([]byte{0}) {
-				b, _ := raw_value.([]byte)
+			var rawValue = *(values[i].(*interface{})) //读出raw数据，类型为byte
+			if reflect.TypeOf(rawValue) == reflect.TypeOf([]byte{0}) {
+				b, _ := rawValue.([]byte)
 				v := string(b) //将raw数据转换成字符串
 				m[colName] = v //colName是键，v是值
 			} else {
-				m[colName] = raw_value
+				m[colName] = rawValue
 			}
 		}
 		ret = append(ret, m)
@@ -204,11 +204,11 @@ func (imp *CounterInterfaceImp) GetWeihuapinByCN(weihuapin string) (data []map[s
 	return ret, "", 0
 }
 
-// GetWeihuapin 查询某一天的记录
+// GetWeihuapinByUN 根据UN编号查询危化品
 func (imp *CounterInterfaceImp) GetWeihuapinByUN(weihuapin string) (data []map[string]interface{}, errorMsg string, errorCode int) {
 
 	cli := db.Get()
-	rows, err := cli.Table("chemicalandyingjichuzhifangan").Where("YunShuXinXi like '%UN编号：" + weihuapin + ",%'").Rows()
+	rows, err := cli.Table("chemicalandyingjichuzhifangan").Select("ChemicalName,Element,ChemicalInfo,ChemicalType,LiHuaTeXing,WendingAndFangYingxing,YunShuXinXi,OpraAndSave,Revealdisposition").Where("YunShuXinXi like '%UN编号：" + weihuapin + ",%'").Rows()
 	if err != nil {
 		fmt.Println("Query ", err.Error())
 
@@ -218,12 +218,12 @@ func (imp *CounterInterfaceImp) GetWeihuapinByUN(weihuapin string) (data []map[s
 	columns, _ := rows.Columns()            //获取列的信息
 	count := len(columns)                   //列的数量
 	var values = make([]interface{}, count) //创建一个与列的数量相当的空接口
-	for i, _ := range values {
+	for i := 0; i < count; i++ {
 		var ii interface{} //为空接口分配内存
 		values[i] = &ii    //取得这些内存的指针，因后继的Scan函数只接受指针
 	}
 
-	ret := []map[string]interface{}{} //创建返回值：不定长的map类型切片
+	ret := make([]map[string]interface{}, 0)
 	for rows.Next() {
 		err0 := rows.Scan(values...) //开始读行，Scan函数只接受指针变量
 		if err0 != nil {
@@ -231,13 +231,13 @@ func (imp *CounterInterfaceImp) GetWeihuapinByUN(weihuapin string) (data []map[s
 		}
 		m := map[string]interface{}{}
 		for i, colName := range columns {
-			var raw_value = *(values[i].(*interface{})) //读出raw数据，类型为byte
-			if reflect.TypeOf(raw_value) == reflect.TypeOf([]byte{0}) {
-				b, _ := raw_value.([]byte)
+			var rawValue = *(values[i].(*interface{})) //读出raw数据，类型为byte
+			if reflect.TypeOf(rawValue) == reflect.TypeOf([]byte{0}) {
+				b, _ := rawValue.([]byte)
 				v := string(b) //将raw数据转换成字符串
 				m[colName] = v //colName是键，v是值
 			} else {
-				m[colName] = raw_value
+				m[colName] = rawValue
 			}
 		}
 		ret = append(ret, m)
@@ -246,11 +246,11 @@ func (imp *CounterInterfaceImp) GetWeihuapinByUN(weihuapin string) (data []map[s
 	return ret, "", 0
 }
 
-// GetWeihuapin 查询某一天的记录
+// GetWeihuapin 根据危化品名称查询危化品
 func (imp *CounterInterfaceImp) GetWeihuapin(weihuapin string) (data []map[string]interface{}, errorMsg string, errorCode int) {
 
 	cli := db.Get()
-	rows, err := cli.Table("chemicalandyingjichuzhifangan").Where("ChemicalName like '%" + weihuapin + "%'").Rows()
+	rows, err := cli.Table("chemicalandyingjichuzhifangan").Select("ChemicalName,Element,ChemicalInfo,ChemicalType,LiHuaTeXing,WendingAndFangYingxing,YunShuXinXi,OpraAndSave,Revealdisposition").Where("ChemicalName like '%" + weihuapin + "%'").Rows()
 	if err != nil {
 		fmt.Println("Query ", err.Error())
 
@@ -260,12 +260,12 @@ func (imp *CounterInterfaceImp) GetWeihuapin(weihuapin string) (data []map[strin
 	columns, _ := rows.Columns()            //获取列的信息
 	count := len(columns)                   //列的数量
 	var values = make([]interface{}, count) //创建一个与列的数量相当的空接口
-	for i, _ := range values {
+	for i := 0; i < count; i++ {
 		var ii interface{} //为空接口分配内存
 		values[i] = &ii    //取得这些内存的指针，因后继的Scan函数只接受指针
 	}
 
-	ret := []map[string]interface{}{} //创建返回值：不定长的map类型切片
+	ret := make([]map[string]interface{}, 0)
 	for rows.Next() {
 		err0 := rows.Scan(values...) //开始读行，Scan函数只接受指针变量
 		if err0 != nil {
@@ -273,13 +273,13 @@ func (imp *CounterInterfaceImp) GetWeihuapin(weihuapin string) (data []map[strin
 		}
 		m := map[string]interface{}{}
 		for i, colName := range columns {
-			var raw_value = *(values[i].(*interface{})) //读出raw数据，类型为byte
-			if reflect.TypeOf(raw_value) == reflect.TypeOf([]byte{0}) {
-				b, _ := raw_value.([]byte)
+			var rawValue = *(values[i].(*interface{})) //读出raw数据，类型为byte
+			if reflect.TypeOf(rawValue) == reflect.TypeOf([]byte{0}) {
+				b, _ := rawValue.([]byte)
 				v := string(b) //将raw数据转换成字符串
 				m[colName] = v //colName是键，v是值
 			} else {
-				m[colName] = raw_value
+				m[colName] = rawValue
 			}
 		}
 		ret = append(ret, m)
@@ -318,11 +318,11 @@ func (imp *CounterInterfaceImp) GetRecord(status int, offset int, limit int) (da
 	columns, _ := rows.Columns()            //获取列的信息
 	count := len(columns)                   //列的数量
 	var values = make([]interface{}, count) //创建一个与列的数量相当的空接口
-	for i, _ := range values {
+	for i := 0; i < count; i++ {
 		var ii interface{} //为空接口分配内存
 		values[i] = &ii    //取得这些内存的指针，因后继的Scan函数只接受指针
 	}
-	ret := []map[string]interface{}{} //创建返回值：不定长的map类型切片
+	ret := make([]map[string]interface{}, 0)
 	for rows.Next() {
 		err0 := rows.Scan(values...)  //开始读行，Scan函数只接受指针变量
 		m := map[string]interface{}{} //用于存放1列的 [键/值] 对
@@ -330,15 +330,15 @@ func (imp *CounterInterfaceImp) GetRecord(status int, offset int, limit int) (da
 			panic(err)
 		}
 		for i, colName := range columns {
-			var raw_value = *(values[i].(*interface{})) //读出raw数据，类型为byte
-			if reflect.TypeOf(raw_value) == reflect.TypeOf([]byte{0}) {
-				b, _ := raw_value.([]byte)
+			var rawValue = *(values[i].(*interface{})) //读出raw数据，类型为byte
+			if reflect.TypeOf(rawValue) == reflect.TypeOf([]byte{0}) {
+				b, _ := rawValue.([]byte)
 
 				v := string(b) //将raw数据转换成字符串
 
 				m[colName] = v //colName是键，v是值
 			} else {
-				m[colName] = raw_value
+				m[colName] = rawValue
 			}
 		}
 		ret = append(ret, m) //将单行所有列的键值对附加在总的返回值上（以行为单位）
@@ -347,7 +347,7 @@ func (imp *CounterInterfaceImp) GetRecord(status int, offset int, limit int) (da
 	return ret, "", 0
 }
 
-// GetMsg 查询某一天的记录
+// GetMsg 获取当前应该推送通知的记录
 func (imp *CounterInterfaceImp) GetMsg(TimeLen int64) (data []map[string]interface{}, errorMsg string, errorCode int) {
 	cli := db.Get()
 
@@ -361,11 +361,11 @@ func (imp *CounterInterfaceImp) GetMsg(TimeLen int64) (data []map[string]interfa
 	columns, _ := rows.Columns()            //获取列的信息
 	count := len(columns)                   //列的数量
 	var values = make([]interface{}, count) //创建一个与列的数量相当的空接口
-	for i, _ := range values {
+	for i := 0; i < count; i++ {
 		var ii interface{} //为空接口分配内存
 		values[i] = &ii    //取得这些内存的指针，因后继的Scan函数只接受指针
 	}
-	ret := []map[string]interface{}{} //创建返回值：不定长的map类型切片
+	ret := make([]map[string]interface{}, 0)
 	for rows.Next() {
 		err0 := rows.Scan(values...)  //开始读行，Scan函数只接受指针变量
 		m := map[string]interface{}{} //用于存放1列的 [键/值] 对
@@ -373,15 +373,15 @@ func (imp *CounterInterfaceImp) GetMsg(TimeLen int64) (data []map[string]interfa
 			panic(err)
 		}
 		for i, colName := range columns {
-			var raw_value = *(values[i].(*interface{})) //读出raw数据，类型为byte
-			if reflect.TypeOf(raw_value) == reflect.TypeOf([]byte{0}) {
-				b, _ := raw_value.([]byte)
+			var rawValue = *(values[i].(*interface{})) //读出raw数据，类型为byte
+			if reflect.TypeOf(rawValue) == reflect.TypeOf([]byte{0}) {
+				b, _ := rawValue.([]byte)
 
 				v := string(b) //将raw数据转换成字符串
 
 				m[colName] = v //colName是键，v是值
 			} else {
-				m[colName] = raw_value
+				m[colName] = rawValue
 			}
 		}
 		ret = append(ret, m) //将单行所有列的键值对附加在总的返回值上（以行为单位）
@@ -421,11 +421,11 @@ func (imp *CounterInterfaceImp) GetAdminList() (data []map[string]interface{}, e
 	columns, _ := rows.Columns()            //获取列的信息
 	count := len(columns)                   //列的数量
 	var values = make([]interface{}, count) //创建一个与列的数量相当的空接口
-	for i, _ := range values {
+	for i := 0; i < count; i++ {
 		var ii interface{} //为空接口分配内存
 		values[i] = &ii    //取得这些内存的指针，因后继的Scan函数只接受指针
 	}
-	ret := []map[string]interface{}{} //创建返回值：不定长的map类型切片
+	ret := make([]map[string]interface{}, 0)
 	for rows.Next() {
 		err0 := rows.Scan(values...)  //开始读行，Scan函数只接受指针变量
 		m := map[string]interface{}{} //用于存放1列的 [键/值] 对
@@ -433,13 +433,13 @@ func (imp *CounterInterfaceImp) GetAdminList() (data []map[string]interface{}, e
 			panic(err)
 		}
 		for i, colName := range columns {
-			var raw_value = *(values[i].(*interface{})) //读出raw数据，类型为byte
-			if reflect.TypeOf(raw_value) == reflect.TypeOf([]byte{0}) {
-				b, _ := raw_value.([]byte)
+			var rawValue = *(values[i].(*interface{})) //读出raw数据，类型为byte
+			if reflect.TypeOf(rawValue) == reflect.TypeOf([]byte{0}) {
+				b, _ := rawValue.([]byte)
 				v := string(b) //将raw数据转换成字符串
 				m[colName] = v //colName是键，v是值
 			} else {
-				m[colName] = raw_value
+				m[colName] = rawValue
 			}
 		}
 		ret = append(ret, m) //将单行所有列的键值对附加在总的返回值上（以行为单位）
@@ -461,7 +461,7 @@ func (imp *CounterInterfaceImp) CheckAdminLevel(weichartid string) (level int) {
 	columns, _ := rows.Columns()            //获取列的信息
 	count := len(columns)                   //列的数量
 	var values = make([]interface{}, count) //创建一个与列的数量相当的空接口
-	for i, _ := range values {
+	for i := 0; i < count; i++ {
 		var ii interface{} //为空接口分配内存
 		values[i] = &ii    //取得这些内存的指针，因后继的Scan函数只接受指针
 	}
@@ -472,15 +472,15 @@ func (imp *CounterInterfaceImp) CheckAdminLevel(weichartid string) (level int) {
 			panic(err)
 		}
 		for i, colName := range columns {
-			var raw_value = *(values[i].(*interface{})) //读出raw数据，类型为byte
-			if reflect.TypeOf(raw_value) == reflect.TypeOf([]byte{0}) {
-				b, _ := raw_value.([]byte)
+			var rawValue = *(values[i].(*interface{})) //读出raw数据，类型为byte
+			if reflect.TypeOf(rawValue) == reflect.TypeOf([]byte{0}) {
+				b, _ := rawValue.([]byte)
 
 				v := string(b) //将raw数据转换成字符串
 
 				ret[colName] = v //colName是键，v是值
 			} else {
-				ret[colName] = raw_value
+				ret[colName] = rawValue
 			}
 		}
 		break
@@ -503,7 +503,7 @@ func (imp *CounterInterfaceImp) UserLogin(username string, pwd string) bool {
 	columns, _ := rows.Columns()            //获取列的信息
 	count := len(columns)                   //列的数量
 	var values = make([]interface{}, count) //创建一个与列的数量相当的空接口
-	for i, _ := range values {
+	for i := 0; i < count; i++ {
 		var ii interface{} //为空接口分配内存
 		values[i] = &ii    //取得这些内存的指针，因后继的Scan函数只接受指针
 	}
