@@ -166,7 +166,7 @@ func (imp *CounterInterfaceImp) GetRecordNum(status int) (data int, errorMsg str
 func (imp *CounterInterfaceImp) GetWeihuapinByCN(weihuapin string) (data []map[string]interface{}, errorMsg string, errorCode int) {
 
 	cli := db.Get()
-	rows, err := cli.Table("chemicalandyingjichuzhifangan").Select("ChemicalName,Element,ChemicalInfo,ChemicalType,LiHuaTeXing,WendingAndFangYingxing,YunShuXinXi,OpraAndSave,Revealdisposition").Where("YunShuXinXi like '%危险货物编号：" + weihuapin + ",%'").Rows()
+	rows, err := cli.Table("chemicalandyingjichuzhifangan").Select("ChemicalName,ChemicalInfo,ChemicalType,LiHuaTeXing,WendingAndFangYingxing,YunShuXinXi,OpraAndSave,Revealdisposition").Where("YunShuXinXi like '%危险货物编号：" + weihuapin + ",%'").Rows()
 	if err != nil {
 		fmt.Println("Query ", err.Error())
 

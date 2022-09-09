@@ -18,7 +18,6 @@ var Token string
 
 type TokenStruct struct {
 	AccessToken string `json:"access_token"`
-	ExpiresIn   int    `json:"expires_in"`
 }
 type SendMsgCallBack struct {
 	ErrorCode int    `json:"errcode"`
@@ -364,10 +363,12 @@ func GetWeihuapin(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			res.Code = -4
 			res.ErrorMsg = "消息结构体错误"
+
+			fmt.Println("获取危化品", err)
 			ReturnBack(w, r, *res)
 			return
 		}
-
+		fmt.Println("获取危化品", counter.Weihuapin)
 		res.Data, res.ErrorMsg, res.Code = dao.Imp.GetWeihuapinByCN(counter.Weihuapin)
 
 	} else {
@@ -551,6 +552,7 @@ func GetToken() {
 				fmt.Println("GetToken Error11", err11)
 				return
 			}
+			fmt.Println("msgstruct.AccessToken", msgstruct.AccessToken)
 			if msgstruct.AccessToken != "" {
 				GetTokenTime = tnow
 				Token = msgstruct.AccessToken
