@@ -541,7 +541,7 @@ func GetToken() {
 		return
 	}
 
-	url := "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wxa806018a131603d3&secret=2e23f64187fa7aed8d528c5d0451288a"
+	url := "http://47.104.175.23:81/wechat_token.php?appid=wxa806018a131603d3&secret=2e23f64187fa7aed8d528c5d0451288a"
 
 	tr := &http.Transport{
 		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
@@ -609,8 +609,8 @@ func SendMsg(msg map[string]interface{}) {
 	//data := "{\"touser\":\"" + msg["wechartid"].(string) + "\",\"mp_template_msg\":{\"appid\":\"wxa806018a131603d3\",\"template_id\":\"" + templateid + "\",\"url\":\"\",\"topcolor\":\"#FF0000\",\"miniprogram\":{\"appid\":\"wx032125bd60fe9474\",\"pagepath\":\"\"},\"data\":{\"first\":{\"value\":\"尊敬的 " + msg["CarNo"].(string) + " 车主，您已停车两个小时：\",\"color\":\"#173177\"},\"keyword1\":{\"value\":\"济南东高速服务区危化品车辆停车场\",\"color\":\"#173177\"},\"keyword2\":{\"value\":\"" + msg["intime"].(time.Time).String()[0:19] + "\",\"color\":\"#173177\"},\"keyword3\":{\"value\":\"--\",\"color\":\"#173177\"},\"keyword4\":{\"value\":\"--\",\"color\":\"#173177\"},\"keyword5\":{\"value\":\"--\",\"color\":\"#173177\"},\"remark\":{\"value\":\"祝您出行愉快！\",\"color\":\"#173177\"}}}}"
 
 	//url := "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=" + Token
-	//url := "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=" + Token
-	url := "https://api.weixin.qq.com/cgi-bin/message/template/send"
+	url := "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=" + Token
+
 	data := "{\"touser\":\"" + msg["wechartid"].(string) + "\",\"template_id\":\"" + templateid + "\",\"data\":{\"first\":{\"value\":\"尊敬的 " + msg["CarNo"].(string) + " 车主，您已停车超过两个小时：\",\"color\":\"#173177\"},\"keyword1\":{\"value\":\"济南东高速服务区危化品车辆停车场\",\"color\":\"#173177\"},\"keyword2\":{\"value\":\"" + msg["intime"].(time.Time).String()[0:19] + "\",\"color\":\"#173177\"},\"keyword3\":{\"value\":\"--\",\"color\":\"#173177\"},\"keyword4\":{\"value\":\"--\",\"color\":\"#173177\"},\"keyword5\":{\"value\":\"--\",\"color\":\"#173177\"},\"remark\":{\"value\":\"祝您出行愉快！\",\"color\":\"#173177\"}}}"
 	payload := strings.NewReader(data)
 
@@ -644,7 +644,7 @@ func SendMsg(msg map[string]interface{}) {
 func ScanData() {
 
 	for {
-		//GetToken()
+		GetToken()
 		data, _, _ := dao.Imp.GetMsg(7200)
 		for _, v := range data {
 			SendMsg(v)
