@@ -1498,7 +1498,7 @@
 			};
 		},
 		async created() {
-			console.log(1);
+			console.log(2);
 			this.loadingVis = true;
 			let myappid = "wxa806018a131603d3";
 			const vConsole = new window.VConsole();
@@ -1681,6 +1681,7 @@
 							let info = localStorage.getItem("formInfo");
 							if (info) {
 								that.formInfo = JSON.parse(info);
+								that.wName = that.cnJson[that.formInfo.weihuapin];
 							}
 						}
 						that.loadingVis = false;
