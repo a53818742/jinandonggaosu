@@ -1585,6 +1585,7 @@
       };
     },
     async created() {
+      console.log(1);
       let myappid = "wxa806018a131603d3";
       const vConsole = new window.VConsole();
       const result = await window.mplogin({
@@ -1672,7 +1673,7 @@
       },
       // 改变状态
       changeState(state) {
-        this.loadingVis=true;
+        this.loadingVis = true;
         this.nowState = state;
         this.list = [];
         this.pageIndex = 0;
@@ -1680,6 +1681,7 @@
       },
       // 分页
       async handleMore() {
+        console.log("handleMore");
         var that = this;
         await window.app.callContainer({
           path: '/api/CarList',
@@ -1698,6 +1700,8 @@
             "limit": that.limit,
           }),
           success: function (res) {
+            console.log("success");
+            console.log(res);
             that.pageIndex++;
             // 加载状态结束
             that.loadingVis = false;
@@ -1781,10 +1785,10 @@
                 "id": parseInt(id)
               }),
               success: function (res) {
-                that.handleMore();
                 that.pageIndex = 0;
                 that.list = [];
                 vant.Toast.success('已离场');
+                that.handleMore();
               },
               fail: function (res) {
                 alert(JSON.stringify(res))
