@@ -2459,7 +2459,7 @@
     async created() {
       console.log(2);
       let myappid = "wxa806018a131603d3";
-      const vConsole = new window.VConsole();
+      // const vConsole = new window.VConsole();
       const result = await window.mplogin({
         scope: "snsapi_userinfo", // 必填，登录方式：snsapi_userinfo、snsapi_base
         appid: myappid, // 必填，公众号appid，将以此 appid 名义进行请求
