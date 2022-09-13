@@ -1629,9 +1629,12 @@
 							"zhuangkuang": that.formInfo.zhuangkuang,
 						}),
 						success: function (res) {
+							console.log(res);
 							if (res.data.code == 0) {
 								localStorage.setItem("formInfo", JSON.stringify(that.formInfo));
 								vant.Toast.success('提交成功');
+								that.isUpload = true;
+								that.getOne();
 							}
 						},
 						fail: function (res) {
