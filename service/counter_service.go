@@ -1,6 +1,7 @@
 package service
 
 import (
+	"crypto/tls"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -541,7 +542,13 @@ func GetToken() {
 	}
 
 	url := "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wxa806018a131603d3&secret=2e23f64187fa7aed8d528c5d0451288a"
-	response, er0 := http.Post(url, "application/json", nil)
+
+	tr := &http.Transport{
+		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+	}
+	client := &http.Client{Transport: tr}
+
+	response, er0 := client.Post(url, "application/json", nil)
 	if er0 == nil {
 		BodyBytes0, e1 := ioutil.ReadAll(response.Body)
 		if e1 == nil {
@@ -605,7 +612,12 @@ func SendMsg(msg map[string]interface{}) {
 	url := "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=" + Token
 	data := "{\"touser\":\"" + msg["wechartid"].(string) + "\",\"template_id\":\"" + templateid + "\",\"data\":{\"first\":{\"value\":\"尊敬的 " + msg["CarNo"].(string) + " 车主，您已停车超过两个小时：\",\"color\":\"#173177\"},\"keyword1\":{\"value\":\"济南东高速服务区危化品车辆停车场\",\"color\":\"#173177\"},\"keyword2\":{\"value\":\"" + msg["intime"].(time.Time).String()[0:19] + "\",\"color\":\"#173177\"},\"keyword3\":{\"value\":\"--\",\"color\":\"#173177\"},\"keyword4\":{\"value\":\"--\",\"color\":\"#173177\"},\"keyword5\":{\"value\":\"--\",\"color\":\"#173177\"},\"remark\":{\"value\":\"祝您出行愉快！\",\"color\":\"#173177\"}}}"
 	payload := strings.NewReader(data)
-	response, e0 := http.Post(url, "application/json", payload)
+
+	tr := &http.Transport{
+		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+	}
+	client := &http.Client{Transport: tr}
+	response, e0 := client.Post(url, "application/json", payload)
 	if e0 == nil {
 		BodyBytes0, e1 := ioutil.ReadAll(response.Body)
 		if e1 == nil {
