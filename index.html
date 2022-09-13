@@ -60,7 +60,8 @@
 			outline: none;
 			display: block;
 		}
-		.container .form .fItem .col2{
+
+		.container .form .fItem .col2 {
 			color: #666;
 		}
 
@@ -303,7 +304,7 @@
 					moble: '',
 					zhuangkuang: '',
 				},
-				wName:'',
+				wName: '',
 				cnJson: {
 					"11001": " 爆破用电雷管 工程电雷管 ",
 					"11002": " 爆破用非电雷管 工程非电雷管 ",
@@ -1497,6 +1498,7 @@
 			};
 		},
 		async created() {
+			console.log(1);
 			this.loadingVis = true;
 			let myappid = "wxa806018a131603d3";
 			const vConsole = new window.VConsole();
@@ -1553,6 +1555,16 @@
 					return false
 				}
 				if (this.isUpload) {
+					console.log("修改");
+					console.log(JSON.stringify({
+						"id": that.formInfo.id,
+						"carNo": that.formInfo.carNo,
+						"dunwei": Number(that.formInfo.dunwei),
+						"weihuapin": that.formInfo.weihuapin,
+						"name": that.formInfo.name,
+						"moble": that.formInfo.moble,
+						"zhuangkuang": that.formInfo.zhuangkuang,
+					}));
 					// 修改
 					await window.app.callContainer({
 						path: '/api/CarUpdate',
@@ -1585,6 +1597,16 @@
 						}
 					})
 				} else {
+					console.log("新增");
+					console.log(JSON.stringify({
+						"wechartid": that.CurUserInfo["data"],
+						"carNo": that.formInfo.carNo,
+						"dunwei": Number(that.formInfo.dunwei),
+						"weihuapin": that.formInfo.weihuapin,
+						"name": that.formInfo.name,
+						"moble": that.formInfo.moble,
+						"zhuangkuang": that.formInfo.zhuangkuang,
+					}));
 					// 新增
 					await window.app.callContainer({
 						path: '/api/CarInsert',
@@ -1636,7 +1658,9 @@
 						"wechartid": that.CurUserInfo["data"],
 					}),
 					success: function (res) {
+						console.log(res);
 						if (res.data.data.CarNo) {
+							console.log("接口赋值");
 							that.isUpload = true;
 							that.formInfo = {
 								id: res.data.data.ID,
@@ -1647,8 +1671,9 @@
 								moble: res.data.data.moble,
 								zhuangkuang: res.data.data.zhuangkuang,
 							};
-							that.wName=that.cnJson[res.data.data.weihuapin];
+							that.wName = that.cnJson[res.data.data.weihuapin];
 						} else {
+							console.log("缓存赋值");
 							// 查看缓存是否存在
 							let info = localStorage.getItem("formInfo");
 							if (info) {
@@ -1663,8 +1688,8 @@
 				})
 
 			},
-			test(){
-				this.wName=this.cnJson[this.formInfo.weihuapin];
+			test() {
+				this.wName = this.cnJson[this.formInfo.weihuapin];
 			},
 		}
 	})
