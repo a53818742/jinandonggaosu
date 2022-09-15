@@ -611,7 +611,7 @@ func SendMsg(msg map[string]interface{}) {
 	//url := "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=" + Token
 	url := "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=" + Token
 
-	data := "{\"touser\":\"" + msg["wechartid"].(string) + "\",\"template_id\":\"" + templateid + "\",\"data\":{\"first\":{\"value\":\"尊敬的 " + msg["CarNo"].(string) + " 车主，您已停车超过两个小时：\",\"color\":\"#173177\"},\"keyword1\":{\"value\":\"济南东高速服务区危化品车辆停车场\",\"color\":\"#173177\"},\"keyword2\":{\"value\":\"" + msg["intime"].(time.Time).String()[0:19] + "\",\"color\":\"#173177\"},\"keyword3\":{\"value\":\"--\",\"color\":\"#173177\"},\"keyword4\":{\"value\":\"--\",\"color\":\"#173177\"},\"keyword5\":{\"value\":\"--\",\"color\":\"#173177\"},\"remark\":{\"value\":\"祝您出行愉快！\",\"color\":\"#173177\"}}}"
+	data := "{\"touser\":\"" + msg["wechartid"].(string) + "\",\"template_id\":\"" + templateid + "\",\"data\":{\"first\":{\"value\":\"尊敬的 " + msg["CarNo"].(string) + " 车主，您已停车超过两个小时，请尽快驶离！\",\"color\":\"#173177\"},\"keyword1\":{\"value\":\"济南东高速服务区危化品车辆停车场\",\"color\":\"#173177\"},\"keyword2\":{\"value\":\"" + msg["intime"].(time.Time).String()[0:19] + "\",\"color\":\"#173177\"},\"keyword3\":{\"value\":\"--\",\"color\":\"#173177\"},\"keyword4\":{\"value\":\"--\",\"color\":\"#173177\"},\"keyword5\":{\"value\":\"--\",\"color\":\"#173177\"},\"remark\":{\"value\":\"祝您出行愉快！\",\"color\":\"#173177\"}}}"
 	payload := strings.NewReader(data)
 
 	tr := &http.Transport{
