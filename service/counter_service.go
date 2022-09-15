@@ -129,26 +129,6 @@ func GetUserInfo(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func CheckAdmin(w http.ResponseWriter, r *http.Request) {
-	res := &JsonResult{}
-	res.Data = 0
-	res.ErrorMsg = ""
-	res.Code = 0
-	BodyBytes, _ := ioutil.ReadAll(r.Body)
-	j := GetUserInfoStruct{}
-	err := json.Unmarshal(BodyBytes, &j)
-	if err != nil {
-		res.Code = -1
-		res.ErrorMsg = "消息错误"
-		ReturnBack(w, r, *res)
-		return
-	}
-	res.Code = 0
-	res.ErrorMsg = ""
-	res.Data = dao.Imp.CheckAdminLevel(j.Openid)
-	ReturnBack(w, r, *res)
-	return
-}
 func UserLogin(w http.ResponseWriter, r *http.Request) {
 	res := &JsonResult{}
 	res.Data = 0
@@ -166,6 +146,47 @@ func UserLogin(w http.ResponseWriter, r *http.Request) {
 	res.Code = 0
 	res.ErrorMsg = ""
 	res.Data = dao.Imp.UserLogin(j.Username, j.Pwd)
+	ReturnBack(w, r, *res)
+	return
+}
+func UserLogin2(w http.ResponseWriter, r *http.Request) {
+	res := &JsonResult{}
+	res.Data = 0
+	res.ErrorMsg = ""
+	res.Code = 0
+	BodyBytes, _ := ioutil.ReadAll(r.Body)
+	j := &model.UserLoginStruct{}
+	err := json.Unmarshal(BodyBytes, &j)
+	if err != nil {
+		res.Code = -1
+		res.ErrorMsg = "消息错误"
+		ReturnBack(w, r, *res)
+		return
+	}
+	res.Code = 0
+	res.ErrorMsg = ""
+	res.Data = dao.Imp.UserLogin2(j.Username, j.Pwd, j.Wechartid)
+	ReturnBack(w, r, *res)
+	return
+}
+
+func UserLogin3(w http.ResponseWriter, r *http.Request) {
+	res := &JsonResult{}
+	res.Data = 0
+	res.ErrorMsg = ""
+	res.Code = 0
+	BodyBytes, _ := ioutil.ReadAll(r.Body)
+	j := &model.UserLoginStruct{}
+	err := json.Unmarshal(BodyBytes, &j)
+	if err != nil {
+		res.Code = -1
+		res.ErrorMsg = "消息错误"
+		ReturnBack(w, r, *res)
+		return
+	}
+	res.Code = 0
+	res.ErrorMsg = ""
+	res.Data = dao.Imp.UserLogin3(j.Username, j.Pwd, j.Wechartid)
 	ReturnBack(w, r, *res)
 	return
 }
@@ -218,7 +239,7 @@ func CarInsert(w http.ResponseWriter, r *http.Request) {
 		counter.Recordtime = time.Now()
 		counter.Outtype = 0
 		counter.Status = 0
-		err = dao.Imp.InsertCar(counter)
+		res.Code, res.ErrorMsg = dao.Imp.InsertCar(counter)
 
 	} else {
 		res.Code = -1
@@ -408,27 +429,24 @@ func GetWeihuapinUN(w http.ResponseWriter, r *http.Request) {
 	ReturnBack(w, r, *res)
 	return
 }
-func AdminAdd(w http.ResponseWriter, r *http.Request) {
+
+func UserInsert(w http.ResponseWriter, r *http.Request) {
 	res := &JsonResult{}
 	res.Data = 0
 	res.ErrorMsg = ""
 	res.Code = 0
 	if r.Method == http.MethodPost {
 		BodyBytes, _ := ioutil.ReadAll(r.Body)
-		counter := &model.AdminInsert{}
+		counter := &model.UserInsert{}
 		err := json.Unmarshal(BodyBytes, &counter)
 		if err != nil {
 			res.Code = -4
 			res.ErrorMsg = "消息结构体错误"
 		}
-		counter.CreateTime = time.Now()
 		if counter.Level <= 0 {
 			counter.Level = 1
 		}
-		err2 := dao.Imp.InsertAdmin(counter)
-		if err2 != nil {
-			res.ErrorMsg, res.Code = err.Error(), -1
-		}
+		res.Code, res.ErrorMsg = dao.Imp.UserAdd(counter)
 
 	} else {
 		res.Code = -1
@@ -438,14 +456,14 @@ func AdminAdd(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func AdminUpdate(w http.ResponseWriter, r *http.Request) {
+func UserUpdate(w http.ResponseWriter, r *http.Request) {
 	res := &JsonResult{}
 	res.Data = 0
 	res.ErrorMsg = ""
 	res.Code = 0
 	if r.Method == http.MethodPost {
 		BodyBytes, _ := ioutil.ReadAll(r.Body)
-		counter := &model.AdminUpdate{}
+		counter := &model.UserUpdate{}
 		err := json.Unmarshal(BodyBytes, &counter)
 		if err != nil {
 			res.Code = -4
@@ -460,7 +478,7 @@ func AdminUpdate(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		err2 := dao.Imp.UpdateAdmin(counter)
+		err2 := dao.Imp.UserUpdate(counter)
 		if err2 != nil {
 			res.ErrorMsg, res.Code = err.Error(), -1
 		}
@@ -473,14 +491,14 @@ func AdminUpdate(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func AdminOver(w http.ResponseWriter, r *http.Request) {
+func UserDelete(w http.ResponseWriter, r *http.Request) {
 	res := &JsonResult{}
 	res.Data = 0
 	res.ErrorMsg = ""
 	res.Code = 0
 	if r.Method == http.MethodPost {
 		BodyBytes, _ := ioutil.ReadAll(r.Body)
-		counter := &model.AdminOver{}
+		counter := &model.UserDelete{}
 		err := json.Unmarshal(BodyBytes, &counter)
 		if err != nil {
 			res.Code = -4
@@ -495,7 +513,7 @@ func AdminOver(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		err2 := dao.Imp.OverAdmin(counter)
+		err2 := dao.Imp.UserDelete(counter)
 		if err2 != nil {
 			res.ErrorMsg, res.Code = err.Error(), -1
 		}
@@ -508,14 +526,130 @@ func AdminOver(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-// AdminList 计数器接口
-func AdminList(w http.ResponseWriter, r *http.Request) {
+// UserList 计数器接口
+func UserList(w http.ResponseWriter, r *http.Request) {
 	res := &JsonResult{}
 	res.Data = 0
 	res.ErrorMsg = ""
 	res.Code = 0
 	if r.Method == http.MethodPost {
-		res.Data, res.ErrorMsg, res.Code = dao.Imp.GetAdminList()
+		res.Data, res.ErrorMsg, res.Code = dao.Imp.UserList()
+	} else {
+		res.Code = -1
+		res.ErrorMsg = fmt.Sprintf("请求方法 %s 不支持", r.Method)
+	}
+
+	ReturnBack(w, r, *res)
+	return
+}
+
+func RecordInsert(w http.ResponseWriter, r *http.Request) {
+	res := &JsonResult{}
+	res.Data = 0
+	res.ErrorMsg = ""
+	res.Code = 0
+	if r.Method == http.MethodPost {
+		BodyBytes, _ := ioutil.ReadAll(r.Body)
+		counter := &model.RecordInsert{}
+		err := json.Unmarshal(BodyBytes, &counter)
+		if err != nil {
+			res.Code = -4
+			res.ErrorMsg = "消息结构体错误"
+		}
+
+		err2 := dao.Imp.RecordAdd(counter)
+		if err2 != nil {
+			res.ErrorMsg, res.Code = err.Error(), -1
+		}
+	} else {
+		res.Code = -1
+		res.ErrorMsg = fmt.Sprintf("请求方法 %s 不支持", r.Method)
+	}
+	ReturnBack(w, r, *res)
+	return
+}
+
+func RecordUpdate(w http.ResponseWriter, r *http.Request) {
+	res := &JsonResult{}
+	res.Data = 0
+	res.ErrorMsg = ""
+	res.Code = 0
+	if r.Method == http.MethodPost {
+		BodyBytes, _ := ioutil.ReadAll(r.Body)
+		counter := &model.RecordUpdate{}
+		err := json.Unmarshal(BodyBytes, &counter)
+		if err != nil {
+			res.Code = -4
+			res.ErrorMsg = "消息结构体错误"
+			ReturnBack(w, r, *res)
+			return
+		}
+		if counter.ID <= 0 {
+			res.Code = -5
+			res.ErrorMsg = "更新数据时，缺少ID"
+			ReturnBack(w, r, *res)
+			return
+		}
+
+		err2 := dao.Imp.RecordUpdate(counter)
+		if err2 != nil {
+			res.ErrorMsg, res.Code = err.Error(), -1
+		}
+
+	} else {
+		res.Code = -1
+		res.ErrorMsg = fmt.Sprintf("请求方法 %s 不支持", r.Method)
+	}
+	ReturnBack(w, r, *res)
+	return
+}
+
+func RecordDelete(w http.ResponseWriter, r *http.Request) {
+	res := &JsonResult{}
+	res.Data = 0
+	res.ErrorMsg = ""
+	res.Code = 0
+	if r.Method == http.MethodPost {
+		BodyBytes, _ := ioutil.ReadAll(r.Body)
+		counter := &model.RecordDelete{}
+		err := json.Unmarshal(BodyBytes, &counter)
+		if err != nil {
+			res.Code = -4
+			res.ErrorMsg = "消息结构体错误"
+			ReturnBack(w, r, *res)
+			return
+		}
+		if counter.ID <= 0 {
+			res.Code = -5
+			res.ErrorMsg = "删除数据时，缺少ID"
+			ReturnBack(w, r, *res)
+			return
+		}
+
+		err2 := dao.Imp.RecordDelete(counter)
+		if err2 != nil {
+			res.ErrorMsg, res.Code = err.Error(), -1
+		}
+
+	} else {
+		res.Code = -1
+		res.ErrorMsg = fmt.Sprintf("请求方法 %s 不支持", r.Method)
+	}
+	ReturnBack(w, r, *res)
+	return
+}
+
+// RecordList 计数器接口
+func RecordList(w http.ResponseWriter, r *http.Request) {
+	res := &JsonResult{}
+	res.Data = 0
+	res.ErrorMsg = ""
+	res.Code = 0
+	if r.Method == http.MethodPost {
+
+		BodyBytes, _ := ioutil.ReadAll(r.Body)
+		userid, _ := strconv.Atoi(string(BodyBytes))
+		res.Data, res.ErrorMsg, res.Code = dao.Imp.RecordList(userid)
 	} else {
 		res.Code = -1
 		res.ErrorMsg = fmt.Sprintf("请求方法 %s 不支持", r.Method)

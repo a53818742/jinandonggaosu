@@ -27,18 +27,12 @@ type WeihuapinCar struct {
 
 // CounterInterface 计数器数据模型接口
 type CounterInterface interface {
-	InsertCar(counter *model.WeihuapinCarInsert) error
+	InsertCar(counter *model.WeihuapinCarInsert) (int, string)
 	UpdateCar(counter *model.WeihuapinCarUpdate) error
 	OverCar(counter *model.WeihuapinCarOver) error
 	GetCar(id string) (data map[string]interface{}, errorMsg string, errorCode int)
 	GetRecord(status int, offset int, limit int) (data []map[string]interface{}, errorMsg string, errorCode int)
 
-	InsertAdmin(counter *model.AdminInsert) error
-	UpdateAdmin(counter *model.AdminUpdate) error
-	OverAdmin(counter *model.AdminOver) error
-	GetAdminList() (data []map[string]interface{}, errorMsg string, errorCode int)
-
-	CheckAdminLevel(weichartid string) (level int)
 	UserLogin(username string, pwd string) bool
 
 	GetMsg(TimeLen int64) (data []map[string]interface{}, errorMsg string, errorCode int)
@@ -48,6 +42,19 @@ type CounterInterface interface {
 	GetWeihuapinByCN(weihuapin string) (data []map[string]interface{}, errorMsg string, errorCode int)
 
 	OverMsg(counter *model.OverMsg) error
+
+	UserList() (data []map[string]interface{}, errorMsg string, errorCode int)
+	UserAdd(counter *model.UserInsert) (int, string)
+	UserUpdate(counter *model.UserUpdate) error
+	UserDelete(counter *model.UserDelete) error
+
+	RecordAdd(counter *model.RecordInsert) error
+	RecordUpdate(counter *model.RecordUpdate) error
+	RecordDelete(counter *model.RecordDelete) error
+	RecordList(userid int) (data []map[string]interface{}, errorMsg string, errorCode int)
+
+	UserLogin2(username string, pwd string, wechartid string) bool
+	UserLogin3(username string, pwd string, wechartid string) bool
 }
 
 // CounterInterfaceImp 计数器数据模型实现

@@ -9,9 +9,7 @@ import (
 	"wxcloudrun-golang/db/model"
 )
 
-//const tableName = "Counters"
 const tableName2 = "weihuapincar"
-const tableName3 = "adminuser"
 
 //
 //// ClearCounter 清除Counter
@@ -39,9 +37,33 @@ const tableName3 = "adminuser"
 //}
 
 // InsertCar 更新/写入counter
-func (imp *CounterInterfaceImp) InsertCar(counter *model.WeihuapinCarInsert) error {
+func (imp *CounterInterfaceImp) InsertCar(counter *model.WeihuapinCarInsert) (int, string) {
 	cli := db.Get()
-	return cli.Table(tableName2).Save(counter).Error
+
+	rows, err := cli.Table(tableName2).Where(" wechartid= ? and status=0", counter.WechartId).Rows()
+	if err != nil {
+		return -1, "出错"
+	}
+	defer rows.Close()
+	columns, _ := rows.Columns()            //获取列的信息
+	count := len(columns)                   //列的数量
+	var values = make([]interface{}, count) //创建一个与列的数量相当的空接口
+	for i := 0; i < count; i++ {
+		var ii interface{} //为空接口分配内存
+		values[i] = &ii    //取得这些内存的指针，因后继的Scan函数只接受指针
+	}
+	for rows.Next() {
+		err0 := rows.Scan(values...) //开始读行，Scan函数只接受指针变量
+		if err0 != nil {
+			return -2, "出错"
+		}
+		return -3, "记录已存在，请勿重复提交！"
+	}
+	er := cli.Table(tableName2).Save(counter).Error
+	if er == nil {
+		return 0, ""
+	}
+	return -4, ""
 }
 
 // UpdateCar 更新/写入counter
@@ -390,29 +412,208 @@ func (imp *CounterInterfaceImp) GetMsg(TimeLen int64) (data []map[string]interfa
 	return ret, "", 0
 }
 
-// InsertAdmin 更新/写入counter
-func (imp *CounterInterfaceImp) InsertAdmin(counter *model.AdminInsert) error {
+// UserLogin 用户登录
+func (imp *CounterInterfaceImp) UserLogin(username string, pwd string) bool {
 	cli := db.Get()
-	return cli.Table(tableName3).Save(counter).Error
+	rows, err := cli.Table("users").Where("level>=1 and username= ? and pwd=?", username, pwd).Rows()
+	if err != nil {
+		return false
+	}
+	defer rows.Close()
+	columns, _ := rows.Columns()            //获取列的信息
+	count := len(columns)                   //列的数量
+	var values = make([]interface{}, count) //创建一个与列的数量相当的空接口
+	for i := 0; i < count; i++ {
+		var ii interface{} //为空接口分配内存
+		values[i] = &ii    //取得这些内存的指针，因后继的Scan函数只接受指针
+	}
+	for rows.Next() {
+		err0 := rows.Scan(values...) //开始读行，Scan函数只接受指针变量
+		if err0 != nil {
+			return false
+		}
+
+		return true
+	}
+	return false
 }
 
-// UpdateAdmin 更新/写入counter
-func (imp *CounterInterfaceImp) UpdateAdmin(counter *model.AdminUpdate) error {
+// UserLogin2 用户登录
+func (imp *CounterInterfaceImp) UserLogin2(username string, pwd string, wechartid string) bool {
 	cli := db.Get()
-	return cli.Table(tableName3).Save(counter).Error
+	rows, err := cli.Table("users").Where("level>=1 and username= ? and pwd=?", username, pwd).Rows()
+	if err != nil {
+		return false
+	}
+	defer rows.Close()
+	columns, _ := rows.Columns()            //获取列的信息
+	count := len(columns)                   //列的数量
+	var values = make([]interface{}, count) //创建一个与列的数量相当的空接口
+	for i := 0; i < count; i++ {
+		var ii interface{} //为空接口分配内存
+		values[i] = &ii    //取得这些内存的指针，因后继的Scan函数只接受指针
+	}
+	for rows.Next() {
+		err0 := rows.Scan(values...) //开始读行，Scan函数只接受指针变量
+		if err0 != nil {
+			return false
+		}
+		ret := map[string]interface{}{} //创建返回值：不定长的map类型切片
+		for i, colName := range columns {
+			var rawValue = *(values[i].(*interface{})) //读出raw数据，类型为byte
+			if reflect.TypeOf(rawValue) == reflect.TypeOf([]byte{0}) {
+				b, _ := rawValue.([]byte)
+
+				v := string(b) //将raw数据转换成字符串
+
+				ret[colName] = v //colName是键，v是值
+			} else {
+				ret[colName] = rawValue
+			}
+		}
+		id, _ := strconv.Atoi(ret["ID"].(string))
+		cli.Table("users").Save(&model.UserLoginWechart{
+			Wechartid: wechartid,
+			ID:        id,
+		})
+		return true
+	}
+	return false
 }
 
-// OverAdmin 删除管理者
-func (imp *CounterInterfaceImp) OverAdmin(counter *model.AdminOver) error {
+// UserLogin3 用户登录
+func (imp *CounterInterfaceImp) UserLogin3(username string, pwd string, wechartid string) bool {
 	cli := db.Get()
-	return cli.Table(tableName3).Save(counter).Error
+	rows, err := cli.Table("users").Where("level>=2 and username= ? and pwd=?", username, pwd).Rows()
+	if err != nil {
+		return false
+	}
+	defer rows.Close()
+	columns, _ := rows.Columns()            //获取列的信息
+	count := len(columns)                   //列的数量
+	var values = make([]interface{}, count) //创建一个与列的数量相当的空接口
+	for i := 0; i < count; i++ {
+		var ii interface{} //为空接口分配内存
+		values[i] = &ii    //取得这些内存的指针，因后继的Scan函数只接受指针
+	}
+	for rows.Next() {
+		err0 := rows.Scan(values...) //开始读行，Scan函数只接受指针变量
+		if err0 != nil {
+			return false
+		}
+
+		return true
+	}
+	return false
 }
 
-// GetAdminList 获取管理员列表
-func (imp *CounterInterfaceImp) GetAdminList() (data []map[string]interface{}, errorMsg string, errorCode int) {
+// UserAdd 更新/写入counter
+func (imp *CounterInterfaceImp) UserAdd(counter *model.UserInsert) (int, string) {
+	cli := db.Get()
+	rows, err := cli.Table("users").Where("username= ?", counter.UserName).Rows()
+	if err != nil {
+		return -1, "出错"
+	}
+	defer rows.Close()
+	columns, _ := rows.Columns()            //获取列的信息
+	count := len(columns)                   //列的数量
+	var values = make([]interface{}, count) //创建一个与列的数量相当的空接口
+	for i := 0; i < count; i++ {
+		var ii interface{} //为空接口分配内存
+		values[i] = &ii    //取得这些内存的指针，因后继的Scan函数只接受指针
+	}
+	for rows.Next() {
+		err0 := rows.Scan(values...) //开始读行，Scan函数只接受指针变量
+		if err0 != nil {
+			return -2, "出错"
+		}
+
+		return -3, "用户名已存在"
+	}
+
+	e := cli.Table(tableName2).Save(counter).Error
+	if e == nil {
+		return 0, ""
+	}
+	return -4, e.Error()
+}
+
+// UserUpdate 更新/写入counter
+func (imp *CounterInterfaceImp) UserUpdate(counter *model.UserUpdate) error {
+	cli := db.Get()
+	return cli.Table("users").Save(counter).Error
+}
+
+// UserDelete 更新/写入counter
+func (imp *CounterInterfaceImp) UserDelete(counter *model.UserDelete) error {
+	cli := db.Get()
+	return cli.Table("users").Delete(counter).Error
+}
+
+// UserList 查询某一天的记录
+func (imp *CounterInterfaceImp) UserList() (data []map[string]interface{}, errorMsg string, errorCode int) {
+	cli := db.Get()
+	rows, err := cli.Table("users").Order(" ID desc").Rows()
+	if err != nil {
+		fmt.Println("Query ", err.Error())
+		return nil, err.Error(), -100
+	}
+	defer rows.Close()
+	columns, _ := rows.Columns()            //获取列的信息
+	count := len(columns)                   //列的数量
+	var values = make([]interface{}, count) //创建一个与列的数量相当的空接口
+	for i := 0; i < count; i++ {
+		var ii interface{} //为空接口分配内存
+		values[i] = &ii    //取得这些内存的指针，因后继的Scan函数只接受指针
+	}
+	ret := make([]map[string]interface{}, 0)
+	for rows.Next() {
+		err0 := rows.Scan(values...)  //开始读行，Scan函数只接受指针变量
+		m := map[string]interface{}{} //用于存放1列的 [键/值] 对
+		if err0 != nil {
+			panic(err)
+		}
+		for i, colName := range columns {
+			var rawValue = *(values[i].(*interface{})) //读出raw数据，类型为byte
+			if reflect.TypeOf(rawValue) == reflect.TypeOf([]byte{0}) {
+				b, _ := rawValue.([]byte)
+
+				v := string(b) //将raw数据转换成字符串
+
+				m[colName] = v //colName是键，v是值
+			} else {
+				m[colName] = rawValue
+			}
+		}
+		ret = append(ret, m) //将单行所有列的键值对附加在总的返回值上（以行为单位）
+	}
+
+	return ret, "", 0
+}
+
+// RecordAdd 更新/写入counter
+func (imp *CounterInterfaceImp) RecordAdd(counter *model.RecordInsert) error {
+	cli := db.Get()
+	return cli.Table("record").Save(counter).Error
+}
+
+// RecordUpdate 更新/写入counter
+func (imp *CounterInterfaceImp) RecordUpdate(counter *model.RecordUpdate) error {
+	cli := db.Get()
+	return cli.Table("record").Save(counter).Error
+}
+
+// RecordDelete 更新/写入counter
+func (imp *CounterInterfaceImp) RecordDelete(counter *model.RecordDelete) error {
+	cli := db.Get()
+	return cli.Table("record").Delete(counter).Error
+}
+
+// RecordList 查询某一天的记录
+func (imp *CounterInterfaceImp) RecordList(userid int) (data []map[string]interface{}, errorMsg string, errorCode int) {
 
 	cli := db.Get()
-	rows, err := cli.Table(tableName3).Where("level>0").Order(" ID desc").Rows()
+	rows, err := cli.Table("record").Where("userid=?", userid).Order(" ID desc").Rows()
 	if err != nil {
 		fmt.Println("Query ", err.Error())
 		return nil, err.Error(), -100
@@ -446,74 +647,4 @@ func (imp *CounterInterfaceImp) GetAdminList() (data []map[string]interface{}, e
 	}
 
 	return ret, "", 0
-}
-
-// CheckAdminLevel 按照微信id查询用户级别
-func (imp *CounterInterfaceImp) CheckAdminLevel(weichartid string) (level int) {
-	level = 0
-	cli := db.Get()
-	rows, err := cli.Table(tableName2).Where("level>=1 and wechartid= ?", weichartid).Order(" ID desc").Rows()
-	if err != nil {
-		fmt.Println("Query ", err.Error())
-		return
-	}
-	defer rows.Close()
-	columns, _ := rows.Columns()            //获取列的信息
-	count := len(columns)                   //列的数量
-	var values = make([]interface{}, count) //创建一个与列的数量相当的空接口
-	for i := 0; i < count; i++ {
-		var ii interface{} //为空接口分配内存
-		values[i] = &ii    //取得这些内存的指针，因后继的Scan函数只接受指针
-	}
-	ret := map[string]interface{}{} //创建返回值：不定长的map类型切片
-	for rows.Next() {
-		err0 := rows.Scan(values...) //开始读行，Scan函数只接受指针变量
-		if err0 != nil {
-			panic(err)
-		}
-		for i, colName := range columns {
-			var rawValue = *(values[i].(*interface{})) //读出raw数据，类型为byte
-			if reflect.TypeOf(rawValue) == reflect.TypeOf([]byte{0}) {
-				b, _ := rawValue.([]byte)
-
-				v := string(b) //将raw数据转换成字符串
-
-				ret[colName] = v //colName是键，v是值
-			} else {
-				ret[colName] = rawValue
-			}
-		}
-		break
-	}
-	level, _ = strconv.Atoi(ret["level"].(string))
-	if level <= 0 {
-		level = 0
-	}
-	return
-}
-
-// UserLogin 用户登录
-func (imp *CounterInterfaceImp) UserLogin(username string, pwd string) bool {
-	cli := db.Get()
-	rows, err := cli.Table("users").Where("level>=1 and username= ? and pwd=?", username, pwd).Rows()
-	if err != nil {
-		return false
-	}
-	defer rows.Close()
-	columns, _ := rows.Columns()            //获取列的信息
-	count := len(columns)                   //列的数量
-	var values = make([]interface{}, count) //创建一个与列的数量相当的空接口
-	for i := 0; i < count; i++ {
-		var ii interface{} //为空接口分配内存
-		values[i] = &ii    //取得这些内存的指针，因后继的Scan函数只接受指针
-	}
-	for rows.Next() {
-		err0 := rows.Scan(values...) //开始读行，Scan函数只接受指针变量
-		if err0 != nil {
-			return false
-		}
-
-		return true
-	}
-	return false
 }

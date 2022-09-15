@@ -59,14 +59,20 @@ func main() {
 	http.HandleFunc("/api/GetUserInfo", service.GetUserInfo)
 	http.HandleFunc("/api/GetWeihuapin", service.GetWeihuapin)
 	http.HandleFunc("/api/GetWeihuapinUN", service.GetWeihuapinUN)
-	http.HandleFunc("/api/AdminAdd", service.AdminAdd)
-	http.HandleFunc("/api/AdminUpdate", service.AdminUpdate)
-	http.HandleFunc("/api/AdminOver", service.AdminOver)
-	http.HandleFunc("/api/AdminList", service.AdminList)
 
-	http.HandleFunc("/api/CheckAdmin", service.CheckAdmin)
+	http.HandleFunc("/api/UserInsert", service.UserInsert)
+	http.HandleFunc("/api/UserUpdate", service.UserUpdate)
+	http.HandleFunc("/api/UserDelete", service.UserDelete)
+	http.HandleFunc("/api/UserList", service.UserList)
+
+	http.HandleFunc("/api/RecordInsert", service.RecordInsert)
+	http.HandleFunc("/api/RecordUpdate", service.RecordUpdate)
+	http.HandleFunc("/api/RecordDelete", service.RecordDelete)
+	http.HandleFunc("/api/RecordList", service.RecordList)
+
 	http.HandleFunc("/api/UserLogin", service.UserLogin)
-
+	http.HandleFunc("/api/UserLogin2", service.UserLogin2)
+	http.HandleFunc("/api/UserLogin3", service.UserLogin3)
 	//http.HandleFunc("/api/count", service.CounterHandler)
 	//log.Fatal(http.ListenAndServe(":80", http.FileServer(http.Dir("./static/"))))
 

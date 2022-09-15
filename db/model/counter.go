@@ -2,14 +2,6 @@ package model
 
 import "time"
 
-// CounterModel 计数器模型
-type CounterModel struct {
-	Id        int32     `gorm:"column:id" json:"id"`
-	Count     int32     `gorm:"column:count" json:"count"`
-	CreatedAt time.Time `gorm:"column:createdAt" json:"createdAt"`
-	UpdatedAt time.Time `gorm:"column:updatedAt" json:"updatedAt"`
-}
-
 type WeihuapinCarInsert struct {
 	Id          int32     `gorm:"column:ID" json:"ID"`
 	CarNo       string    `gorm:"column:carNo" json:"carNo"`
@@ -64,26 +56,49 @@ type WeihuapinInfo struct {
 	Weihuapin string `json:"weihuapin"`
 }
 
-type AdminInsert struct {
-	Wechartid  string    `gorm:"column:wechartid" json:"wechartid"`
-	Level      int       `gorm:"column:level" json:"level"`
-	Name       int       `gorm:"column:name" json:"name"`
-	Mobile     int       `gorm:"column:mobile" json:"mobile"`
-	CreateTime time.Time `gorm:"column:create_time" json:"create_time"`
+type UserInsert struct {
+	Level    int    `gorm:"column:level" json:"level"`
+	UserDesc string `gorm:"column:userdesc" json:"userdesc"`
+	UserName string `gorm:"column:username" json:"username"`
+	Pwd      string `gorm:"column:pwd" json:"pwd"`
+	Mobile   string `gorm:"column:mobile" json:"mobile"`
 }
 
-type AdminUpdate struct {
-	ID     int `gorm:"column:ID" json:"ID"`
-	Name   int `gorm:"column:name" json:"name"`
-	Mobile int `gorm:"column:mobile" json:"mobile"`
+type UserUpdate struct {
+	ID       int    `gorm:"column:ID" json:"ID"`
+	Level    int    `gorm:"column:level" json:"level"`
+	UserDesc string `gorm:"column:userdesc" json:"userdesc"`
+	UserName string `gorm:"column:username" json:"username"`
+	Pwd      string `gorm:"column:pwd" json:"pwd"`
+	Mobile   string `gorm:"column:mobile" json:"mobile"`
+}
+type UserLoginWechart struct {
+	ID        int    `gorm:"column:ID" json:"ID"`
+	Wechartid string `gorm:"column:wechartid" json:"wechartid"`
 }
 
-type AdminOver struct {
-	ID    int `gorm:"column:ID" json:"ID"`
-	Level int `gorm:"column:level" json:"level"`
+type UserDelete struct {
+	ID int32 `gorm:"column:ID" json:"ID"`
 }
 
 type UserLoginStruct struct {
-	Username string `gorm:"column:username" json:"username"`
-	Pwd      string `gorm:"column:pwd" json:"pwd"`
+	Username  string `gorm:"column:username" json:"username"`
+	Pwd       string `gorm:"column:pwd" json:"pwd"`
+	Wechartid string `gorm:"column:wechartid" json:"wechartid"`
+}
+
+type RecordInsert struct {
+	UserID    int       `gorm:"column:userid" json:"userid"`
+	StartTime time.Time `gorm:"column:starttime" json:"starttime"`
+	EndTime   time.Time `gorm:"column:endtime" json:"endtime"`
+}
+
+type RecordUpdate struct {
+	ID        int       `gorm:"column:ID" json:"ID"`
+	StartTime time.Time `gorm:"column:starttime" json:"starttime"`
+	EndTime   time.Time `gorm:"column:endtime" json:"endtime"`
+}
+
+type RecordDelete struct {
+	ID int32 `gorm:"column:ID" json:"ID"`
 }
