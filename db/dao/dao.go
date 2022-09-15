@@ -471,10 +471,13 @@ func (imp *CounterInterfaceImp) UserLogin2(username string, pwd string, wecharti
 				ret[colName] = rawValue
 			}
 		}
-		cli.Table("users").Save(&model.UserLoginWechart{
-			Wechartid: wechartid,
-			ID:        int(ret["ID"].(int64)),
-		})
+		if len(ret["wechartid"].(string)) < 10 {
+			cli.Table("users").Save(&model.UserLoginWechart{
+				Wechartid: wechartid,
+				ID:        int(ret["ID"].(int64)),
+			})
+		}
+
 		return true
 	}
 	return false
