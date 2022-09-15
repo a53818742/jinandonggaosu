@@ -531,7 +531,7 @@ func (imp *CounterInterfaceImp) UserAdd(counter *model.UserInsert) (int, string)
 		return -3, "用户名已存在"
 	}
 
-	e := cli.Table(tableName2).Save(counter).Error
+	e := cli.Table("users").Save(counter).Error
 	if e == nil {
 		return 0, ""
 	}
