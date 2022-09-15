@@ -53,7 +53,9 @@ func Init() error {
 
 	fmt.Println("finish init mysql with ", source)
 
-	rows, err002 := dbInstance.Table("(select * from record where starttime<='2022-09-01 05:00:00' and endtime >='2022-09-01 05:00:00')t1 LEFT JOIN users on t1.userid=users.ID").Select("t1.userid,users.wechartid").Rows()
+	f := dbInstance.Exec("select t1.userid,users.wechartid from (select * from record where starttime<='2022-09-01 05:00:00' and endtime >='2022-09-01 05:00:00')t1 LEFT JOIN users on t1.userid=users.ID")
+
+	rows, err002 := f.Rows()
 	if err002 != nil {
 		fmt.Println("Query ", err.Error())
 
