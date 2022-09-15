@@ -407,6 +407,7 @@ func (imp *CounterInterfaceImp) GetMsg(TimeLen int64) (data []map[string]interfa
 		}
 		ret = append(ret, m) //将单行所有列的键值对附加在总的返回值上（以行为单位）
 	}
+	//ff
 	return ret, "", 0
 }
 
