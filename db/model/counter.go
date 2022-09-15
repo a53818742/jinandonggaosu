@@ -57,6 +57,7 @@ type WeihuapinInfo struct {
 }
 
 type UserInsert struct {
+	ID       int    `gorm:"column:ID" json:"ID"`
 	Level    int    `gorm:"column:level" json:"level"`
 	UserDesc string `gorm:"column:userdesc" json:"userdesc"`
 	UserName string `gorm:"column:username" json:"username"`
@@ -88,6 +89,7 @@ type UserLoginStruct struct {
 }
 
 type RecordInsert struct {
+	ID        int    `gorm:"column:ID" json:"ID"`
 	UserID    int    `gorm:"column:userid" json:"userid"`
 	StartTime string `gorm:"column:starttime" json:"starttime"`
 	EndTime   string `gorm:"column:endtime" json:"endtime"`
