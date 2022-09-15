@@ -57,21 +57,23 @@ type WeihuapinInfo struct {
 }
 
 type UserInsert struct {
-	ID       int    `gorm:"column:ID" json:"ID"`
-	Level    int    `gorm:"column:level" json:"level"`
-	UserDesc string `gorm:"column:userdesc" json:"userdesc"`
-	UserName string `gorm:"column:username" json:"username"`
-	Pwd      string `gorm:"column:pwd" json:"pwd"`
-	Mobile   string `gorm:"column:mobile" json:"mobile"`
+	ID        int    `gorm:"column:ID" json:"ID"`
+	Level     int    `gorm:"column:level" json:"level"`
+	UserDesc  string `gorm:"column:userdesc" json:"userdesc"`
+	UserName  string `gorm:"column:username" json:"username"`
+	Pwd       string `gorm:"column:pwd" json:"pwd"`
+	Mobile    string `gorm:"column:mobile" json:"mobile"`
+	Wechartid string `gorm:"column:wechartid" json:"wechartid"`
 }
 
 type UserUpdate struct {
-	ID       int    `gorm:"column:ID" json:"ID"`
-	Level    int    `gorm:"column:level" json:"level"`
-	UserDesc string `gorm:"column:userdesc" json:"userdesc"`
-	UserName string `gorm:"column:username" json:"username"`
-	Pwd      string `gorm:"column:pwd" json:"pwd"`
-	Mobile   string `gorm:"column:mobile" json:"mobile"`
+	ID        int    `gorm:"column:ID" json:"ID"`
+	Level     int    `gorm:"column:level" json:"level"`
+	UserDesc  string `gorm:"column:userdesc" json:"userdesc"`
+	UserName  string `gorm:"column:username" json:"username"`
+	Pwd       string `gorm:"column:pwd" json:"pwd"`
+	Mobile    string `gorm:"column:mobile" json:"mobile"`
+	Wechartid string `gorm:"column:wechartid" json:"wechartid"`
 }
 type UserLoginWechart struct {
 	ID        int    `gorm:"column:ID" json:"ID"`

@@ -530,7 +530,7 @@ func (imp *CounterInterfaceImp) UserAdd(counter *model.UserInsert) (int, string)
 
 		return -3, "用户名已存在"
 	}
-
+	counter.Wechartid = "none"
 	e := cli.Table("users").Save(counter).Error
 	if e == nil {
 		return 0, ""
