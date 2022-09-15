@@ -818,7 +818,7 @@ func SendMsg(msg map[string]interface{}) {
 			}
 		}
 	}
-	SendMsgToAdmin(msg, dao.Imp.GetAdminList())
+	//SendMsgToAdmin(msg, dao.Imp.GetAdminList())
 }
 
 func ScanData() {

@@ -222,7 +222,7 @@ func (imp *CounterInterfaceImp) GetWeihuapinByCN(weihuapin string) (data []map[s
 		}
 		ret = append(ret, m)
 	}
-	fmt.Println("GetWeihuapinByCN", len(ret), ret)
+	//fmt.Println("GetWeihuapinByCN", len(ret), ret)
 	return ret, "", 0
 }
 
@@ -376,7 +376,6 @@ func (imp *CounterInterfaceImp) GetMsg(TimeLen int64) (data []map[string]interfa
 	rows, err := cli.Table(tableName2).Where("status=0 and msgnum=0 and  UNIX_TIMESTAMP(intime)<" + strconv.FormatInt(time.Now().Unix()-TimeLen, 10)).Order(" ID ").Rows()
 	if err != nil {
 		fmt.Println("Query ", err.Error())
-
 		return nil, err.Error(), -100
 	}
 	defer rows.Close()
@@ -408,7 +407,6 @@ func (imp *CounterInterfaceImp) GetMsg(TimeLen int64) (data []map[string]interfa
 		}
 		ret = append(ret, m) //将单行所有列的键值对附加在总的返回值上（以行为单位）
 	}
-	fmt.Println(len(ret), "status=0 and msgnum=0 and  UNIX_TIMESTAMP(intime)<"+strconv.FormatInt(time.Now().Unix()-TimeLen, 10))
 	return ret, "", 0
 }
 
