@@ -471,10 +471,9 @@ func (imp *CounterInterfaceImp) UserLogin2(username string, pwd string, wecharti
 				ret[colName] = rawValue
 			}
 		}
-		id, _ := strconv.Atoi(ret["ID"].(string))
 		cli.Table("users").Save(&model.UserLoginWechart{
 			Wechartid: wechartid,
-			ID:        id,
+			ID:        int(ret["ID"].(int64)),
 		})
 		return true
 	}
@@ -531,6 +530,9 @@ func (imp *CounterInterfaceImp) UserAdd(counter *model.UserInsert) (int, string)
 		return -3, "用户名已存在"
 	}
 	counter.Wechartid = "none"
+	if counter.Level <= 0 {
+		counter.Level = 1
+	}
 	e := cli.Table("users").Save(counter).Error
 	if e == nil {
 		return 0, ""
