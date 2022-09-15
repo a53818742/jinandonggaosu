@@ -88,15 +88,15 @@ type UserLoginStruct struct {
 }
 
 type RecordInsert struct {
-	UserID    int       `gorm:"column:userid" json:"userid"`
-	StartTime time.Time `gorm:"column:starttime" json:"starttime"`
-	EndTime   time.Time `gorm:"column:endtime" json:"endtime"`
+	UserID    int    `gorm:"column:userid" json:"userid"`
+	StartTime string `gorm:"column:starttime" json:"starttime"`
+	EndTime   string `gorm:"column:endtime" json:"endtime"`
 }
 
 type RecordUpdate struct {
-	ID        int       `gorm:"column:ID" json:"ID"`
-	StartTime time.Time `gorm:"column:starttime" json:"starttime"`
-	EndTime   time.Time `gorm:"column:endtime" json:"endtime"`
+	ID        int    `gorm:"column:ID" json:"ID"`
+	StartTime string `gorm:"column:starttime" json:"starttime"`
+	EndTime   string `gorm:"column:endtime" json:"endtime"`
 }
 
 type RecordDelete struct {

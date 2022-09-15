@@ -40,25 +40,25 @@ const tableName2 = "weihuapincar"
 func (imp *CounterInterfaceImp) InsertCar(counter *model.WeihuapinCarInsert) (int, string) {
 	cli := db.Get()
 
-	rows, err := cli.Table(tableName2).Where(" wechartid= ? and status=0", counter.WechartId).Rows()
-	if err != nil {
-		return -1, "出错"
-	}
-	defer rows.Close()
-	columns, _ := rows.Columns()            //获取列的信息
-	count := len(columns)                   //列的数量
-	var values = make([]interface{}, count) //创建一个与列的数量相当的空接口
-	for i := 0; i < count; i++ {
-		var ii interface{} //为空接口分配内存
-		values[i] = &ii    //取得这些内存的指针，因后继的Scan函数只接受指针
-	}
-	for rows.Next() {
-		err0 := rows.Scan(values...) //开始读行，Scan函数只接受指针变量
-		if err0 != nil {
-			return -2, "出错"
-		}
-		return -3, "记录已存在，请勿重复提交！"
-	}
+	//rows, err := cli.Table(tableName2).Where(" wechartid= ? and status=0", counter.WechartId).Rows()
+	//if err != nil {
+	//	return -1, "出错"
+	//}
+	//defer rows.Close()
+	//columns, _ := rows.Columns()            //获取列的信息
+	//count := len(columns)                   //列的数量
+	//var values = make([]interface{}, count) //创建一个与列的数量相当的空接口
+	//for i := 0; i < count; i++ {
+	//	var ii interface{} //为空接口分配内存
+	//	values[i] = &ii    //取得这些内存的指针，因后继的Scan函数只接受指针
+	//}
+	//for rows.Next() {
+	//	err0 := rows.Scan(values...) //开始读行，Scan函数只接受指针变量
+	//	if err0 != nil {
+	//		return -2, "出错"
+	//	}
+	//	return -3, "记录已存在，请勿重复提交！"
+	//}
 	er := cli.Table(tableName2).Save(counter).Error
 	if er == nil {
 		return 0, ""

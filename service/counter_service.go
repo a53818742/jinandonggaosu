@@ -27,6 +27,9 @@ type SendMsgCallBack struct {
 type GetUserInfoStruct struct {
 	Openid string `json:"openid"`
 }
+type RecordListStruct struct {
+	UserID int `json:"userid"`
+}
 
 // JsonResult 返回结构
 type JsonResult struct {
@@ -648,8 +651,16 @@ func RecordList(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodPost {
 
 		BodyBytes, _ := ioutil.ReadAll(r.Body)
-		userid, _ := strconv.Atoi(string(BodyBytes))
-		res.Data, res.ErrorMsg, res.Code = dao.Imp.RecordList(userid)
+		counter := &RecordListStruct{}
+		err := json.Unmarshal(BodyBytes, &counter)
+		if err != nil {
+			res.Code = -4
+			res.ErrorMsg = "消息结构体错误"
+			ReturnBack(w, r, *res)
+			return
+		}
+
+		res.Data, res.ErrorMsg, res.Code = dao.Imp.RecordList(counter.UserID)
 	} else {
 		res.Code = -1
 		res.ErrorMsg = fmt.Sprintf("请求方法 %s 不支持", r.Method)
