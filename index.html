@@ -2428,47 +2428,38 @@
 					return false
 				}
 				if (this.isUpload) {
-					console.log("修改");
-					console.log(JSON.stringify({
-						"id": that.formInfo.id,
-						"carNo": that.formInfo.carNo,
-						"dunwei": Number(that.formInfo.dunwei),
-						"weihuapin": that.formInfo.weihuapin,
-						"name": that.formInfo.name,
-						"moble": that.formInfo.moble,
-						"zhuangkuang": that.formInfo.zhuangkuang,
-					}));
+					vant.Toast('请勿重复提交~');
 					// 修改
-					await window.app.callContainer({
-						path: '/api/CarUpdate',
-						method: 'POST',
-						header: {
-							'X-WX-SERVICE': 'golang-zqzy',
-						},
-						config: {
-							'env': 'prod-4g9w3eru303c9c3a'
-						},
-						contentType: "application/json; charset=utf-8",
-						dataType: "json",
-						data: JSON.stringify({
-							"id": that.formInfo.id,
-							"carNo": that.formInfo.carNo,
-							"dunwei": Number(that.formInfo.dunwei),
-							"weihuapin": that.formInfo.weihuapin,
-							"name": that.formInfo.name,
-							"moble": that.formInfo.moble,
-							"zhuangkuang": that.formInfo.zhuangkuang,
-						}),
-						success: function (res) {
-							if (res.data.code == 0) {
-								vant.Toast.success('修改成功');
-								localStorage.setItem("formInfo", JSON.stringify(that.formInfo));
-							}
-						},
-						fail: function (res) {
-							console.log(JSON.stringify(res))
-						}
-					})
+					// await window.app.callContainer({
+					// 	path: '/api/CarUpdate',
+					// 	method: 'POST',
+					// 	header: {
+					// 		'X-WX-SERVICE': 'golang-zqzy',
+					// 	},
+					// 	config: {
+					// 		'env': 'prod-4g9w3eru303c9c3a'
+					// 	},
+					// 	contentType: "application/json; charset=utf-8",
+					// 	dataType: "json",
+					// 	data: JSON.stringify({
+					// 		"id": that.formInfo.id,
+					// 		"carNo": that.formInfo.carNo,
+					// 		"dunwei": Number(that.formInfo.dunwei),
+					// 		"weihuapin": that.formInfo.weihuapin,
+					// 		"name": that.formInfo.name,
+					// 		"moble": that.formInfo.moble,
+					// 		"zhuangkuang": that.formInfo.zhuangkuang,
+					// 	}),
+					// 	success: function (res) {
+					// 		if (res.data.code == 0) {
+					// 			vant.Toast.success('修改成功');
+					// 			localStorage.setItem("formInfo", JSON.stringify(that.formInfo));
+					// 		}
+					// 	},
+					// 	fail: function (res) {
+					// 		console.log(JSON.stringify(res))
+					// 	}
+					// })
 				} else {
 					console.log("新增");
 					console.log(JSON.stringify({
