@@ -16,7 +16,7 @@
   <!-- 引入 Vue 和 Vant 的 JS 文件 -->
   <script src="https://unpkg.com/vue@2.6/dist/vue.min.js"></script>
   <script src="https://unpkg.com/vant@2.12/lib/vant.min.js"></script>
-  <title>车辆管理</title>
+  <title>济南东高速服务区危化品车辆值守</title>
   <style>
     html,
     body,
@@ -281,6 +281,54 @@
       border-radius: 50px;
       color: red;
     }
+
+    .van-popup--bottom {
+      background-color: #5a87fc;
+    }
+
+    .van-popup__close-icon {
+      color: #000000;
+      font-size: 35px;
+    }
+
+    .detailMain .tit {
+      position: absolute;
+      width: 60%;
+      left: 20%;
+      top: 6%;
+      background: url(https://prod-4g9w3eru303c9c3a-1313570671.tcloudbaseapp.com/i4.png?sign=4f604644adad324432eb40991d62ab12&t=1662703784) no-repeat 0 0/contain;
+      height: 60px;
+      line-height: 55px;
+      color: #fff;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    .detailMain .info {
+      background-color: #d3e0ff;
+      width: 90%;
+      margin: auto;
+      border-radius: 7px;
+      position: absolute;
+      top: 17%;
+      left: 5%;
+      padding: 4%;
+    }
+
+    .detailMain .info .p1 {
+      width: 50%;
+      background: #ffdb01;
+      text-align: center;
+      margin: auto;
+      font-weight: bold;
+      padding: 5px;
+    }
+
+    .detailMain .info .p2 {
+      text-align: center;
+      color: #555;
+      padding: 5px;
+    }
   </style>
   <script src="https://unpkg.com/vconsole@latest/dist/vconsole.min.js"></script>
   <script src="https://res.wx.qq.com/open/js/jweixin-1.6.0.js"></script>
@@ -313,9 +361,9 @@
     <div class="list" v-show="isLogin">
       <div class="top">
         <ul>
-          <li :class="nowState==2?'act':''" @click="changeState(2)">全部</li>
-          <li :class="nowState==1?'act':''" @click="changeState(1)">已离开</li>
-          <li :class="nowState==0?'act':''" @click="changeState(0)">未离开</li>
+          <li :class="nowState==2?'act':''" @click="changeState(2)">全部（{{num2}}）</li>
+          <li :class="nowState==1?'act':''" @click="changeState(1)">已离开（{{num1}}）</li>
+          <li :class="nowState==0?'act':''" @click="changeState(0)">未离开（{{num0}}）</li>
         </ul>
       </div>
       <van-list class="carList" v-model="loading" :finished="finished" finished-text="没有更多了" @load="handleMore">
@@ -340,7 +388,7 @@
             </div>
             <div class="d4">
               <span>危化品运输名称：</span>
-              <span class="code" @click="jumpIndex3(item.weihuapin,item.weihuapinName)">{{item.weihuapinName}}</span>
+              <span class="code" @click="showDetail(item.weihuapin,item.weihuapinName)">{{item.weihuapinName}}</span>
             </div>
             <div class="d5">
               <div>
@@ -368,6 +416,31 @@
         <van-loading color="#0094ff" vertical>加载中...</van-loading>
       </div>
     </div>
+    <van-popup v-model:show="showVis" closeable close-icon="close" round position="bottom" :style="{ height: '88%' }">
+      <div class="detailMain">
+        <img
+          src="https://prod-4g9w3eru303c9c3a-1313570671.tcloudbaseapp.com/i5.jpg?sign=bc1053bc45d0bac1aa7c98ad5c66f06f&t=1662688829"
+          width="100%" />
+        <div class="tit">{{codeName}}</div>
+        <div class="info">
+          <p class="p1">化学品名称</p>
+          <p class="p2">{{codeName}}</p>
+          <p class="p1">化学品类型</p>
+          <p class="p2">{{info.ChemicalType}}</p>
+          <p class="p1">理化特性</p>
+          <p class="p2">{{info.LiHuaTeXing}}</p>
+          <p class="p1">稳定性和反应性</p>
+          <p class="p2">{{info.WendingAndFangYingxing}}</p>
+          <p class="p1">运输信息</p>
+          <p class="p2">{{info.YunShuXinXi}}</p>
+          <p class="p1">操作处置与储存</p>
+          <p class="p2">{{info.OpraAndSave}}</p>
+          <p class="p1">应急处置</p>
+          <p class="p2">{{info.Revealdisposition}}</p>
+        </div>
+        <van-loading color="#0094ff" vertical v-show="loadingVisDetail">加载中...</van-loading>
+      </div>
+    </van-popup>
 </body>
 <script src="https://mat1.gtimg.com/www/asset/lib/jquery/jquery/jquery-1.11.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
@@ -2450,14 +2523,23 @@
           "83009": " 二氯乙醛",
           "83010": " 二氯化膦苯 苯基二氯磷；苯膦化二氯 "
         },
+        // 数量
+        num0: 0,
+        num1: 0,
+        num2: 0,
         loading: false, //分页加载
         finished: false,
         limit: 10,//每页两条
         pageIndex: 0,//页码
+        //index3.html
+        showVis: false,
+        loadingVisDetail: false,
+        info: {},
+        codeName: '',
       };
     },
     async created() {
-      console.log(2);
+      console.log(3);
       let myappid = "wxa806018a131603d3";
       // const vConsole = new window.VConsole();
       const result = await window.mplogin({
@@ -2501,6 +2583,7 @@
       if (user) {
         this.isLogin = true;
         this.handleMore();
+        this.getNum();// 统计数量
       }
     },
     methods: {
@@ -2550,6 +2633,7 @@
         this.list = [];
         this.pageIndex = 0;
         this.handleMore();
+        this.getNum();
       },
       // 分页
       async handleMore() {
@@ -2661,6 +2745,7 @@
                 that.list = [];
                 vant.Toast.success('已离场');
                 that.handleMore();
+                that.getNum(); // 统计数量
               },
               fail: function (res) {
                 alert(JSON.stringify(res))
@@ -2672,8 +2757,90 @@
           });
       },
       //跳转页面
-      jumpIndex3(id, name) {
-        location.href = 'index3.html?code=' + id + '&codeName=' + encodeURIComponent(encodeURIComponent(name));
+      async showDetail(id, name) {
+        this.codeName = name;
+        this.showVis = true;
+        this.loadingVisDetail = true;
+        var that = this;
+        await window.app.callContainer({
+          path: '/api/GetWeihuapin',
+          method: 'POST',
+          header: {
+            'X-WX-SERVICE': 'golang-zqzy',
+          },
+          config: {
+            'env': 'prod-4g9w3eru303c9c3a'
+          },
+          contentType: "application/json; charset=utf-8",
+          dataType: "json",
+          data: JSON.stringify({
+            "weihuapin": id,
+          }),
+          success: function (res) {
+            console.log(res);
+            if (res.data.data.length) {
+              that.info = res.data.data[0];
+            } else {
+              vant.Toast('暂无该产品信息');
+            }
+            that.loadingVisDetail = false;
+          },
+          fail: function (res) {
+            console.log(JSON.stringify(res))
+          }
+        })
+      },
+      // 统计数量
+      async getNum() {
+        console.log('getNum');
+        var that = this;
+        await window.app.callContainer({
+          path: '/api/CarListNum',
+          method: 'POST',
+          header: {
+            'X-WX-SERVICE': 'golang-zqzy',
+          },
+          config: {
+            'env': 'prod-4g9w3eru303c9c3a'
+          },
+          contentType: "application/json; charset=utf-8",
+          dataType: "json",
+          data: JSON.stringify({
+            "status": 0
+          }),
+          success: function (res) {
+            console.log('success0');
+            console.log(res.data.data);
+            that.num0 = res.data.data;
+          },
+          fail: function (res) {
+            console.log(JSON.stringify(res))
+          }
+        })
+        await window.app.callContainer({
+          path: '/api/CarListNum',
+          method: 'POST',
+          header: {
+            'X-WX-SERVICE': 'golang-zqzy',
+          },
+          config: {
+            'env': 'prod-4g9w3eru303c9c3a'
+          },
+          contentType: "application/json; charset=utf-8",
+          dataType: "json",
+          data: JSON.stringify({
+            "status": 1
+          }),
+          success: function (res) {
+            console.log('success1');
+            console.log(res.data.data);
+            that.num1 = res.data.data;
+            that.num2 = Number(that.num1 + that.num0);
+          },
+          fail: function (res) {
+            console.log(JSON.stringify(res))
+          }
+        })
       },
     }
   })
