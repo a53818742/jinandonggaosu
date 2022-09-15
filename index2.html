@@ -2539,7 +2539,7 @@
       };
     },
     async created() {
-      console.log(3);
+      console.log(4);
       let myappid = "wxa806018a131603d3";
       // const vConsole = new window.VConsole();
       const result = await window.mplogin({
@@ -2781,6 +2781,7 @@
             if (res.data.data.length) {
               that.info = res.data.data[0];
             } else {
+              that.info = {};
               vant.Toast('暂无该产品信息');
             }
             that.loadingVisDetail = false;

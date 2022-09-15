@@ -2371,7 +2371,7 @@
 			};
 		},
 		async created() {
-			console.log(5);
+			console.log(6);
 			this.loadingVis = true;
 			let myappid = "wxa806018a131603d3";
 			// const vConsole = new window.VConsole();
@@ -2446,38 +2446,42 @@
 							vant.Toast('请勿重复提交~');
 						} else {
 							console.log("新增");
-							// 新增
-							await window.app.callContainer({
-								path: '/api/CarInsert',
-								method: 'POST',
-								header: {
-									'X-WX-SERVICE': 'golang-zqzy',
-								},
-								config: {
-									'env': 'prod-4g9w3eru303c9c3a'
-								},
-								contentType: "application/json; charset=utf-8",
-								dataType: "json",
-								data: JSON.stringify({
-									"wechartid": that.CurUserInfo["data"],
-									"carNo": that.formInfo.carNo,
-									"dunwei": Number(that.formInfo.dunwei),
-									"weihuapin": that.formInfo.weihuapin,
-									"name": that.formInfo.name,
-									"moble": that.formInfo.moble,
-									"zhuangkuang": that.formInfo.zhuangkuang,
-								}),
-								success: function (res1) {
-									console.log(res1);
-									if (res1.data.code == 0) {
-										localStorage.setItem("formInfo", JSON.stringify(that.formInfo));
-										vant.Toast.success('提交成功');
-									}
-								},
-								fail: function (res) {
-									console.log(JSON.stringify(res))
-								}
-							})
+							that.handleAdd();
+						}
+					},
+					fail: function (res) {
+						console.log(JSON.stringify(res))
+					}
+				})
+			},
+			async handleAdd() {
+				var that = this;
+				// 新增
+				await window.app.callContainer({
+					path: '/api/CarInsert',
+					method: 'POST',
+					header: {
+						'X-WX-SERVICE': 'golang-zqzy',
+					},
+					config: {
+						'env': 'prod-4g9w3eru303c9c3a'
+					},
+					contentType: "application/json; charset=utf-8",
+					dataType: "json",
+					data: JSON.stringify({
+						"wechartid": that.CurUserInfo["data"],
+						"carNo": that.formInfo.carNo,
+						"dunwei": Number(that.formInfo.dunwei),
+						"weihuapin": that.formInfo.weihuapin,
+						"name": that.formInfo.name,
+						"moble": that.formInfo.moble,
+						"zhuangkuang": that.formInfo.zhuangkuang,
+					}),
+					success: function (res1) {
+						console.log(res1);
+						if (res1.data.code == 0) {
+							localStorage.setItem("formInfo", JSON.stringify(that.formInfo));
+							vant.Toast.success('提交成功');
 						}
 					},
 					fail: function (res) {
