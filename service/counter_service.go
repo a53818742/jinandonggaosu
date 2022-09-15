@@ -748,6 +748,41 @@ func Interface2Int(inte interface{}) int {
 	}
 	return 0
 }
+func SendMsgToAdmin(msg map[string]interface{}, chartarray []string) {
+	templateid := "o2yh8P7T9K3rR9f4H_DxGpwYQntM4b3ZCv3EUnfwTQs"
+	url := "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=" + Token
+
+	for _, wechartied := range chartarray {
+		data := "{\"touser\":\"" + wechartied + "\",\"template_id\":\"" + templateid + "\",\"data\":{\"first\":{\"value\":\"" + msg["CarNo"].(string) + " 已停车超过两个小时，请及时处理！\",\"color\":\"#173177\"},\"keyword1\":{\"value\":\"济南东高速服务区危化品车辆停车场\",\"color\":\"#173177\"},\"keyword2\":{\"value\":\"" + msg["intime"].(time.Time).String()[0:19] + "\",\"color\":\"#173177\"},\"keyword3\":{\"value\":\"--\",\"color\":\"#173177\"},\"keyword4\":{\"value\":\"--\",\"color\":\"#173177\"},\"keyword5\":{\"value\":\"--\",\"color\":\"#173177\"},\"remark\":{\"value\":\"祝您出行愉快！\",\"color\":\"#173177\"}}}"
+		payload := strings.NewReader(data)
+
+		tr := &http.Transport{
+			TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+		}
+		client := &http.Client{Transport: tr}
+		response, e0 := client.Post(url, "application/json", payload)
+		if e0 == nil {
+			BodyBytes0, e1 := ioutil.ReadAll(response.Body)
+			if e1 == nil {
+				fmt.Println("发送消息值班人员结果", string(BodyBytes0))
+				var Cal SendMsgCallBack
+				Cal.ErrorCode = 100
+
+				err11 := json.Unmarshal(BodyBytes0, &Cal)
+				if err11 != nil {
+					return
+				}
+				if Cal.ErrorCode == 0 {
+					dao.Imp.OverMsg(&model.OverMsg{
+						Id:     Interface2Int(msg["ID"]),
+						MsgNum: 1,
+					})
+				}
+			}
+		}
+	}
+
+}
 func SendMsg(msg map[string]interface{}) {
 	templateid := "o2yh8P7T9K3rR9f4H_DxGpwYQntM4b3ZCv3EUnfwTQs"
 	//url = "https://api.weixin.qq.com/cgi-bin/message/wxopen/template/uniform_send?access_token=" + Token
@@ -783,7 +818,7 @@ func SendMsg(msg map[string]interface{}) {
 			}
 		}
 	}
-
+	SendMsgToAdmin(msg, dao.Imp.GetAdminList())
 }
 
 func ScanData() {

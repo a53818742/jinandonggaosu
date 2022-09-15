@@ -55,6 +55,8 @@ type CounterInterface interface {
 
 	UserLogin2(username string, pwd string, wechartid string) bool
 	UserLogin3(username string, pwd string, wechartid string) bool
+
+	GetAdminList() (darray []string)
 }
 
 // CounterInterfaceImp 计数器数据模型实现
