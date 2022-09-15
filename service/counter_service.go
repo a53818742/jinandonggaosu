@@ -382,18 +382,18 @@ func GetWeihuapin(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodPost {
 		BodyBytes, _ := ioutil.ReadAll(r.Body)
 
-		fmt.Println("GetWeihuapin", string(BodyBytes))
+		//fmt.Println("GetWeihuapin", string(BodyBytes))
 		counter := &model.WeihuapinInfo{}
 		err := json.Unmarshal(BodyBytes, &counter)
 		if err != nil {
 			res.Code = -4
 			res.ErrorMsg = "消息结构体错误"
 
-			fmt.Println("获取危化品", err)
+			//fmt.Println("获取危化品", err)
 			ReturnBack(w, r, *res)
 			return
 		}
-		fmt.Println("获取危化品", counter.Weihuapin)
+		//fmt.Println("获取危化品", counter.Weihuapin)
 		res.Data, res.ErrorMsg, res.Code = dao.Imp.GetWeihuapinByCN(counter.Weihuapin)
 
 	} else {
