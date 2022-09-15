@@ -84,7 +84,12 @@ func Init() error {
 					fmt.Println("0=", colName, v, reflect.TypeOf(v), reflect.TypeOf(v).Name())
 				} else {
 					m[colName] = rawValue
-					fmt.Println("1=", colName, rawValue, reflect.TypeOf(rawValue), reflect.TypeOf(rawValue).Name())
+					if rawValue != nil {
+						fmt.Println("1=", colName, rawValue, reflect.TypeOf(rawValue), reflect.TypeOf(rawValue).Name())
+					} else {
+						fmt.Println("1===", colName, rawValue)
+					}
+
 				}
 
 			}
